@@ -1,0 +1,13 @@
+{{!< main/main}}
+<div class='page__signup _page'>
+  <div class="auth">
+    <h1 class="auth__title">Sign Up</h1>
+    <form class="auth__form">
+        {{#each signup}}
+          {{> "auth/auth" this}}
+      {{/each}}
+    </form>
+    {{> "buttons/buttons" link='#' text='Sign Up'}}
+    <a class="auth__link" href="../login/login.hbs">Войти</a>
+  </div>
+</div>

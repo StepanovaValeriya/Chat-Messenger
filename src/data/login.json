@@ -1,0 +1,12 @@
+[
+  {
+    "type": "text",
+    "text": "login",
+    "label": "Login"
+  },
+  {
+    "type": "password",
+    "text": "password",
+    "label": "Password"
+  }
+]

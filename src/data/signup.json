@@ -1,0 +1,37 @@
+[
+  {
+    "type": "email",
+    "text": "email",
+    "label": "Mail"
+  },
+  {
+    "type": "text",
+    "text": "login",
+    "label": "Login"
+  },
+  {
+    "type": "text",
+    "text": "first_name",
+    "label": "First name"
+  },
+  {
+    "type": "text",
+    "text": "second_name",
+    "label": "Second name"
+  },
+  {
+    "type": "tel",
+    "text": "phone",
+    "label": "Phone"
+  },
+  {
+    "type": "password",
+    "text": "password",
+    "label": "Password"
+  },
+  {
+    "type": "password",
+    "text": "password",
+    "label": "Repeat password"
+  }
+]
