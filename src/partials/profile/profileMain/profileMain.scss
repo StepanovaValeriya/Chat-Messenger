@@ -1,0 +1,22 @@
+h1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #1e1e1e;
+}
+.avatar {
+  order: -1;
+  width: 130px;
+  height: 130px;
+  background: #efefef;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    background: #000000;
+    opacity: 0.3;
+  }
+}
