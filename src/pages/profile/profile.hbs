@@ -1,0 +1,18 @@
+{{!< main/main}}
+<div class='content profile'>
+  <div class='content__nav'>
+    <a href='../chat/chat.hbs'>
+      <img src='../../asserts/arrowLeft.png' alt='arrow' />
+    </a>
+  </div>
+  <div class='content__main'>
+    <h1>Name</h1>
+    <div class="avatar">
+        <img src='../../asserts/Union.png' alt='avatar'>
+    </div>
+    {{>'profileInfo/profileInfo'}}
+    <a class='profile__link' href='#'>Изменить данные</a>
+    <a class='profile__link' href='#'>Изменить пароль</a>
+    <a class='profile__link profile__link_red' href='../login/login.hbs'>Выйти</a>
+  </div>
+</div>

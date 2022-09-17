@@ -19,9 +19,7 @@
   "homepage": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
-    "parcel": "^2.7.0",
-    "postcss": "^8.4.16",
-    "postcss-import": "^15.0.0",
-    "postcss-nested": "^5.0.6"
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0"
   }
 }
