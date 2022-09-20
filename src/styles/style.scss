@@ -1,0 +1,50 @@
+@import './variables';
+@import './mixins';
+@import '../layouts/main/main.scss';
+@import '../pages/index//index.scss';
+@import '../partials/buttons/buttons.scss';
+@import '../partials/auth/auth.scss';
+@import '../pages/login/login';
+@import '../partials/mistake/mistake.scss';
+@import '../pages/chat/chat.scss';
+@import '../pages/profile/profile.scss';
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ul,
+ol,
+li {
+  list-style: none;
+}
+img {
+  vertical-align: top;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+body {
+  background-color: #92b7fca1;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  size: 13px;
+  line-height: 13px;
+}
+._page {
+  margin: auto;
+  padding: 20px;
+}

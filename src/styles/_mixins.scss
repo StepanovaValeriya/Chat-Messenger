@@ -1,0 +1,32 @@
+@mixin breakpoint($point) {
+  @if $point == xxl {
+    @media (max-width: 1680px) {
+      @content;
+    }
+  } @else if $point == xl {
+    @media (max-width: 1270px) {
+      @content;
+    }
+  } @else if $point == lg {
+    @media (max-width: 992px) {
+      @content;
+    }
+  } @else if $point == md {
+    @media (max-width: 768px) {
+      @content;
+    }
+  } @else if $point == sm {
+    @media (max-width: 576px) {
+      @content;
+    }
+  } @else if $point == xs {
+    @media (max-width: 320px) {
+      @content;
+    }
+  }
+}
+
+@mixin linkHover {
+  text-decoration: underline;
+  text-decoration-color: $colorLink;
+}

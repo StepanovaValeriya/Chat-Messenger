@@ -1,0 +1,25 @@
+.mistake {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  text-align: center;
+  h1 {
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 40px;
+  }
+  p {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  a {
+    margin-top: 49px;
+    font-size: 11px;
+    line-height: 11px;
+    color: $colorLink;
+    &:hover {
+      @include linkHover;
+    }
+  }
+}

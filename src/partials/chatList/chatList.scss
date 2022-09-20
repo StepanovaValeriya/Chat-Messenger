@@ -1,0 +1,67 @@
+.chat__profile {
+  align-self: flex-end;
+  display: flex;
+  gap: 5px;
+  a {
+    font-size: 12px;
+    line-height: 12px;
+  }
+  &:hover {
+    color: #fff;
+  }
+}
+.chat__search {
+  background: #efefef;
+  margin-top: 10px;
+  input {
+    background-image: url(../asserts/search.png);
+    background-repeat: no-repeat;
+    background-position: left 30% bottom 50%;
+    width: 100%;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 10px;
+    text-align: center;
+    &:focus {
+      text-align: start;
+      background-position: left 90% bottom 50%;
+    }
+  }
+}
+.chat__list {
+  display: flex;
+}
+.chat__item {
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 0 0 100%;
+  gap: 5px;
+  padding: 12px 0;
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    h3 {
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 13px;
+      color: #1e1e1e;
+    }
+    span {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+  &__time {
+    font-size: 9px;
+    line-height: 13px;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(62, 65, 66, 0.349);
+    color: #fff;
+  }
+}

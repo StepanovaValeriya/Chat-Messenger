@@ -1,0 +1,15 @@
+.profile__link {
+  font-size: 13px;
+  line-height: 13px;
+  color: $colorLink;
+  &:hover {
+    @include linkHover;
+  }
+  &_red {
+    color: red;
+    &:hover {
+      @include linkHover;
+      text-decoration-color: red;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.profile {
+  @import '../../partials/profile/profileNav/profileNav.scss';
+  .content__main {
+    flex: 0 0 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 21px;
+    @import '../../partials/profile/profileMain/profileMain.scss';
+    @import '../../partials/profile/profileInfo/profileInfo.scss';
+    @import '../../partials/profile/profileLink/profileLink.scss';
+  }
+  .button__main {
+    margin: 0;
+  }
+}
