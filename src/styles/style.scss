@@ -1,13 +1,13 @@
-@import './variables';
-@import './mixins';
-@import '../layouts/main/main.scss';
-@import '../pages/index//index.scss';
-@import '../partials/buttons/buttons.scss';
-@import '../partials/auth/auth.scss';
-@import '../pages/login/login';
-@import '../partials/mistake/mistake.scss';
-@import '../pages/chat/chat.scss';
-@import '../pages/profile/profile.scss';
+@import "./variables";
+@import "./mixins";
+@import "../layouts/main/main.scss";
+@import "../pages/index//index.scss";
+@import "../partials/buttons/buttons.scss";
+@import "../partials/auth/auth.scss";
+@import "../pages/login/login";
+@import "../partials/errors/errors.scss";
+@import "../pages/chat/chat.scss";
+@import "../pages/profile/profile.scss";
 
 *,
 *::before,
@@ -38,8 +38,8 @@ h6 {
   margin: 0;
 }
 body {
-  background-color: #92b7fca1;
-  font-family: 'Inter', sans-serif;
+  background-color: $backgroundLayout;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   size: 13px;
   line-height: 13px;

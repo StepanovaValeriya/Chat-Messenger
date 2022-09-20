@@ -1,10 +1,10 @@
-h1 {
+.profile__title {
   font-weight: 600;
   font-size: 16px;
   line-height: 16px;
-  color: #1e1e1e;
+  color: $colorForTitle;
 }
-.avatar {
+.profile__avatar {
   order: -1;
   width: 130px;
   height: 130px;
