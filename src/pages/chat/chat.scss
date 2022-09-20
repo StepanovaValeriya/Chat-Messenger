@@ -1,19 +1,15 @@
-@import '../../partials/chooseChat/chooseChat.scss';
-@import '../../partials/chatList/chatList.scss';
+@import "../../partials/chooseChat/chooseChat.scss";
+@import "../../partials/chatList/chatList.scss";
 .content {
   display: flex;
   flex: 0 0 100%;
-  color: #999999;
+  color: $colorForText;
   font-weight: 500;
 }
 .chat {
   .content__nav {
-    background-color: rgba(209, 209, 209, 0.952);
-    flex: 1 1 auto;
-    display: flex;
+    @include styleNav;
     flex-direction: column;
-    gap: 14px;
-    padding: 10px;
   }
   .content__main {
     flex: 0 0 75%;

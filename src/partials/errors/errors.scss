@@ -1,19 +1,19 @@
-.mistake {
+.errors {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 10px;
   text-align: center;
-  h1 {
+  &__title {
     font-weight: 500;
     font-size: 40px;
     line-height: 40px;
   }
-  p {
+  &__text {
     font-size: 20px;
     line-height: 20px;
   }
-  a {
+  &__link {
     margin-top: 49px;
     font-size: 11px;
     line-height: 11px;

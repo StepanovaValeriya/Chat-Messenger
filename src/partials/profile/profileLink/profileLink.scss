@@ -6,10 +6,10 @@
     @include linkHover;
   }
   &_red {
-    color: red;
+    color: $colorLinkRed;
     &:hover {
       @include linkHover;
-      text-decoration-color: red;
+      text-decoration-color: $colorLinkRed;
     }
   }
 }
