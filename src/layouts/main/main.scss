@@ -4,9 +4,11 @@
   display: flex;
   justify-content: center;
   padding: 100px;
+  @include breakpoint(sm) {
+    padding: 20px;
+  }
 }
 .page {
-  display: flex;
   background-color: $backgroundPage;
   width: 1500px;
   box-sizing: border-box;
@@ -14,4 +16,8 @@
   box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.089),
     4px 4px 4px 4px rgba(0, 0, 0, 0.171);
   padding: 20px;
+  display: flex;
+  @include breakpoint(sm) {
+    padding: 0px;
+  }
 }

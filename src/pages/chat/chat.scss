@@ -1,5 +1,8 @@
 @import "../../partials/chooseChat/chooseChat.scss";
 @import "../../partials/chatList/chatList.scss";
+@import "../../partials/chatHeader/chatHeader.scss";
+@import "../../partials/chatMessage/chatMessage.scss";
+
 .content {
   display: flex;
   flex: 0 0 100%;
@@ -7,13 +10,16 @@
   font-weight: 500;
 }
 .chat {
-  .content__nav {
+  .chat__nav {
     @include styleNav;
     flex-direction: column;
   }
-  .content__main {
+  .chat__main {
     flex: 0 0 75%;
-    display: flex;
-    align-items: center;
+    @include styleMain;
+    align-items: unset;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px 20px;
   }
 }

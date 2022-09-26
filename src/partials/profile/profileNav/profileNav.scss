@@ -5,4 +5,7 @@
   &__image:hover {
     transform: scale(1.2);
   }
+  @include breakpoint(sm) {
+    padding: 0px;
+  }
 }

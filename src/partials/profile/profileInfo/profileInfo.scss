@@ -1,5 +1,9 @@
-@import '../profileInputs/profileInputs.scss';
+@import "../profileInputs/profileInputs.scss";
 .profile__info {
   min-width: 510px;
   padding: 20px;
+  @include breakpoint(md) {
+    min-width: 0px;
+    padding: 20px 20px 20px 0;
+  }
 }

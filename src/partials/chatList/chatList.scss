@@ -1,16 +1,17 @@
-.chat__profile {
+.chat__nav__profile {
   align-self: flex-end;
   display: flex;
   gap: 5px;
+  &:hover {
+    color: $hoverColorChat;
+  }
   &__title {
     font-size: 12px;
     line-height: 12px;
   }
-  &:hover {
-    color: $hoverColorChat;
-  }
 }
-.chat__search {
+
+.chat__nav__search {
   background: $backgroundInput;
   margin-top: 10px;
   &__input {
@@ -45,10 +46,7 @@
     flex-direction: column;
     gap: 4px;
     &__title {
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 13px;
-      color: $colorForTitle;
+      @include profileNameTitle;
     }
     &__message {
       font-size: 12px;
