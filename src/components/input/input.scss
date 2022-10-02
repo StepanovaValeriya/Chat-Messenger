@@ -1,0 +1,8 @@
+.input__field {
+  border-bottom: $borderBottomInput;
+  padding: 5px 0;
+  outline: none;
+  &:focus {
+    border: $borderBottomInput;
+  }
+}
