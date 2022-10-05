@@ -8,7 +8,7 @@ export class MainPage extends Block {
         window.location.href = "/login";
       },
       onSignUpPage: () => {
-        window.location.href = "/signUp";
+        window.location.href = "/signup";
       },
       onError404Page: () => {
         window.location.href = "/error404";
@@ -28,18 +28,22 @@ export class MainPage extends Block {
         {{{Button
           text="Sign In"
           onClick=onLoginPage
+          className="button__main"
         }}}
         {{{Button
           text="Sign Up"
           onClick=onSignUpPage
+          className="button__main"
         }}}
         {{{Button
           text="404"
           onClick=onError404Page
+          className="button__main"
         }}}
         {{{Button
           text="500"
           onClick=onError500Page
+          className="button__main"
         }}}
       </div>
   {{/Layout}}

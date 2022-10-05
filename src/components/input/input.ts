@@ -6,12 +6,14 @@ interface InputProps {
   onBlur?: () => void;
   onInput?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel";
+  type?: "text" | "password" | "email" | "tel" | "search";
   text?: string;
   id?: string;
   error?: string;
   name?: string;
   value?: string;
+  className?: string;
+  placeholder?: string;
 }
 
 export class Input extends Block {
@@ -27,11 +29,12 @@ export class Input extends Block {
     // language=hbs
     return `
         <input
-          class="input__field"
+          class={{className}}
           type={{type}}
           id={{id}}
           name={{name}}
-          value={{value}}
+          {{#if value}}value={{ value }}{{/if}}
+          {{#if placeholder}}placeholder={{ placeholder }}{{/if}}
         >
     `;
   }

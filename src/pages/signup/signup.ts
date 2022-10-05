@@ -103,7 +103,7 @@ export class SignUpPage extends Block {
         console.log("sub");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          // window.location.href = "/chats";
+          window.location.href = "/chat";
         }
       },
     };
@@ -118,6 +118,7 @@ export class SignUpPage extends Block {
             <h1 class="auth__title">Sign In</h1>
             <form class="auth__form">
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -131,6 +132,7 @@ export class SignUpPage extends Block {
               }}}
 
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -143,6 +145,7 @@ export class SignUpPage extends Block {
                 name="login"
               }}}
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -155,6 +158,7 @@ export class SignUpPage extends Block {
                 name="first_name"
               }}}
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -167,6 +171,7 @@ export class SignUpPage extends Block {
                 name="second_name"
               }}}
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -179,6 +184,7 @@ export class SignUpPage extends Block {
                 name="phone"
               }}}
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -191,6 +197,7 @@ export class SignUpPage extends Block {
                 name="password"
               }}}
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -206,6 +213,7 @@ export class SignUpPage extends Block {
             {{{Button
               text="Sign Up"
               onClick=onSubmit
+              className="button__main"
             }}}
             {{{Link
               className="auth__link"

@@ -1,0 +1,87 @@
+.profile {
+  &__nav {
+    @include styleNav;
+    justify-content: center;
+    align-items: center;
+    &__image:hover {
+      transform: scale(1.2);
+    }
+    @include breakpoint(sm) {
+      padding: 0px;
+    }
+    &__button {
+      background-color: $backgroundButton;
+      color: $colorButton;
+      font-weight: 600;
+      border-radius: 100px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+  .profile__main {
+    flex: 0 0 95%;
+    @include styleMain;
+    flex-direction: column;
+    justify-content: center;
+    gap: 21px;
+    .profile__title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+      color: $colorForTitle;
+    }
+    .profile__avatar {
+      order: -1;
+      width: 130px;
+      height: 130px;
+      background: #efefef;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      &:hover {
+        background: #000000;
+        opacity: 0.3;
+      }
+    }
+    .profile__info {
+      min-width: 510px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      @include breakpoint(md) {
+        min-width: 0px;
+        padding: 20px 20px 20px 0;
+      }
+    }
+    .input__profile {
+      border-bottom: $borderBottomInput;
+      outline: none;
+      padding: 10px 0;
+      text-align: right;
+      outline: none;
+    }
+    .label__profile {
+      align-self: center;
+      font-size: 13px;
+      line-height: 13px;
+    }
+    .button__main_red {
+      background-color: $colorLinkRed;
+      &:hover {
+        @include linkHover;
+        background-color: $hoverColorButtonRed;
+      }
+    }
+  }
+  .button__main {
+    margin: 0;
+  }
+}

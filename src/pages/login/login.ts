@@ -75,7 +75,7 @@ export class LoginPage extends Block {
         console.log("sub");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          // window.location.href = "/chats";
+          window.location.href = "/chat";
         }
       },
     };
@@ -84,12 +84,13 @@ export class LoginPage extends Block {
     const { errors, values } = this.state;
     // language=hbs
     return `
-      {{#Layout name="Main" }}
+      {{#Layout name="Login" }}
         <div class="page__login _page">
           <div class="auth">
             <h1 class="auth__title">Sign In</h1>
             <form class="auth__form">
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -103,6 +104,7 @@ export class LoginPage extends Block {
               }}}
 
               {{{ControlledInput
+                className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -118,6 +120,7 @@ export class LoginPage extends Block {
             {{{Button
               text="Sign In"
               onClick=onSubmit
+              className="button__main"
             }}}
             {{{Link
               className="auth__link"

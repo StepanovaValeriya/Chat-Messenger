@@ -13,7 +13,7 @@ export class ErrorPage extends Block {
   render() {
     // language=hbs
     return `
-    {{#Layout name="Main" }}
+    {{#Layout name="Error" }}
       <div class="page__login _page">
         <div class="errors">
           <h1 class="errors__title">{{errorCode}}</h1>

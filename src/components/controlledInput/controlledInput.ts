@@ -1,4 +1,3 @@
-import Validate from "core/Validation";
 import Block from "../../core/Block";
 
 import "./controlledInput";
@@ -6,13 +5,14 @@ import "./controlledInput";
 interface ControlledInputProps {
   onInput?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel";
+  type?: "text" | "password" | "email" | "tel" | "search";
   value?: string;
   error?: string;
   label?: string;
   text?: string;
   id?: string;
   name?: string;
+  className?: string;
 }
 
 export class ControlledInput extends Block {
@@ -20,11 +20,6 @@ export class ControlledInput extends Block {
   constructor(props: ControlledInputProps) {
     super({
       ...props,
-      // onBlur: (e: Event) => {
-      //   const element = e.target as HTMLInputElement;
-      //   const message = Validate(element.value, element.id);
-      //   this.refs.errorRef.setProps({ text: message });
-      // },
     });
   }
 
@@ -34,6 +29,7 @@ export class ControlledInput extends Block {
       <div class="auth__inputs input">
         <label class="input__label" for={{name}}>{{label}}</label>
         {{{Input
+          className="{{className}}"
           type="{{type}}"
           id="{{id}}"
           name="{{name}}"

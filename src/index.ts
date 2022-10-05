@@ -5,6 +5,8 @@ import MainPage from "./pages/main";
 import ErrorPage from "./pages/errors";
 import LoginPage from "./pages/login";
 import SignUpPage from "./pages/signup";
+import ChatPage from "./pages/chat";
+import ProfilePage from "./pages/profile";
 
 import Button from "./components/button";
 import Layout from "./components/layout";
@@ -12,6 +14,13 @@ import Link from "./components/link";
 import Input from "./components/input";
 import InputError from "./components/inputError";
 import ControlledInput from "./components/controlledInput";
+import {
+  ChatList,
+  ChatHeader,
+  ChatMessageInput,
+  EmptyChat,
+  Message,
+} from "./components/chat";
 
 registerComponent(Button);
 registerComponent(Layout);
@@ -19,6 +28,11 @@ registerComponent(Link);
 registerComponent(Input);
 registerComponent(InputError);
 registerComponent(ControlledInput);
+registerComponent(ChatList);
+registerComponent(ChatHeader);
+registerComponent(ChatMessageInput);
+registerComponent(EmptyChat);
+registerComponent(Message);
 
 document.addEventListener("DOMContentLoaded", () => {
   switch (window.location.pathname) {
@@ -45,14 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     case "/signup":
       renderDOM(new SignUpPage());
-    //   //   break;
-    //   // case '/chats':
-    //   //   renderDOM(new Chats());
-    //   //   break;
-    //   // case '/userProfile':
-    //   //     renderDOM(new userProfile());
-    //   //     break;
-    //   default:
-    //     console.log("nothing");
+      break;
+    case "/chat":
+      renderDOM(new ChatPage());
+      break;
+    case "/profile":
+      renderDOM(new ProfilePage());
+      break;
+    default:
+      console.log("nothing");
   }
 });
