@@ -7,6 +7,8 @@ import LoginPage from "./pages/login";
 import SignUpPage from "./pages/signup";
 import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
+import ChangePassProfilePage from "./pages/changePassProfile";
+import ChangeDataProfilePage from "./pages/changeDataProfile";
 
 import Button from "./components/button";
 import Layout from "./components/layout";
@@ -21,6 +23,7 @@ import {
   EmptyChat,
   Message,
 } from "./components/chat";
+import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
 
 registerComponent(Button);
 registerComponent(Layout);
@@ -33,6 +36,9 @@ registerComponent(ChatHeader);
 registerComponent(ChatMessageInput);
 registerComponent(EmptyChat);
 registerComponent(Message);
+registerComponent(ProfileAvatar);
+registerComponent(ProfileNav);
+registerComponent(ProfileItem);
 
 document.addEventListener("DOMContentLoaded", () => {
   switch (window.location.pathname) {
@@ -65,6 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
     case "/profile":
       renderDOM(new ProfilePage());
+      break;
+    case "/changePassProfile":
+      renderDOM(new ChangePassProfilePage());
+      break;
+    case "/changeDataProfile":
+      renderDOM(new ChangeDataProfilePage());
       break;
     default:
       console.log("nothing");

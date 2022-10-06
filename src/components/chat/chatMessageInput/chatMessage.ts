@@ -2,13 +2,13 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 import "./chatMessage";
 
-interface ChatHeaderProps {
+interface ChatMessageProps {
   clipPath: string;
 }
 
 export default class ChatMessageInput extends Block {
   static componentName: "ChatMessageInput";
-  constructor({ clipPath }: ChatHeaderProps) {
+  constructor({ clipPath }: ChatMessageProps) {
     super({ clipPath });
   }
 

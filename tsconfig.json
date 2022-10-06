@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "outDir": "dist",
-    "rootDir": "./src",
     "target": "es2017",
-    "declaration": false,
     "module": "commonjs",
-    "strictNullChecks": true,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "typeRoots": ["node_modules/@types", "typings/app.d.ts"],
     "sourceMap": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": false,
-    "typeRoots": ["node_modules/@types", "typings/app.d.ts"]
+    "skipLibCheck": true
   }
 }

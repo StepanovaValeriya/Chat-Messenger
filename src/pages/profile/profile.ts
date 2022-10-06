@@ -1,74 +1,54 @@
 import Block from "core/Block";
+import { userData } from "../../data/userData";
 
 export class ProfilePage extends Block {
   static componentName: "ProfilePage";
+  constructor() {
+    super({ userData });
+  }
   protected getStateFromProps() {
     this.state = {
-      values: {
-        first_name: "",
-        second_name: "",
-        login: "",
-        email: "",
-        phone: "",
+      onChangeDataPage: () => {
+        window.location.href = "/changeDataProfile";
       },
-      errors: {
-        first_name: "",
-        second_name: "",
-        login: "",
-        email: "",
-        phone: "",
+      onChangePasswordPage: () => {
+        window.location.href = "/changePassProfile";
+      },
+      onMainPage: () => {
+        window.location.href = "/";
       },
     };
   }
-
   render() {
     // language=hbs
     return `
       {{#Layout name="Main" }}
         <div class="content profile">
-          <div class="profile__nav">
-            {{{Button
-              text="<"
-              className="profile__nav__button"
-            }}}
-          </div>
+          {{{ProfileNav}}}
           <div class="profile__main">
-             <h1 class="profile__title">{{userName}}</h1>
-             <div class="profile__avatar">
-               <img
-                class="profile__avatar__image"
-                src=""
-                alt="avatar"
-              />
-            </div>
+            {{{ProfileAvatar avatarPath = userData.userAvatar userName=userData.userName}}}
               <div class='profile__info'>
-                {{{ControlledInput
-                  className="input__profile"
+              {{#each userData.userInfo}}
+                {{{ProfileItem
+                  label=title
+                  title=data
                 }}}
-                {{{ControlledInput
-                  className="input__profile"
-                }}}
-                {{{ControlledInput
-                  className="input__profile"
-                }}}
-                {{{ControlledInput
-                  className="input__profile"
-                }}}
-                {{{ControlledInput
-                  className="input__profile"
-                }}}
+              {{/each}}
               </div>
               {{{Button
                 className="button__main"
                 text="Change
                 profile"
+                onClick=onChangeDataPage
               }}}
               {{{Button
                 className="button__main"
                 text="Change
                 password"
+                onClick=onChangePasswordPage
               }}}
               {{{Button
+                onClick=onMainPage
                 className="button__main button__main_red"
                 text="Exit"
               }}}
