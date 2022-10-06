@@ -21,9 +21,6 @@
     "pages": "./src/pages"
   },
   "author": "",
-  "engines": {
-    "node": "16.17.0"
-  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/issues"
@@ -31,6 +28,8 @@
   "homepage": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
+    "@babel/core": "7.19.3",
     "@parcel/transformer-sass": "^2.7.0",
     "@types/node": "^18.7.23",
     "@typescript-eslint/eslint-plugin": "5.39.0",

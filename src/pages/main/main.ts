@@ -1,4 +1,5 @@
 import Block from "core/Block";
+import "./main";
 
 export class MainPage extends Block {
   static componentName: "MainPage";

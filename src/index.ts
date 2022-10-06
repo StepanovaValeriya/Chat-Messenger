@@ -42,7 +42,6 @@ registerComponent(ProfileItem);
 
 document.addEventListener("DOMContentLoaded", () => {
   switch (window.location.pathname) {
-    case "":
     case "/":
       renderDOM(new MainPage());
       break;
