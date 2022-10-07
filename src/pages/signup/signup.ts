@@ -130,7 +130,6 @@ export class SignUpPage extends Block {
                 label="Email"
                 name="email"
               }}}
-
               {{{ControlledInput
                 className="input__field"
                 onBlur=onBlur

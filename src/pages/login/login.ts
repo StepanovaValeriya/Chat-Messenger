@@ -99,7 +99,6 @@ export class LoginPage extends Block {
                 label="Login"
                 name="login"
               }}}
-
               {{{ControlledInput
                 className="input__field"
                 value="${values.password}"

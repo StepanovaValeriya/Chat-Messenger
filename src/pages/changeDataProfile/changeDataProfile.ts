@@ -121,7 +121,6 @@ export class ChangeDataProfilePage extends Block {
                 label="Email"
                 name="email"
               }}}
-
               {{{ControlledInput
                 className="input__profile"
                 onBlur=onBlur
