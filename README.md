@@ -23,3 +23,4 @@ npm run start - для запуска на 3000 порту
 ## Ссылка на pull-request
 
 [Sprint_1](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/1)
+[Sprint_2](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/2)
