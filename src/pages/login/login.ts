@@ -2,7 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 
 export class LoginPage extends Block {
-  static componentName: "LoginPage";
+  static componentName = "LoginPage";
   constructor() {
     super();
     this.setProps({});
@@ -46,9 +46,6 @@ export class LoginPage extends Block {
         const message = Validate(element.value, element.id);
         if (element.id === "login") {
           this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "password") {
-          this.refs.passwordInputRef.refs.errorRef.setProps({ text: message });
         }
       },
       formValid: () => {
@@ -105,11 +102,8 @@ export class LoginPage extends Block {
 
               {{{ControlledInput
                 className="input__field"
-                onBlur=onBlur
-                onFocus=onFocus
-                onInput=onInput
                 value="${values.password}"
-                error="${errors.password}"
+                error=""
                 ref="passwordInputRef"
                 id="password"
                 type="password"

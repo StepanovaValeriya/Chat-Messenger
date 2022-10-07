@@ -9,8 +9,13 @@ interface BlockConstructable<Props = any> {
 export default function registerComponent<Props extends any>(
   Component: BlockConstructable<Props>
 ) {
+  if (!Component.componentName) {
+    throw new Error(
+      `componentName is not provided in component "${Component.name}"`
+    );
+  }
   Handlebars.registerHelper(
-    Component.componentName || Component.name,
+    Component.componentName,
     function (
       this: Props,
       { hash: { ref, ...hash }, data, fn }: HelperOptions

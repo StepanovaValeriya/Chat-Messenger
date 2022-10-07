@@ -2,7 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 
 export class SignUpPage extends Block {
-  static componentName: "SignUpPage";
+  static componentName = "SignUpPage";
   constructor() {
     super({});
   }

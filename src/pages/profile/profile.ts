@@ -2,7 +2,7 @@ import Block from "core/Block";
 import { userData } from "../../data/userData";
 
 export class ProfilePage extends Block {
-  static componentName: "ProfilePage";
+  static componentName = "ProfilePage";
   constructor() {
     super({ userData });
   }

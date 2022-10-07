@@ -59,7 +59,7 @@ const data: Object = {
 };
 
 export class ChatPage extends Block {
-  static componentName: "ChatPage";
+  static componentName = "ChatPage";
   constructor() {
     super(data);
   }

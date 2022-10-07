@@ -2,7 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 
 export class ChangePassProfilePage extends Block {
-  static componentName: "ChangePassProfilePage";
+  static componentName = "ChangePassProfilePage";
   constructor() {
     super();
   }

@@ -7,7 +7,7 @@ interface ProfileItemProps {
 }
 
 export default class ProfileItem extends Block {
-  static componentName: "ProfileItem";
+  static componentName = "ProfileItem";
   constructor({ label, title }: ProfileItemProps) {
     super({ label, title });
   }

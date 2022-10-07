@@ -7,7 +7,7 @@ interface ProfileAvatarProps {
 }
 
 export default class ProfileAvatar extends Block {
-  static componentName: "ProfileAvatar";
+  static componentName = "ProfileAvatar";
   constructor({ avatarPath, userName }: ProfileAvatarProps) {
     super({ avatarPath, userName });
   }

@@ -12,7 +12,7 @@ interface ChatListProps {
 }
 
 export default class ChatList extends Block {
-  static componentName: "ChatList";
+  static componentName = "ChatList";
 
   constructor({
     active,

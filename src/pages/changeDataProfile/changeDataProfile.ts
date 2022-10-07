@@ -2,7 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 
 export class ChangeDataProfilePage extends Block {
-  static componentName: "ChangeDataProfilePage";
+  static componentName = "ChangeDataProfilePage";
   constructor() {
     super();
   }
