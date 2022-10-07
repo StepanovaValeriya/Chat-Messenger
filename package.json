@@ -1,5 +1,5 @@
 {
-  "name": "messenger",
+  "name": "chat-messenger",
   "version": "1.0.0",
   "description": "---",
   "scripts": {
@@ -42,6 +42,7 @@
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-reporter-static-files-copy": "^1.4.0",
     "stylelint": "14.13.0",
+    "stylelint-scss": "4.3.0",
     "typescript": "^4.8.3"
   },
   "dependencies": {
