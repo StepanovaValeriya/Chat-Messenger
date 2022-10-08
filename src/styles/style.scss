@@ -1,11 +1,11 @@
 @import "./variables";
 @import "./mixins";
-@import "../layouts/main/main.scss";
-@import "../pages/index//index.scss";
-@import "../partials/buttons/buttons.scss";
-@import "../partials/auth/auth.scss";
-@import "../pages/login/login";
-@import "../partials/errors/errors.scss";
+@import "../components/layout/layout.scss";
+@import "../components/button/button.scss";
+@import "../components/controlledInput/controlledInput.scss";
+@import "../pages/errors/errors.scss";
+@import "../pages/main/main.scss";
+@import "../pages/login/login.scss";
 @import "../pages/chat/chat.scss";
 @import "../pages/profile/profile.scss";
 

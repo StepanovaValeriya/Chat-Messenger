@@ -1,15 +1,50 @@
+@import "../../components/profile/profileNav/profileNav.scss";
+
 .profile {
-  @import '../../partials/profile/profileNav/profileNav.scss';
-  .content__main {
+  .profile__main {
     flex: 0 0 95%;
-    display: flex;
+    @include styleMain;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     gap: 21px;
-    @import '../../partials/profile/profileMain/profileMain.scss';
-    @import '../../partials/profile/profileInfo/profileInfo.scss';
-    @import '../../partials/profile/profileLink/profileLink.scss';
+    @import "../../components/profile/profileAvatar/profileAvatar.scss";
+    .profile__info {
+      min-width: 510px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      @include breakpoint(md) {
+        min-width: 0px;
+        padding: 20px 20px 20px 0;
+      }
+      @import "../../components/profile/profileItem/profileItem.scss";
+      .auth__inputs {
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: $borderBottomInput;
+        flex-wrap: wrap;
+      }
+      .input__label {
+        align-self: center;
+        font-size: 13px;
+        line-height: 13px;
+        flex: 0 0 30%;
+      }
+    }
+    .input__profile {
+      outline: none;
+      padding: 10px 0;
+      text-align: right;
+      flex: 0 0 70%;
+    }
+    .button__main_red {
+      background-color: $colorLinkRed;
+      &:hover {
+        @include linkHover;
+        background-color: $hoverColorButtonRed;
+      }
+    }
   }
   .button__main {
     margin: 0;

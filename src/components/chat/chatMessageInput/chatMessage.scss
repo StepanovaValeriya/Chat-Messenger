@@ -1,0 +1,33 @@
+.chat__message {
+  border-top: $borderChatNav;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  gap: 10px;
+  &__input {
+    background-color: $backgroundInput;
+    flex: 0 0 90%;
+    border-radius: 30px;
+    padding: 13px;
+  }
+  &__actions {
+    background: transparent;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  &__send {
+    background-color: $backgroundButton;
+    color: $colorButton;
+    font-weight: 600;
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.wrapper {
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+  @include breakpoint(sm) {
+    padding: 20px;
+  }
+}
+.page {
+  background-color: $backgroundPage;
+  width: 1500px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.089),
+    4px 4px 4px 4px rgba(0, 0, 0, 0.171);
+  padding: 20px;
+  display: flex;
+  @include breakpoint(sm) {
+    padding: 0px;
+  }
+}

@@ -2,6 +2,16 @@
 
 Разработка веб-приложения в рамках курса "Мидл фронтенд-разработчик" от Яндекс.Практикум Использовано Node.js, Express, Parcel, Handlebars, SCSS
 
+# Используемы технологии
+
+- TypeScript
+- Parcel
+- SCSS
+- Handlebars
+- Express
+- Eslint
+- Stylelin
+
 ## Сборка и запуск
 
 ```

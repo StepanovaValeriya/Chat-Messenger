@@ -1,0 +1,16 @@
+.profile__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: $borderBottomInput;
+  &__label {
+    align-self: center;
+    font-size: 13px;
+    line-height: 13px;
+    flex: 0 0 30%;
+  }
+  &__title {
+    padding: 10px 0;
+    text-align: right;
+  }
+}

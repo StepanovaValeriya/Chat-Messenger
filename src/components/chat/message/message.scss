@@ -1,0 +1,44 @@
+.message {
+  background-color: #92b7fca1;
+  padding: 25px;
+  border-radius: 0 10px 10px;
+  margin-bottom: 30px;
+  max-width: 60%;
+
+  &__incoming {
+    align-self: start;
+  }
+
+  &__outgoing {
+    align-self: end;
+    border-radius: 10px 10px 0;
+  }
+
+  &__text {
+    margin-bottom: 9px;
+    color: #fff;
+  }
+
+  &__delivered,
+  &__readed {
+    font-size: 50px;
+    line-height: 0;
+    margin-left: -6px;
+
+    &__active {
+      color: #00aaf3;
+    }
+  }
+
+  &__info {
+    font-size: 13px;
+    color: gray;
+    text-align: right;
+    margin-bottom: -5px;
+  }
+
+  &__image {
+    width: 100%;
+    margin: 10px 0 20px;
+  }
+}

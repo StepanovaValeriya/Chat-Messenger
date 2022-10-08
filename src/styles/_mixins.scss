@@ -38,3 +38,14 @@
   gap: 14px;
   padding: 10px;
 }
+
+@mixin styleMain {
+  display: flex;
+  align-items: center;
+}
+@mixin profileNameTitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 13px;
+  color: $colorForTitle;
+}
