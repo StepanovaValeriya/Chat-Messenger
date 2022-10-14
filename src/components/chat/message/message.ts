@@ -1,7 +1,7 @@
 import Block from "core/Block";
 import "./message.scss";
 
-interface Props {
+interface MessageProps {
   time: string;
   text: string;
   imgPath: string;
@@ -14,15 +14,8 @@ interface Props {
 export default class Message extends Block {
   static componentName = "Message";
 
-  constructor({ time, text, imgPath, outgoing, delivered, readed }: Props) {
-    super({
-      time,
-      text,
-      imgPath,
-      outgoing,
-      delivered,
-      readed,
-    });
+  constructor(props: MessageProps) {
+    super(props);
   }
 
   render() {

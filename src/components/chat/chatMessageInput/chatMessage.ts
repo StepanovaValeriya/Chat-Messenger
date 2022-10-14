@@ -8,8 +8,8 @@ interface ChatMessageProps {
 
 export default class ChatMessageInput extends Block {
   static componentName = "ChatMessageInput";
-  constructor({ clipPath }: ChatMessageProps) {
-    super({ clipPath });
+  constructor(props: ChatMessageProps) {
+    super(props);
   }
 
   protected getStateFromProps() {

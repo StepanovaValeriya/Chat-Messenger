@@ -10,8 +10,8 @@ interface ChatHeaderProps {
 
 export default class ChatHeader extends Block {
   static componentName = "ChatHeader";
-  constructor({ avatarPath, userName, actionHeader }: ChatHeaderProps) {
-    super({ avatarPath, userName, actionHeader });
+  constructor(props: ChatHeaderProps) {
+    super(props);
   }
 
   protected render(): string {

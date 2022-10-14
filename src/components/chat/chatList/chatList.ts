@@ -14,22 +14,8 @@ interface ChatListProps {
 export default class ChatList extends Block {
   static componentName = "ChatList";
 
-  constructor({
-    active,
-    avatarPath,
-    userName,
-    lastMsgText,
-    lastMsgDate,
-    msgCounter,
-  }: ChatListProps) {
-    super({
-      active,
-      avatarPath,
-      userName,
-      lastMsgText,
-      lastMsgDate,
-      msgCounter,
-    });
+  constructor(props: ChatListProps) {
+    super(props);
   }
 
   protected render(): string {
