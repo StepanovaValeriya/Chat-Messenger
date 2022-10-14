@@ -29,7 +29,7 @@ const data: Object = {
   ],
   days: [
     {
-      date: "05 октября 2022",
+      date: "05 October 2022",
       messages: [
         {
           time: "10:30",

@@ -90,7 +90,6 @@ export default class ChatMessageInput extends Block {
         }}}
         {{{InputError ref="errorRef" text="${errors.message}"}}}
       </div>
-
     `;
   }
 }

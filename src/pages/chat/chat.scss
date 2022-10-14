@@ -52,6 +52,12 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 0px 20px;
+    @include breakpoint(xl) {
+      padding: 0px 40px;
+    }
+    @include breakpoint(lg) {
+      display: none;
+    }
   }
 }
 .message__date {

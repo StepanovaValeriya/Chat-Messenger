@@ -15,7 +15,7 @@
       flex-direction: column;
       justify-content: space-between;
       @include breakpoint(md) {
-        min-width: 0px;
+        min-width: 210px;
         padding: 20px 20px 20px 0;
       }
       @import "../../components/profile/profileItem/profileItem.scss";
@@ -48,5 +48,10 @@
   }
   .button__main {
     margin: 0;
+    @include breakpoint(sm) {
+      min-width: 0;
+      max-width: 180px;
+      padding: 12px 40px;
+    }
   }
 }
