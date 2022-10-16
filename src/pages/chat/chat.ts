@@ -1,4 +1,9 @@
 import Block from "core/Block";
+import { toggleOptionsWindow, createModalToggler } from "utils/dom";
+import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID } from "utils/const";
+
+const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
+const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
 
 const data: Object = {
   clipPath: "/img/clipChat.png",
@@ -6,7 +11,6 @@ const data: Object = {
     {
       avatarPath: "/img/catUser.jpg",
       userName: "Cat",
-      actionHeader: "/img/headerActions.png",
     },
   ],
   chatUsers: [
@@ -61,7 +65,12 @@ const data: Object = {
 export class ChatPage extends Block {
   static componentName = "ChatPage";
   constructor() {
-    super(data);
+    super({
+      ...data,
+      toggleOptionsWindow,
+      toggleAddUserModal,
+      toggleDeleteUserModal,
+    });
   }
 
   render() {
@@ -89,7 +98,7 @@ export class ChatPage extends Block {
           </div>
         <div class="chat__main">
         {{#each chatHeader}}
-            {{{ChatHeader avatarPath=avatarPath userName=userName actionHeader=actionHeader}}}
+            {{{ChatHeader avatarPath=avatarPath userName=userName}}}
             {{/each}}
             {{#if days}}
               {{#each days}}
@@ -110,6 +119,8 @@ export class ChatPage extends Block {
             {{/if}}
             {{{ChatMessageInput clipPath=clipPath}}}
           </div>
+          {{{Modal id="modal-add-user" toggler=toggleAddUserModal inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
+          {{{Modal id="modal-delete-user" toggler=toggleDeleteUserModal inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
         </div>
      {{/Layout}}
     `;

@@ -24,6 +24,7 @@ import {
   Message,
 } from "./components/chat";
 import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
+import Modal from "./components/modal";
 
 registerComponent(Button);
 registerComponent(Layout);
@@ -39,6 +40,7 @@ registerComponent(Message);
 registerComponent(ProfileAvatar);
 registerComponent(ProfileNav);
 registerComponent(ProfileItem);
+registerComponent(Modal);
 
 document.addEventListener("DOMContentLoaded", () => {
   switch (window.location.pathname) {

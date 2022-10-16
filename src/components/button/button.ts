@@ -4,6 +4,7 @@ import "./button";
 interface ButtonProps {
   text: string;
   className: string;
+  id?: string;
   onClick: () => void;
 }
 export class Button extends Block {
@@ -14,7 +15,7 @@ export class Button extends Block {
   protected render(): string {
     // language=hbs
     return `
-        <button class="{{className}}" type="button">{{text}}</button>
+        <button id="{{id}}" class="{{className}}" type="button">{{text}}</button>
     `;
   }
 }
