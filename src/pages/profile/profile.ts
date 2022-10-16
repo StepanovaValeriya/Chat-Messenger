@@ -1,10 +1,14 @@
 import Block from "core/Block";
 import { userData } from "../../data/userData";
+import { createModalToggler } from "utils/dom";
+import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
+
+const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
 export class ProfilePage extends Block {
   static componentName = "ProfilePage";
   constructor() {
-    super({ userData });
+    super({ userData, toggleChangeAvatarModal });
   }
   protected getStateFromProps() {
     this.state = {
@@ -53,6 +57,7 @@ export class ProfilePage extends Block {
                 text="Exit"
               }}}
           </div>
+           {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal  inputLabel="Choose file" inputId="user_avatar" title="Upload file" buttonText="Change" inputName="user_avatar"}}}
         </div>
       {{/Layout}}
     `;

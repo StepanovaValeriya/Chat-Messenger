@@ -12,11 +12,9 @@ export function createModalToggler(modalId: string) {
 
     if ((target as HTMLElement).classList.contains("modal__wrapper")) {
       const { parentElement } = target;
-      console.log("parel", parentElement);
       parentElement.classList.toggle("hidden");
     } else {
       const el = document.getElementById(_modalId) as HTMLElement;
-      console.log("el", el);
       el.classList.contains("hidden") && el.classList.toggle("hidden");
     }
   };
