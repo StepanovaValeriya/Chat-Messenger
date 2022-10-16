@@ -1,6 +1,9 @@
 export function toggleOptionsWindow() {
   document.querySelector(".chat__header__options")?.classList.toggle("hidden");
 }
+export function toggleAttachWindow() {
+  document.querySelector(".chat__message__options")?.classList.toggle("hidden");
+}
 export function createModalToggler(modalId: string) {
   const _modalId = modalId;
 

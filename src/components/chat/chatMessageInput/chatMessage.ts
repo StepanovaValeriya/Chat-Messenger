@@ -1,5 +1,6 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { toggleAttachWindow } from "utils/dom";
 import "./chatMessage";
 
 interface ChatMessageProps {
@@ -9,7 +10,7 @@ interface ChatMessageProps {
 export default class ChatMessageInput extends Block {
   static componentName = "ChatMessageInput";
   constructor(props: ChatMessageProps) {
-    super(props);
+    super({ ...props, toggleAttachWindow });
   }
 
   protected getStateFromProps() {
@@ -69,9 +70,22 @@ export default class ChatMessageInput extends Block {
     // language=hbs
     return `
       <div class="chat__message">
-        <button class="chat__message__actions">
+      {{{Button className="chat__message__actions" onClick=toggleAttachWindow}}}
           <img src="{{clipPath}}" alt="clip" />
-        </button>
+        <ul class="chat__message__options options hidden">
+          <li class="options__item">
+            {{{Button className="options__button" type="button" text="Photo or Video"}}}
+            <img src="/img/image.png" alt="action">
+          </li>
+          <li class="options__item">
+            {{{Button  className="options__button" type="button" text="File"}}}
+            <img src="/img/file.png" alt="action">
+          </li>
+          <li class="options__item">
+            {{{Button className="options__button" type="button" text="Location"}}}
+            <img src="/img/location.png" alt="action">
+          </li>
+      </ul>
         {{{Input
           className="chat__message__input"
           ref="message"

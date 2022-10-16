@@ -20,6 +20,8 @@
     }
   }
   &__actions {
+    padding: 20px;
+    position: absolute;
     background: transparent;
     cursor: pointer;
     &:hover {
@@ -41,5 +43,9 @@
   .input__error {
     flex: 0 0 100%;
     text-align: center;
+  }
+  .options {
+    top: 74.2%;
+    left: 31%;
   }
 }
