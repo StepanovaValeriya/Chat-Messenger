@@ -19,7 +19,8 @@
     "core": "./src/core",
     "components": "./src/components",
     "pages": "./src/pages",
-    "utils": "./src/utils"
+    "utils": "./src/utils",
+    "api": "./src/api"
   },
   "author": "",
   "license": "ISC",
