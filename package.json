@@ -20,7 +20,8 @@
     "components": "./src/components",
     "pages": "./src/pages",
     "utils": "./src/utils",
-    "api": "./src/api"
+    "api": "./src/api",
+    "helpers": "./src/helpers"
   },
   "author": "",
   "license": "ISC",

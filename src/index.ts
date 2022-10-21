@@ -1,5 +1,7 @@
-import { renderDOM, registerComponent } from "./core";
+import { registerComponent } from "./core";
 import "./styles/style.scss";
+import { Router } from "core";
+import { ROUTES } from "./constants/routes";
 
 import MainPage from "./pages/main";
 import ErrorPage from "./pages/errors";
@@ -26,6 +28,10 @@ import {
 import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
 import Modal from "./components/modal";
 
+import { Store } from "core/store";
+import { defaultState } from "./store";
+import { initApp } from "./services/initApp";
+
 registerComponent(Button);
 registerComponent(Layout);
 registerComponent(Link);
@@ -42,44 +48,35 @@ registerComponent(ProfileNav);
 registerComponent(ProfileItem);
 registerComponent(Modal);
 
-document.addEventListener("DOMContentLoaded", () => {
-  switch (window.location.pathname) {
-    case "/":
-      renderDOM(new MainPage());
-      break;
-    case "/error404":
-      renderDOM(
-        new ErrorPage({ errorCode: "404", errorText: "Page does not exist" })
-      );
-      break;
-    case "/error500":
-      renderDOM(
-        new ErrorPage({
-          errorCode: "500",
-          errorText: "We are aware of the problem and are already solving it.",
-        })
-      );
-      break;
-    case "/login":
-      renderDOM(new LoginPage());
-      break;
-
-    case "/signup":
-      renderDOM(new SignUpPage());
-      break;
-    case "/chat":
-      renderDOM(new ChatPage());
-      break;
-    case "/profile":
-      renderDOM(new ProfilePage());
-      break;
-    case "/changePassProfile":
-      renderDOM(new ChangePassProfilePage());
-      break;
-    case "/changeDataProfile":
-      renderDOM(new ChangeDataProfilePage());
-      break;
-    default:
-      console.log("nothing");
+export const router = new Router(".app");
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
   }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const store = new Store<AppState>(defaultState);
+  const router = new Router(".app");
+  (<any>window).router = router;
+  (<any>window).store = store;
+
+  store.dispatch(initApp);
+  router
+    .use(ROUTES.Main, MainPage)
+    .use(ROUTES.Login, LoginPage)
+    .use(ROUTES.SignUp, SignUpPage)
+    .use(ROUTES.Profile, ProfilePage)
+    .use(ROUTES.ProfileSettings, ChangeDataProfilePage)
+    .use(ROUTES.ChangePassword, ChangePassProfilePage)
+    .use(ROUTES.Chat, ChatPage)
+    .use(ROUTES.Error, ErrorPage)
+    .start();
+
+  store.on("changed", (prevState, nextState) => {
+    if (!prevState.appIsInited && nextState.appIsInited) {
+      router.start();
+    }
+  });
 });
