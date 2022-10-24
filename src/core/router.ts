@@ -1,4 +1,4 @@
-import { BlockConstructable } from "core/registerComponent";
+import { BlockConstructable } from "./registerComponent";
 import Route from "./route";
 
 interface RouterProps {
@@ -35,7 +35,6 @@ export default class Router implements RouterProps {
 
   use(pathname: string, view: BlockConstructable) {
     const route = new Route(pathname, view, { rootQuery: this._rootQuery });
-
     this.routes.push(route);
     this._pathnames.push(pathname);
     return this;
@@ -72,6 +71,7 @@ export default class Router implements RouterProps {
 
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
+    console.log(route);
     if (!route) {
       return;
     }
@@ -86,6 +86,7 @@ export default class Router implements RouterProps {
   }
 
   go(pathname: string) {
+    console.log(pathname);
     this.history.pushState({}, "", pathname);
     this._onRoute(pathname);
   }

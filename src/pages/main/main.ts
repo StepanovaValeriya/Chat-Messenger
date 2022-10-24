@@ -1,23 +1,41 @@
-import Block from "core/Block";
+import { Block, Router, Dispatch } from "core";
 import "./main";
+import { ROUTES } from "../../constants/routes";
+import { withStore } from "helpers/withStore";
+import { withRouter } from "helpers/withRouter";
 
-export class MainPage extends Block {
+export type MainPageProps = {
+  router: Router;
+  onLoginPage: () => void;
+};
+
+export class MainPage extends Block<MainPageProps> {
   static componentName = "MainPage";
-  protected getStateFromProps() {
-    this.state = {
+  // protected getStateFromProps() {
+  //   this.state = {
+  //     onLoginPage: () => {
+  //       this.props.router.go(ROUTES.Login);
+  //     },
+  //     onSignUpPage: () => {
+  //       this.props.router.go(ROUTES.SignUp);
+  //     },
+  //     onError404Page: () => {
+  //       this.props.router.go(ROUTES.Error);
+  //     },
+  //     onError500Page: () => {
+  //       this.props.router.go(ROUTES.Error);
+  //     },
+  //   };
+  // }
+  constructor(props: MainPageProps) {
+    super(props);
+    this.setProps({
+      ...props,
       onLoginPage: () => {
-        window.location.href = "/login";
+        console.log(this.props);
+        this.props.router.go(ROUTES.Login);
       },
-      onSignUpPage: () => {
-        window.location.href = "/signup";
-      },
-      onError404Page: () => {
-        window.location.href = "/error404";
-      },
-      onError500Page: () => {
-        window.location.href = "/error500";
-      },
-    };
+    });
   }
 
   render() {
@@ -51,3 +69,4 @@ export class MainPage extends Block {
     `;
   }
 }
+export default withRouter(MainPage);

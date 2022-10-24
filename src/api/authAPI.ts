@@ -53,7 +53,7 @@ export const authAPI = {
         window.location.pathname !== ROUTES.SignUp &&
         window.location.pathname !== ROUTES.Login
       ) {
-        window.router.go(ROUTES.Login);
+        window.router.go(ROUTES.Main);
       }
       throw Error(JSON.parse(res.responseText).reason);
     }

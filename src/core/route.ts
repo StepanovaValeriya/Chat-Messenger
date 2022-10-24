@@ -1,7 +1,7 @@
 import renderDOM from "core/renderDom";
 import Block from "core/Block";
 import { isEqual } from "utils/isEqual";
-import { BlockConstructable } from "core/registerComponent";
+import { BlockConstructable } from "./registerComponent";
 
 export default class Route<P = any> {
   private _pathname;

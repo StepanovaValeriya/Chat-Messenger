@@ -59,10 +59,9 @@ declare global {
 document.addEventListener("DOMContentLoaded", () => {
   const store = new Store<AppState>(defaultState);
   const router = new Router(".app");
-  (<any>window).router = router;
-  (<any>window).store = store;
-
-  store.dispatch(initApp);
+  console.log(router);
+  window.router = router;
+  window.store = store;
   router
     .use(ROUTES.Main, MainPage)
     .use(ROUTES.Login, LoginPage)
@@ -73,10 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .use(ROUTES.Chat, ChatPage)
     .use(ROUTES.Error, ErrorPage)
     .start();
-
   store.on("changed", (prevState, nextState) => {
-    if (!prevState.appIsInited && nextState.appIsInited) {
-      router.start();
-    }
+    console.log(
+      "%cstore updated",
+      "background: #222; color: #bada55",
+      nextState
+    );
   });
+  store.dispatch(initApp);
 });

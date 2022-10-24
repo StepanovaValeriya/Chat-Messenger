@@ -1,4 +1,4 @@
-import Block from "./Block";
+import { Block } from "core";
 import Handlebars, { HelperOptions } from "handlebars";
 
 export interface BlockConstructable<Props = any> {
@@ -7,7 +7,7 @@ export interface BlockConstructable<Props = any> {
 }
 
 export default function registerComponent<Props extends any>(
-  Component: BlockConstructable<Props>
+  Component: BlockConstructable
 ) {
   if (!Component.componentName) {
     throw new Error(
