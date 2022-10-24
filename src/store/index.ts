@@ -1,7 +1,6 @@
 export const defaultState: AppState = {
   isLoading: false,
-  loginFormError: "",
-  signupFormError: "",
+  formError: "",
   addUserError: "",
   deleteUserError: "",
   user: null,

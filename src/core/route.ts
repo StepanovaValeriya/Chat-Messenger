@@ -1,15 +1,13 @@
 import renderDOM from "core/renderDom";
 import Block from "core/Block";
 import { isEqual } from "utils/isEqual";
-import { BlockConstructable } from "./registerComponent";
 
 export default class Route<P = any> {
-  private _pathname;
-  private _blockClass: BlockConstructable;
-  private _block: Nullable<Block<{}>>;
-  private _props!: P;
-
-  constructor(pathname: string, view: BlockConstructable, props: P) {
+  private _pathname: string;
+  private _blockClass: typeof Block;
+  private _block: Block | null;
+  private _props: P;
+  constructor(pathname: string, view: typeof Block, props: P) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;
@@ -25,7 +23,7 @@ export default class Route<P = any> {
 
   leave() {
     if (this._block) {
-      this._block.hide();
+      this._block = null;
     }
   }
 
@@ -35,10 +33,11 @@ export default class Route<P = any> {
 
   render() {
     if (!this._block) {
-      this._block = new this._blockClass(this._props);
+      this._block = new this._blockClass();
       renderDOM(this._block);
       return;
     }
     this._block.show();
+    return this;
   }
 }

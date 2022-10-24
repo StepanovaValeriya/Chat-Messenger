@@ -21,7 +21,8 @@
     "pages": "./src/pages",
     "utils": "./src/utils",
     "api": "./src/api",
-    "helpers": "./src/helpers"
+    "helpers": "./src/helpers",
+    "services": "./src/services"
   },
   "author": "",
   "license": "ISC",

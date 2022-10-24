@@ -1,11 +1,22 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { router } from "../../index";
+import { ROUTES } from "../../constants/routes";
+import { signUp } from "services/auth";
+import { withRouter, withStore, withUser } from "helpers";
+import { Router } from "core";
+import { Store } from "core";
 
-export class SignUpPage extends Block {
+type SignUpPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: User | null;
+  formError: () => void;
+};
+
+class SignUpPage extends Block<SignUpPageProps> {
   static componentName = "SignUpPage";
-  constructor() {
-    super({});
-  }
+
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -25,6 +36,9 @@ export class SignUpPage extends Block {
         phone: "",
         password: "",
         passwordSecond: "",
+      },
+      onLoginPage: () => {
+        router.go(ROUTES.Login);
       },
       handleErrors: (
         values: { [key: string]: number },
@@ -99,11 +113,11 @@ export class SignUpPage extends Block {
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
-        console.log("sub");
+      onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/chat";
+          const regData = this.state.values;
+          this.props.store.dispatch(signUp, regData);
         }
       },
     };
@@ -115,7 +129,7 @@ export class SignUpPage extends Block {
       {{#Layout name="SignUp" }}
         <div class="page__login _page">
           <div class="auth">
-            <h1 class="auth__title">Sign In</h1>
+            <h1 class="auth__title">Sign Up</h1>
             <form class="auth__form">
               {{{ControlledInput
                 className="input__field"
@@ -214,10 +228,10 @@ export class SignUpPage extends Block {
               onClick=onSubmit
               className="button__main"
             }}}
-            {{{Link
-              className="auth__link"
+            {{{Button
+              className="button__main"
               text="Enter"
-              to="/login"
+              onClick=onLoginPage
             }}}
          </div>
         </div>
@@ -225,3 +239,5 @@ export class SignUpPage extends Block {
     `;
   }
 }
+const ConnectedSignUpPage = withRouter(withStore(withUser(SignUpPage)));
+export { ConnectedSignUpPage as SignUpPage };

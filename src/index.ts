@@ -49,6 +49,7 @@ registerComponent(ProfileItem);
 registerComponent(Modal);
 
 export const router = new Router(".app");
+
 declare global {
   interface Window {
     store: Store<AppState>;
@@ -57,9 +58,9 @@ declare global {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const store = new Store<AppState>(defaultState);
   const router = new Router(".app");
-  console.log(router);
+  const store = new Store<AppState>(defaultState);
+
   window.router = router;
   window.store = store;
   router

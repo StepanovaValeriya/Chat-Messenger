@@ -3,15 +3,20 @@ import { BlockClass, Store } from "core";
 type WithStateProps = { store: Store<AppState> };
 
 export function withStore<P extends WithStateProps>(
-  WrappedBlock: BlockClass<P>
+  WrappedBlock: BlockClass<P>,
+  mapStateToProps?: (state: any) => any
 ) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
-    public static componentName =
-      WrappedBlock.componentName || WrappedBlock.name;
+    public static componentName = WrappedBlock.componentName;
 
     constructor(props: P) {
-      super({ ...props, store: window.store });
+      super({
+        ...props,
+        store: mapStateToProps
+          ? mapStateToProps(window.store.getState())
+          : window.store,
+      });
     }
 
     __onChangeStoreCallback = () => {
@@ -21,7 +26,12 @@ export function withStore<P extends WithStateProps>(
        * с помощью метода mapStateToProps
        */
       // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store });
+      this.setProps({
+        ...this.props,
+        store: mapStateToProps
+          ? mapStateToProps(window.store.getState())
+          : window.store,
+      });
     };
 
     componentDidMount(props: P) {

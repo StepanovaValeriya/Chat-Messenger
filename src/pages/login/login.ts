@@ -1,12 +1,22 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { router } from "../../index";
+import { ROUTES } from "../../constants/routes";
+import { login } from "services/auth";
+import { withRouter, withStore, withUser } from "helpers";
+import { Router } from "core";
+import { Store } from "core";
 
-export class LoginPage extends Block {
+type LoginPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: User | null;
+  formError: () => void;
+};
+
+class LoginPage extends Block<LoginPageProps> {
   static componentName = "LoginPage";
-  constructor() {
-    super();
-    this.setProps({});
-  }
+
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -17,6 +27,10 @@ export class LoginPage extends Block {
         login: "",
         password: "",
       },
+      onSignUp: () => {
+        router.go(ROUTES.SignUp);
+      },
+      formError: () => this.props.store.getState().formError,
       handleErrors: (
         values: { [key: string]: number },
         errors: { [key: string]: number }
@@ -68,11 +82,11 @@ export class LoginPage extends Block {
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
-        console.log("sub");
+      onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/chat";
+          const loginData = this.state.values;
+          this.props.store.dispatch(login, loginData);
         }
       },
     };
@@ -115,10 +129,10 @@ export class LoginPage extends Block {
               onClick=onSubmit
               className="button__main"
             }}}
-            {{{Link
-              className="auth__link"
+            {{{Button
+              className="button__main"
               text="Create account"
-              to="/signup"
+              onClick=onSignUp
             }}}
          </div>
         </div>
@@ -126,3 +140,5 @@ export class LoginPage extends Block {
     `;
   }
 }
+const ConnectedLoginPage = withRouter(withStore(withUser(LoginPage)));
+export { ConnectedLoginPage as LoginPage };

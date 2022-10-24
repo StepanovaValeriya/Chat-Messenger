@@ -1,88 +1,50 @@
-import { BlockConstructable } from "./registerComponent";
+import { ROUTES } from "../constants/routes";
+import { Block } from "core";
 import Route from "./route";
 
-interface RouterProps {
-  routes: Array<Route>;
-  history: History;
-}
-
-export default class Router implements RouterProps {
-  private static __instance: Router;
-
+export default class Router {
+  public routes: Route[] = [];
+  public history = window.history;
+  private _currentRoute: Route | null = null;
   private _rootQuery!: string;
-  private _pathnames!: string[];
-  private _currentRoute: Nullable<Route> = null;
-
-  public routes: Array<Route> = [];
-  public history: any;
-
+  public static __instance: Router;
   constructor(rootQuery: string) {
     if (Router.__instance) {
       return Router.__instance;
     }
-    Router.__instance = this;
-
     this.routes = [];
-    this._pathnames = [];
     this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
+
+    Router.__instance = this;
   }
 
-  get currentRoute() {
-    return this._currentRoute;
-  }
-
-  use(pathname: string, view: BlockConstructable) {
-    const route = new Route(pathname, view, { rootQuery: this._rootQuery });
+  use(pathname: string, block: typeof Block) {
+    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
     this.routes.push(route);
-    this._pathnames.push(pathname);
     return this;
   }
 
-  back() {
-    this.history.back();
-    const pathname = this._hasRoute(window.location.pathname);
-    this._onRoute(pathname);
-  }
-
-  forward() {
-    this.history.forward();
-    const pathname = this._hasRoute(window.location.pathname);
-    this._onRoute(pathname);
-  }
-
-  private _hasRoute(pathname: string) {
-    if (!this._pathnames.includes(pathname)) {
-      return "*";
-    }
-    return pathname;
-  }
-
   start() {
-    window.onpopstate = () => {
-      const pathname = this._hasRoute(window.location.pathname);
-      this._onRoute(pathname);
-    };
+    window.onpopstate = ((event: PopStateEvent) => {
+      const target = event.currentTarget as Window;
+      this._onRoute(target.location.pathname);
+    }).bind(this);
 
-    const pathname = this._hasRoute(window.location.pathname);
-    this._onRoute(pathname);
+    this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
-    console.log(route);
-    if (!route) {
-      return;
-    }
+  private _onRoute(pathname: string) {
+    let route = this.getRoute(pathname);
 
     if (this._currentRoute) {
       this._currentRoute.leave();
     }
-
-    this._currentRoute = route;
-
-    route.render();
+    if (route) {
+      this._currentRoute = route;
+      route.render();
+    }
   }
 
   go(pathname: string) {
@@ -91,7 +53,19 @@ export default class Router implements RouterProps {
     this._onRoute(pathname);
   }
 
+  back() {
+    window.history.back();
+  }
+
+  forward() {
+    window.history.forward();
+  }
+
   getRoute(pathname: string) {
-    return this.routes.find((route) => route.match(pathname));
+    const route = this.routes.find((route) => route.match(pathname));
+    if (!route) {
+      return this.routes.find((route) => route.match(ROUTES.Error));
+    }
+    return route;
   }
 }

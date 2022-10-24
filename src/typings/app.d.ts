@@ -6,8 +6,7 @@ declare global {
 
   export type AppState = {
     isLoading: boolean;
-    loginFormError: string;
-    signupFormError: string;
+    formError: string | null;
     addUserError: string;
     deleteUserError: string;
     user: User | null;
