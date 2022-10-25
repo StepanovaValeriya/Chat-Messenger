@@ -1,20 +1,35 @@
 import type { Dispatch } from "core/store";
-import { UserDTO } from "api/types";
-import { authAPI } from "api/authAPI";
+import { UserDTO, ChatFromServer } from "api/types";
+import AuthAPI from "api/authAPI";
+import ChatsAPI from "api/chatsAPI";
 import { apiError } from "helpers/apiError";
-import { transformUser } from "helpers/apiTransformers";
+import { apiUserTransformers } from "helpers/apiUserTransformers";
+import { apiChatTransformers } from "helpers/apiChatTransformers";
+
+const authApi = new AuthAPI();
+const chatsApi = new ChatsAPI();
 
 export async function initApp(dispatch: Dispatch<AppState>) {
-  try {
-    const response = await authAPI.getUser();
+  // await new Promise((r) => setTimeout(r, 1000));
 
-    if (apiError(response)) {
+  try {
+    const user = await authApi.getUserInfo();
+
+    if (apiError(user)) {
+      console.log(user.status);
+      // window.router.go("/login");
       return;
     }
-    dispatch({ user: transformUser(response as UserDTO) });
+    const chats = (await chatsApi.getChats()) as ChatFromServer[];
+
+    dispatch({
+      user: apiUserTransformers(user as UserDTO),
+      chats: chats.map((chat) => apiChatTransformers(chat)),
+    });
+    window.router.go("/chat");
   } catch (err) {
     console.error(err);
   } finally {
-    dispatch({ appIsInited: true });
+    dispatch({ isAppInited: true });
   }
 }

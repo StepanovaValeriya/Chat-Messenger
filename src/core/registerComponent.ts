@@ -7,7 +7,7 @@ export interface BlockConstructable<Props = any> {
 }
 
 export default function registerComponent<Props extends any>(
-  Component: BlockConstructable
+  Component: BlockConstructable<Props>
 ) {
   if (!Component.componentName) {
     throw new Error(

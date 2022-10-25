@@ -18,12 +18,15 @@
       align-self: flex-end;
       display: flex;
       gap: 5px;
-      &:hover {
-        color: $hoverColorChat;
-      }
+
       &__title {
         font-size: 14px;
         line-height: 12px;
+        background-color: transparent;
+        cursor: pointer;
+        &:hover {
+          color: $hoverColorChat;
+        }
       }
     }
     &__search {

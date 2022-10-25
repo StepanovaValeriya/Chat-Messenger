@@ -1,8 +1,7 @@
-import { authAPI } from "api/authAPI";
+import AuthAPI from "api/authAPI";
 import { UserDTO } from "api/types";
-import { ROUTES } from "../constants/routes";
 import type { Dispatch } from "core";
-import { transformUser } from "helpers/apiTransformers";
+import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiError } from "helpers/apiError";
 
 type LoginPayload = {
@@ -10,66 +9,86 @@ type LoginPayload = {
   password: string;
 };
 
-export const login = async (
+type SignupPayload = {
+  login: "string";
+  password: "string";
+  first_name: "string";
+  second_name: "string";
+  email: "string";
+  phone: "string";
+};
+
+const api = new AuthAPI();
+
+export const signin = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
   action: LoginPayload
 ) => {
   dispatch({ isLoading: true });
-  const response = await authAPI.signIn(action);
+
+  const response = await api.signin(action);
 
   if (apiError(response)) {
-    dispatch({ isLoading: false, formError: response.reason });
+    dispatch({ isLoading: false, loginFormError: response.reason });
+
     return;
   }
 
-  const responseUser = await authAPI.getUser();
+  const user = await api.getUserInfo();
 
-  dispatch({ isLoading: false, formError: null });
+  if (apiError(user)) {
+    dispatch(signout);
 
-  if (apiError(response)) {
-    dispatch(logout);
     return;
   }
 
-  dispatch({ user: transformUser(responseUser as UserDTO) });
-
-  window.router.go(ROUTES.Chat);
+  dispatch({
+    user: apiUserTransformers(user as UserDTO),
+    isLoading: false,
+    loginFormError: null,
+  });
 };
 
-export const signUp = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: LoginPayload
-) => {
-  dispatch({ isLoading: true });
-  const response = await authAPI.signUp(action);
-
-  if (apiError(response)) {
-    dispatch({ isLoading: false, formError: response.reason });
-    return;
-  }
-
-  const responseUser = await authAPI.getUser();
-
-  dispatch({ isLoading: false, formError: null });
-
-  if (apiError(response)) {
-    dispatch(logout);
-    return;
-  }
-
-  dispatch({ user: transformUser(responseUser as UserDTO) });
-
-  window.router.go(ROUTES.Chat);
-};
-
-export const logout = async (dispatch: Dispatch<AppState>) => {
+export const signout = async (dispatch: Dispatch<AppState>) => {
   dispatch({ isLoading: true });
 
-  await authAPI.logout();
+  await api.signout();
 
   dispatch({ isLoading: false, user: null });
 
-  window.router.go(ROUTES.Login);
+  window.router.go("/login");
+};
+
+export const signup = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  action: SignupPayload
+) => {
+  dispatch({ isLoading: true });
+
+  const response = await api.signup(action);
+
+  if (apiError(response)) {
+    dispatch({ isLoading: false, loginFormError: response.reason });
+
+    return;
+  }
+
+  const user = await api.getUserInfo();
+
+  if (apiError(user)) {
+    dispatch(signout);
+
+    return;
+  }
+
+  dispatch({
+    user: apiError(user as UserDTO),
+    isLoading: false,
+    loginFormError: null,
+  });
+
+  window.router.go("/chat");
+  // dispatch({ isLoading: false, loginFormError: null });
 };

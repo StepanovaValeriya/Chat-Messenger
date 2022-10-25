@@ -2,21 +2,13 @@ import { BlockClass, Store } from "core";
 
 type WithStateProps = { store: Store<AppState> };
 
-export function withStore<P extends WithStateProps>(
-  WrappedBlock: BlockClass<P>,
-  mapStateToProps?: (state: any) => any
-) {
+export function WithStore<P extends WithStateProps>(Block: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified
-  return class extends WrappedBlock<P> {
-    public static componentName = WrappedBlock.componentName;
+  return class extends Block<P> {
+    public static componentName = Block.componentName || Block.name;
 
     constructor(props: P) {
-      super({
-        ...props,
-        store: mapStateToProps
-          ? mapStateToProps(window.store.getState())
-          : window.store,
-      });
+      super({ ...props, store: window.store });
     }
 
     __onChangeStoreCallback = () => {
@@ -26,22 +18,17 @@ export function withStore<P extends WithStateProps>(
        * с помощью метода mapStateToProps
        */
       // @ts-expect-error this is not typed
-      this.setProps({
-        ...this.props,
-        store: mapStateToProps
-          ? mapStateToProps(window.store.getState())
-          : window.store,
-      });
+      this.setProps({ ...this.props, store: window.store });
     };
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
-      window.store.on("changed", this.__onChangeStoreCallback);
+      window.store.on("updated", this.__onChangeStoreCallback);
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      window.store.off("changed", this.__onChangeStoreCallback);
+      window.store.off("updated", this.__onChangeStoreCallback);
     }
   } as BlockClass<Omit<P, "store">>;
 }

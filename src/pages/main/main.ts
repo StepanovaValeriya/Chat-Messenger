@@ -1,23 +1,29 @@
-import { Block } from "core";
+import Block from "core/Block";
+import Router from "core/router";
 import "./main";
-import { router } from "../../index";
-import { ROUTES } from "../../constants/routes";
+import { WithRouter } from "helpers/withRouter";
 
-export class MainPage extends Block {
+export type MainPageProps = {
+  router: Router;
+};
+
+export class MainPage extends Block<MainPageProps> {
   static componentName = "MainPage";
+
   protected getStateFromProps() {
     this.state = {
       onLoginPage: () => {
-        router.go(ROUTES.Login);
+        console.log(window.router);
+        this.props.router.go("/login");
       },
       onSignUpPage: () => {
-        router.go(ROUTES.SignUp);
+        this.props.router.go("/signup");
       },
       onError404Page: () => {
-        router.go(ROUTES.Error);
+        this.props.router.go("/error");
       },
       onError500Page: () => {
-        router.go(ROUTES.Error);
+        this.props.router.go("/error");
       },
     };
   }
@@ -53,3 +59,4 @@ export class MainPage extends Block {
     `;
   }
 }
+export default WithRouter(MainPage);

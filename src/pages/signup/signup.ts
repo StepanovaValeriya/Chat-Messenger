@@ -1,16 +1,14 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
-import { router } from "../../index";
-import { ROUTES } from "../../constants/routes";
-import { signUp } from "services/auth";
-import { withRouter, withStore, withUser } from "helpers";
+import { signup } from "services/auth";
+import { WithRouter, WithStore, WithUser } from "helpers";
 import { Router } from "core";
 import { Store } from "core";
 
 type SignUpPageProps = {
   router: Router;
   store: Store<AppState>;
-  user: User | null;
+  user: UserType | null;
   formError: () => void;
 };
 
@@ -38,7 +36,7 @@ class SignUpPage extends Block<SignUpPageProps> {
         passwordSecond: "",
       },
       onLoginPage: () => {
-        router.go(ROUTES.Login);
+        this.props.router.go("/login");
       },
       handleErrors: (
         values: { [key: string]: number },
@@ -117,7 +115,7 @@ class SignUpPage extends Block<SignUpPageProps> {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
           const regData = this.state.values;
-          this.props.store.dispatch(signUp, regData);
+          this.props.store.dispatch(signup, regData);
         }
       },
     };
@@ -239,5 +237,4 @@ class SignUpPage extends Block<SignUpPageProps> {
     `;
   }
 }
-const ConnectedSignUpPage = withRouter(withStore(withUser(SignUpPage)));
-export { ConnectedSignUpPage as SignUpPage };
+export default WithStore(WithRouter(SignUpPage));

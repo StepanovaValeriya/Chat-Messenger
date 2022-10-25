@@ -1,3 +1,4 @@
-export { withStore } from "./withStore";
-export { withUser } from "./withUser";
-export { withRouter } from "./withRouter";
+export { WithStore } from "./withStore";
+export { WithUser } from "./withUser";
+export { WithRouter } from "./withRouter";
+export { WithChats } from "./withChats";

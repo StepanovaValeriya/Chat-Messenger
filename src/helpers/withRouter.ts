@@ -1,9 +1,9 @@
 import { BlockClass } from "core";
-import { Router } from "core/router";
+import Router from "core/router";
 
 type WithRouterProps = { router: Router };
 
-export function withRouter<P extends WithRouterProps>(
+export function WithRouter<P extends WithRouterProps>(
   WrappedBlock: BlockClass<P>
 ) {
   // @ts-expect-error No base constructor has the specified number of type arguments

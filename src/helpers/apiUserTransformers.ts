@@ -1,6 +1,6 @@
 import { UserDTO } from "api/types";
 
-export const transformUser = (data: UserDTO): User => {
+export const apiUserTransformers = (data: UserDTO): UserType => {
   return {
     id: data.id,
     login: data.login,

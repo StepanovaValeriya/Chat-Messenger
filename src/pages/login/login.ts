@@ -1,17 +1,14 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
-import { router } from "../../index";
-import { ROUTES } from "../../constants/routes";
-import { login } from "services/auth";
-import { withRouter, withStore, withUser } from "helpers";
-import { Router } from "core";
+import Router from "core/router";
+import { signin } from "services/auth";
+import { WithRouter, WithStore } from "helpers";
 import { Store } from "core";
 
 type LoginPageProps = {
   router: Router;
   store: Store<AppState>;
-  user: User | null;
-  formError: () => void;
+  user: UserType | null;
 };
 
 class LoginPage extends Block<LoginPageProps> {
@@ -28,9 +25,8 @@ class LoginPage extends Block<LoginPageProps> {
         password: "",
       },
       onSignUp: () => {
-        router.go(ROUTES.SignUp);
+        this.props.router.go("/signup");
       },
-      formError: () => this.props.store.getState().formError,
       handleErrors: (
         values: { [key: string]: number },
         errors: { [key: string]: number }
@@ -86,7 +82,7 @@ class LoginPage extends Block<LoginPageProps> {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
           const loginData = this.state.values;
-          this.props.store.dispatch(login, loginData);
+          this.props.store.dispatch(signin, loginData);
         }
       },
     };
@@ -140,5 +136,4 @@ class LoginPage extends Block<LoginPageProps> {
     `;
   }
 }
-const ConnectedLoginPage = withRouter(withStore(withUser(LoginPage)));
-export { ConnectedLoginPage as LoginPage };
+export default WithRouter(WithStore(LoginPage));

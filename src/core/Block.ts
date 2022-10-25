@@ -8,7 +8,7 @@ interface BlockMeta<P = any> {
 
 type Events = Values<typeof Block.EVENTS>;
 
-export interface BlockClass<P> extends Function {
+export interface BlockClass<P extends Record<string, any>> extends Function {
   new (props: P): Block<P>;
   componentName?: string;
 }
@@ -81,7 +81,13 @@ export default class Block<P = any> {
     this.componentDidMount(props);
   }
 
-  componentDidMount(props: P) {}
+  componentDidMount(props: P) {
+    this.setProps(props);
+    return true;
+  }
+  dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  }
 
   private _componentWillUnmount() {
     this.eventBus().destroy();

@@ -1,16 +1,11 @@
-import { registerComponent } from "./core";
+import { registerComponent, renderDOM } from "./core";
 import "./styles/style.scss";
-import { Router } from "core";
-import { ROUTES } from "./constants/routes";
+import Router from "core/router";
+import store, { Store } from "core/store";
+import { initApp } from "./services/initApp";
+import { initRouter } from "services/initRouter";
 
-import MainPage from "./pages/main";
-import ErrorPage from "./pages/errors";
-import LoginPage from "./pages/login";
-import SignUpPage from "./pages/signup";
-import ChatPage from "./pages/chat";
-import ProfilePage from "./pages/profile";
-import ChangePassProfilePage from "./pages/changePassProfile";
-import ChangeDataProfilePage from "./pages/changeDataProfile";
+import MainPage from "./pages/main/main";
 
 import Button from "./components/button";
 import Layout from "./components/layout";
@@ -28,10 +23,6 @@ import {
 import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
 import Modal from "./components/modal";
 
-import { Store } from "core/store";
-import { defaultState } from "./store";
-import { initApp } from "./services/initApp";
-
 registerComponent(Button);
 registerComponent(Layout);
 registerComponent(Link);
@@ -48,37 +39,30 @@ registerComponent(ProfileNav);
 registerComponent(ProfileItem);
 registerComponent(Modal);
 
-export const router = new Router(".app");
-
 declare global {
   interface Window {
-    store: Store<AppState>;
     router: Router;
+    store: Store<AppState>;
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const router = new Router(".app");
-  const store = new Store<AppState>(defaultState);
-
+  const router = new Router();
   window.router = router;
   window.store = store;
-  router
-    .use(ROUTES.Main, MainPage)
-    .use(ROUTES.Login, LoginPage)
-    .use(ROUTES.SignUp, SignUpPage)
-    .use(ROUTES.Profile, ProfilePage)
-    .use(ROUTES.ProfileSettings, ChangeDataProfilePage)
-    .use(ROUTES.ChangePassword, ChangePassProfilePage)
-    .use(ROUTES.Chat, ChatPage)
-    .use(ROUTES.Error, ErrorPage)
-    .start();
-  store.on("changed", (prevState, nextState) => {
-    console.log(
-      "%cstore updated",
-      "background: #222; color: #bada55",
-      nextState
-    );
+
+  renderDOM(new MainPage({ router }));
+
+  store.on("updated", (prevState, nextState) => {
+    if (process.env.DEBUG) {
+      console.log(
+        "%cstore updated",
+        "background: #222; color: #bada55",
+        nextState
+      );
+    }
   });
+
+  initRouter(router, store);
   store.dispatch(initApp);
 });

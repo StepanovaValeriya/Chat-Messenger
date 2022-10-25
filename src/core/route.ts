@@ -1,43 +1,27 @@
-import renderDOM from "core/renderDom";
-import Block from "core/Block";
+import { BlockConstructable } from "./registerComponent";
 import { isEqual } from "utils/isEqual";
 
-export default class Route<P = any> {
+export interface RouteProps {
+  pathname: string;
+  view: BlockConstructable;
+  isPrivate: boolean;
+  callback: Function;
+}
+
+export default class Route {
   private _pathname: string;
-  private _blockClass: typeof Block;
-  private _block: Block | null;
-  private _props: P;
-  constructor(pathname: string, view: typeof Block, props: P) {
+  private _blockClass: BlockConstructable;
+  private _isPrivate: boolean;
+  callback: Function;
+
+  constructor({ pathname, view, isPrivate, callback }: RouteProps) {
     this._pathname = pathname;
     this._blockClass = view;
-    this._block = null;
-    this._props = props;
-  }
-
-  navigate(pathname: string) {
-    if (this.match(pathname)) {
-      this._pathname = pathname;
-      this.render();
-    }
-  }
-
-  leave() {
-    if (this._block) {
-      this._block = null;
-    }
+    this._isPrivate = isPrivate;
+    this.callback = callback;
   }
 
   match(pathname: string): boolean {
     return isEqual(pathname, this._pathname);
-  }
-
-  render() {
-    if (!this._block) {
-      this._block = new this._blockClass();
-      renderDOM(this._block);
-      return;
-    }
-    this._block.show();
-    return this;
   }
 }

@@ -1,6 +1,9 @@
 import Block from "core/Block";
 import { toggleOptionsWindow, createModalToggler } from "utils/dom";
 import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID } from "utils/const";
+import Router from "core/router";
+import { WithRouter, WithStore, WithChats } from "helpers";
+import { Store } from "core";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
@@ -62,7 +65,15 @@ const data: Object = {
   ],
 };
 
-export class ChatPage extends Block {
+type ChatPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  chats: Nullable<Array<ChatType>>;
+  onProfilePage?: () => void;
+};
+
+class ChatPage extends Block<ChatPageProps> {
   static componentName = "ChatPage";
   constructor() {
     super({
@@ -70,6 +81,9 @@ export class ChatPage extends Block {
       toggleOptionsWindow,
       toggleAddUserModal,
       toggleDeleteUserModal,
+    });
+    this.setProps({
+      onProfilePage: () => {},
     });
   }
 
@@ -80,7 +94,7 @@ export class ChatPage extends Block {
         <div class="content chat">
           <div class="chat__nav">
             <div class="chat__nav__profile">
-              {{{Link className="chat__nav__profile__title" text="Profile > "  to="/profile"}}}
+              {{{Button className="chat__nav__profile__title" text="Profile > "  to="/profile"}}}
             </div>
             <div class="chat__nav__search">
               {{{Input className="chat__nav__search__input" type="search" placeholder="Search"}}}
@@ -126,3 +140,4 @@ export class ChatPage extends Block {
     `;
   }
 }
+export default WithRouter(WithStore(WithChats(ChatPage)));

@@ -1,5 +1,5 @@
 import { APIError } from "api/types";
 
-export function apiError(response: any): response is APIError {
-  return response && response.reason;
-}
+export const apiError = (response: any | APIError): response is APIError => {
+  return response && response.reason ? true : false;
+};

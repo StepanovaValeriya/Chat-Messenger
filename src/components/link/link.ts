@@ -5,6 +5,7 @@ interface LinkProps {
   to: string;
   text: string;
   className?: string;
+  onClick: () => void;
 }
 
 export class Link extends Block {

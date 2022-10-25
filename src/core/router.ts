@@ -1,56 +1,54 @@
-import { ROUTES } from "../constants/routes";
-import { Block } from "core";
-import Route from "./route";
+import { PartialRouteProps } from "../constants/routes";
+import Route, { RouteProps } from "./route";
 
-export default class Router {
-  public routes: Route[] = [];
-  public history = window.history;
-  private _currentRoute: Route | null = null;
-  private _rootQuery!: string;
-  public static __instance: Router;
-  constructor(rootQuery: string) {
+interface RouterProps {
+  routes: Array<Route>;
+}
+
+export default class Router implements RouterProps {
+  private _currentRoute: Nullable<Route> = null;
+  routes: Array<Route> = [];
+  static __instance: Router;
+
+  constructor() {
     if (Router.__instance) {
       return Router.__instance;
     }
-    this.routes = [];
-    this.history = window.history;
-    this._currentRoute = null;
-    this._rootQuery = rootQuery;
 
     Router.__instance = this;
   }
 
-  use(pathname: string, block: typeof Block) {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+  use(props: PartialRouteProps, callback: () => void) {
+    const route = new Route({ ...props, callback });
+
     this.routes.push(route);
+
     return this;
   }
 
   start() {
-    window.onpopstate = ((event: PopStateEvent) => {
-      const target = event.currentTarget as Window;
-      this._onRoute(target.location.pathname);
-    }).bind(this);
+    window.onpopstate = () => {
+      this._onRouteChange.call(this);
+    };
 
-    this._onRoute(window.location.pathname);
+    this._onRouteChange();
   }
 
-  private _onRoute(pathname: string) {
-    let route = this.getRoute(pathname);
+  private _onRouteChange(pathname: string = window.location.pathname) {
+    console.log(pathname);
+    const route = this.getRoute(pathname);
 
-    if (this._currentRoute) {
-      this._currentRoute.leave();
+    if (!route) {
+      console.log("no route");
+      return;
     }
-    if (route) {
-      this._currentRoute = route;
-      route.render();
-    }
+
+    route.callback();
   }
 
   go(pathname: string) {
-    console.log(pathname);
-    this.history.pushState({}, "", pathname);
-    this._onRoute(pathname);
+    window.history.pushState({}, "", pathname);
+    this._onRouteChange(pathname);
   }
 
   back() {
@@ -62,10 +60,6 @@ export default class Router {
   }
 
   getRoute(pathname: string) {
-    const route = this.routes.find((route) => route.match(pathname));
-    if (!route) {
-      return this.routes.find((route) => route.match(ROUTES.Error));
-    }
-    return route;
+    return this.routes.find((route) => route.match(pathname));
   }
 }
