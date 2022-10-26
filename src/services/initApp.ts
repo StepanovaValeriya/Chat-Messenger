@@ -26,7 +26,7 @@ export async function initApp(dispatch: Dispatch<AppState>) {
       user: apiUserTransformers(user as UserDTO),
       chats: chats.map((chat) => apiChatTransformers(chat)),
     });
-    window.router.go("/chat");
+    // window.router.go("/chat");
   } catch (err) {
     console.error(err);
   } finally {

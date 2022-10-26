@@ -53,9 +53,21 @@ export type ChatFromServer = {
 export type CreateChatRequestData = {
   title: string;
 };
+export type GetUserByLoginRequestData = {
+  login: string;
+};
 
 export type DeleteChatRequestData = {
   chatId: number;
+};
+
+export type AddUserToChatRequestData = {
+  users: UserType[];
+  chatId: Number;
+};
+
+export type getChatUsersRequestData = {
+  chatId: Number;
 };
 
 export type ResponseData = {} | APIError;

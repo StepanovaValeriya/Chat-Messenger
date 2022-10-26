@@ -1,11 +1,24 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
+import { userDataArray } from "utils/userDataArray";
+import { changeUserProfile } from "services/userData";
 
-export class ChangeDataProfilePage extends Block {
+type ChangeDataProfilePageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  userData: Array<any>;
+};
+
+class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   static componentName = "ChangeDataProfilePage";
-  constructor() {
-    super();
+  constructor(props: ChangeDataProfilePageProps) {
+    super({ ...props });
   }
+
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -185,3 +198,4 @@ export class ChangeDataProfilePage extends Block {
     `;
   }
 }
+export default WithStore(WithRouter(WithUser(ChangeDataProfilePage)));

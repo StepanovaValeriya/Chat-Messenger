@@ -32,13 +32,17 @@ class LoginPage extends Block<LoginPageProps> {
         errors: { [key: string]: number }
       ) => {
         const nextState = {
-          errors,
-          values,
+          ...this.state,
         };
+
+        nextState.errors = errors;
+        nextState.values = values;
+
         this.setState(nextState);
       },
       onBlur: (e: FocusEvent) => {
         if (e.target) {
+          console.log("blur");
           const element = e.target as HTMLInputElement;
           const message = Validate(element.value, element.id);
           const newValues = { ...this.state.values };
@@ -73,7 +77,7 @@ class LoginPage extends Block<LoginPageProps> {
             newErrors[key] = message;
           }
         });
-        if (!isValid) {
+        if (isValid) {
           this.state.handleErrors(newValues, newErrors);
         }
         return isValid;
@@ -112,7 +116,7 @@ class LoginPage extends Block<LoginPageProps> {
               {{{ControlledInput
                 className="input__field"
                 value="${values.password}"
-                error=""
+                error="${errors.password}"
                 ref="passwordInputRef"
                 id="password"
                 type="password"

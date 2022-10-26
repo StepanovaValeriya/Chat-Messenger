@@ -70,23 +70,26 @@ type ChatPageProps = {
   store: Store<AppState>;
   user: UserType | null;
   chats: Nullable<Array<ChatType>>;
-  onProfilePage?: () => void;
 };
 
 class ChatPage extends Block<ChatPageProps> {
   static componentName = "ChatPage";
-  constructor() {
+  constructor(props: ChatPageProps) {
     super({
       ...data,
+      ...props,
       toggleOptionsWindow,
       toggleAddUserModal,
       toggleDeleteUserModal,
     });
-    this.setProps({
-      onProfilePage: () => {},
-    });
   }
-
+  protected getStateFromProps(_props: ChatPageProps) {
+    this.state = {
+      onProfilePage: () => {
+        this.props.router.go("/profile");
+      },
+    };
+  }
   render() {
     // language=hbs
     return `
@@ -94,7 +97,7 @@ class ChatPage extends Block<ChatPageProps> {
         <div class="content chat">
           <div class="chat__nav">
             <div class="chat__nav__profile">
-              {{{Button className="chat__nav__profile__title" text="Profile > "  to="/profile"}}}
+              {{{Button className="chat__nav__profile__title" text="Profile > "  onClick=onProfilePage}}}
             </div>
             <div class="chat__nav__search">
               {{{Input className="chat__nav__search__input" type="search" placeholder="Search"}}}

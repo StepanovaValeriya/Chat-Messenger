@@ -1,7 +1,17 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
 
-export class ChangePassProfilePage extends Block {
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
+
+type ChangePassProfilePageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+};
+
+class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
   static componentName = "ChangePassProfilePage";
   constructor() {
     super();
@@ -140,3 +150,4 @@ export class ChangePassProfilePage extends Block {
     `;
   }
 }
+export default WithStore(WithRouter(WithUser(ChangePassProfilePage)));
