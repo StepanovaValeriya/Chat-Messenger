@@ -113,7 +113,6 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
           const profileData = this.state.values;
-          console.log(profileData);
           this.props.store.dispatch(changeUserProfile, profileData);
         }
       },
