@@ -13,7 +13,6 @@ export class MainPage extends Block<MainPageProps> {
   protected getStateFromProps() {
     this.state = {
       onLoginPage: () => {
-        console.log(window.router);
         this.props.router.go("/login");
       },
       onSignUpPage: () => {

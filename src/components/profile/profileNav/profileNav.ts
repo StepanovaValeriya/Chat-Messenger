@@ -1,15 +1,26 @@
 import Block from "core/Block";
 import "./profileNav";
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
 
-export default class ProfileNav extends Block {
+type ProfileNavProps = {
+  router: Router;
+  store: Store<AppState>;
+  onChatPage: () => void;
+};
+
+class ProfileNav extends Block<ProfileNavProps> {
   static componentName = "ProfileNav";
 
-  protected getStateFromProps() {
-    this.state = {
+  constructor(props: ProfileNavProps) {
+    super({ ...props });
+    this.setProps({
+      ...props,
       onChatPage: () => {
-        window.location.href = "/chat";
+        this.props.router.go("/chat");
       },
-    };
+    });
   }
 
   protected render(): string {
@@ -25,3 +36,4 @@ export default class ProfileNav extends Block {
     `;
   }
 }
+export default WithRouter(WithStore(ProfileNav));

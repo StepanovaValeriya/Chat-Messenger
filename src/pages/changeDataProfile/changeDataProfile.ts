@@ -3,7 +3,6 @@ import Validate from "core/Validation";
 import Router from "core/router";
 import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
-import { userDataArray } from "utils/userDataArray";
 import { changeUserProfile } from "services/userData";
 
 type ChangeDataProfilePageProps = {
@@ -19,14 +18,15 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
     super({ ...props });
   }
 
-  protected getStateFromProps() {
+  protected getStateFromProps(_props: ChangeDataProfilePageProps) {
     this.state = {
       values: {
-        email: "",
-        login: "",
-        first_name: "",
-        second_name: "",
-        phone: "",
+        email: _props.user?.email,
+        login: _props.user?.login,
+        display_name: _props.user?.displayName,
+        first_name: _props.user?.firstName,
+        second_name: _props.user?.secondName,
+        phone: _props.user?.phone,
       },
       errors: {
         email: "",
@@ -34,6 +34,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         first_name: "",
         second_name: "",
         phone: "",
+        display_name: "",
       },
 
       handleErrors: (
@@ -70,6 +71,11 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         if (element.id === "login") {
           this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
         }
+        if (element.id === "display_name") {
+          this.refs.displayNameInputRef.refs.errorRef.setProps({
+            text: message,
+          });
+        }
         if (element.id === "first_name") {
           this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
         }
@@ -102,11 +108,13 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
+      onSubmit: () => {
         console.log("sub");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/profile";
+          const profileData = this.state.values;
+          console.log(profileData);
+          this.props.store.dispatch(changeUserProfile, profileData);
         }
       },
     };
@@ -143,9 +151,22 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 error="${errors.login}"
                 ref="loginInputRef"
                 id="login"
-                type="login"
+                type="text"
                 label="Login"
                 name="login"
+              }}}
+              {{{ControlledInput
+                className="input__profile"
+                onBlur=onBlur
+                onFocus=onFocus
+                onInput=onInput
+                value="${values.display_name}"
+                error="${errors.display_name}"
+                ref="displayNameInputRef"
+                id="display_name"
+                type="text"
+                label="Display Name"
+                name="display_name"
               }}}
               {{{ControlledInput
                 className="input__profile"
