@@ -39,13 +39,15 @@ class ProfilePage extends Block<ProfilePageProps> {
   }
 
   render() {
+    const avatarImg = this.props.user?.avatar ?? "";
+    const userName = this.props.user?.firstName ?? "";
     // language=hbs
     return `
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
           <div class="profile__main">
-            {{{ProfileAvatar avatarPath = userData.userAvatar userName=userData.userName}}}
+            {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${userName}"}}}
               <div class='profile__info'>
               {{#each userData}}
                 {{#with this}}

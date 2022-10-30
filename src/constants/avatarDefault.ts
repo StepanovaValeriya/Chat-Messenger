@@ -1,1 +1,1 @@
-export const avatarDefault = "/static/img/avatarDefault.jpg";
+export const avatarDefault = "/img/avatarDefault.jpg";

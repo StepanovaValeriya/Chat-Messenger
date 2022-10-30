@@ -62,6 +62,7 @@ export const changeAvatar = async (
   state: AppState,
   action: FormData
 ) => {
+  console.log(action);
   const newUser = (await api.changeAvatar(action)) as UserDTO;
   newUser.avatar = await getAvatar(newUser);
 
