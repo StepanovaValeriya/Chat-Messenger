@@ -226,7 +226,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onClick=onSubmit
               }}}
           </div>
-          {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="user_avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="user_avatar" onSubmit=onAvatarChange}}}
+          {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" onSubmit=onAvatarChange}}}
         </div>
       {{/Layout}}
     `;
