@@ -1,9 +1,14 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { createModalToggler } from "utils/dom";
+import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
 import Router from "core/router";
 import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
 import { changeUserProfile } from "services/userData";
+import { changeAvatar } from "services/userData";
+
+const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
 type ChangeDataProfilePageProps = {
   router: Router;
@@ -15,7 +20,7 @@ type ChangeDataProfilePageProps = {
 class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   static componentName = "ChangeDataProfilePage";
   constructor(props: ChangeDataProfilePageProps) {
-    super({ ...props });
+    super({ ...props, toggleChangeAvatarModal });
   }
 
   protected getStateFromProps(_props: ChangeDataProfilePageProps) {
@@ -116,17 +121,25 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
           this.props.store.dispatch(changeUserProfile, profileData);
         }
       },
+      onAvatarChange: () => {
+        const formData = new FormData(
+          document.querySelector("#user_form_avatar") as HTMLFormElement
+        );
+        console.log(formData);
+        this.props.store.dispatch(changeAvatar, formData);
+      },
     };
   }
   render() {
     const { errors, values } = this.state;
+    const avatarImg = this.props.user?.avatar ?? "";
     // language=hbs
     return `
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
           <div class="profile__main">
-          {{{ProfileAvatar avatarPath = "/img/catUser.jpg" userName="${values.first_name}"}}}
+          {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${values.first_name}"}}}
               <div class='profile__info'>
               {{{ControlledInput
                 className="input__profile"
@@ -213,6 +226,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onClick=onSubmit
               }}}
           </div>
+          {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="user_avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="user_avatar" onSubmit=onAvatarChange}}}
         </div>
       {{/Layout}}
     `;

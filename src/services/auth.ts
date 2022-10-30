@@ -1,8 +1,12 @@
 import AuthAPI from "api/authAPI";
-import { UserDTO } from "api/types";
+import ChatsAPI from "api/chatsAPI";
+import { ChatFromServer, UserDTO } from "api/types";
 import type { Dispatch } from "core";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
+import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiError } from "helpers/apiError";
+import MainPage from "pages/main/main";
+import { getAvatar } from "./userData";
 
 type LoginPayload = {
   login: string;
@@ -19,6 +23,7 @@ type SignupPayload = {
 };
 
 const api = new AuthAPI();
+const chatsApi = new ChatsAPI();
 
 export const signin = async (
   dispatch: Dispatch<AppState>,
@@ -35,7 +40,7 @@ export const signin = async (
     return;
   }
 
-  const user = await api.getUserInfo();
+  const user = (await api.getUserInfo()) as UserDTO;
 
   if (apiError(user)) {
     dispatch(signout);
@@ -43,11 +48,15 @@ export const signin = async (
     return;
   }
 
+  user.avatar = await getAvatar(user);
+  const chats = (await chatsApi.getChats()) as ChatFromServer[];
+
   dispatch({
-    user: apiUserTransformers(user as UserDTO),
-    isLoading: false,
-    loginFormError: null,
+    user: apiUserTransformers(user),
+    chats: chats.map((chat) => apiChatTransformers(chat)),
   });
+
+  window.router.go("/chat");
 };
 
 export const signout = async (dispatch: Dispatch<AppState>) => {
@@ -55,9 +64,18 @@ export const signout = async (dispatch: Dispatch<AppState>) => {
 
   await api.signout();
 
-  dispatch({ isLoading: false, user: null });
+  dispatch({
+    isLoading: false,
+    view: MainPage,
+    loginFormError: null,
+    user: null,
+    chats: null,
+    selectedChat: null,
+    isPopupShown: false,
+    foundUsers: [],
+  });
 
-  window.router.go("/login");
+  window.router.go("/");
 };
 
 export const signup = async (
@@ -75,7 +93,7 @@ export const signup = async (
     return;
   }
 
-  const user = await api.getUserInfo();
+  const user = (await api.getUserInfo()) as UserDTO;
 
   if (apiError(user)) {
     dispatch(signout);
@@ -83,12 +101,13 @@ export const signup = async (
     return;
   }
 
+  user.avatar = await getAvatar(user);
+  const chats = (await chatsApi.getChats()) as ChatFromServer[];
+
   dispatch({
-    user: apiError(user as UserDTO),
-    isLoading: false,
-    loginFormError: null,
+    user: apiUserTransformers(user),
+    chats: chats.map((chat) => apiChatTransformers(chat)),
   });
 
   window.router.go("/chat");
-  // dispatch({ isLoading: false, loginFormError: null });
 };

@@ -1,13 +1,13 @@
 import {
   ChangePasswordRequestData,
   ChangeProfileRequestData,
-  GetUserByLoginRequestData,
   UserDTO,
 } from "api/types";
 import UserAPI from "api/userAPI";
 import { apiError } from "helpers/apiError";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
 import type { Dispatch } from "core";
+import { avatarDefault } from "../constants/avatarDefault";
 
 const api = new UserAPI();
 
@@ -56,6 +56,24 @@ export const changeUserPassword = async (
   });
 
   window.router.back();
+};
+export const changeAvatar = async (
+  dispatch: Dispatch<AppState>,
+  state: AppState,
+  action: FormData
+) => {
+  const newUser = (await api.changeAvatar(action)) as UserDTO;
+  newUser.avatar = await getAvatar(newUser);
+
+  dispatch({ user: apiUserTransformers(newUser) });
+};
+export const getAvatar = async (user: UserDTO | UserType) => {
+  if (!user.avatar) {
+    return avatarDefault;
+  }
+  const blob = (await api.getAvatar(user.avatar)) as Blob;
+
+  return URL.createObjectURL(blob);
 };
 
 export const getUserByLogin = async (login: string) => {

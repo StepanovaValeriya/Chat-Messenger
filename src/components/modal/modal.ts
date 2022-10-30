@@ -6,8 +6,10 @@ interface ModalProps {
   title: string;
   inputName: string;
   inputId: string;
+  formId?: string;
   buttonText: string;
   inputLabel: string;
+  inputType: string;
   toggler?: () => void;
 }
 
@@ -31,17 +33,17 @@ export class Modal extends Block {
         <div class="modal__wrapper">
           <div class="modal-content">
             <h2 class="modal-content__title">{{title}}</h2>
-            <form class="modal-content__form">
+            <form id="{{formId}}" class="modal-content__form">
               <div class="modal-form__fields-block">
                 {{{ControlledInput
                   className="input__field"
                   ref="modalInputRef"
                   id=inputId
-                  type="text"
+                  type=inputType
                   label=inputLabel
                   name=inputName
                 }}}
-                {{{Button type="submit" className="button__main" text=buttonText}}}
+                {{{Button type="submit" className="button__main" text=buttonText onClick=onSubmit}}}
               </div>
             </form>
           </div>

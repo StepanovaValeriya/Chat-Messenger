@@ -4,7 +4,7 @@ import "./controlledInput";
 interface ControlledInputProps {
   onInput?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel" | "search";
+  type?: "text" | "password" | "email" | "tel" | "search" | "file";
   value?: string;
   error?: string;
   label?: string;

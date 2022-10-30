@@ -2,7 +2,6 @@ import HTTPTransport from "core/HttpTransport";
 import {
   ChangePasswordRequestData,
   ChangeProfileRequestData,
-  GetUserByLoginRequestData,
   ResponseData,
 } from "api/types";
 
@@ -15,7 +14,14 @@ export default class UserAPI extends HTTPTransport {
   ): Promise<ResponseData> =>
     this.put("user/profile", { data }) as Promise<ResponseData>;
 
-  changeAvatar = () => this.get("auth/user");
+  changeAvatar = async (data: FormData): Promise<ResponseData> =>
+    this.put("user/profile/avatar", {
+      data,
+      contentType: "",
+    }) as Promise<ResponseData>;
+
+  getAvatar = async (path: string) =>
+    this.get(`resources/${path.slice(1)}`, {}, { responseType: "blob" });
 
   changePassword = async (
     data: ChangePasswordRequestData

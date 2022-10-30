@@ -7,7 +7,6 @@ import { Store } from "core/store";
 export const initRouter = (router: Router, store: Store<AppState>) => {
   ROUTS.forEach((route) => {
     router.use(route, () => {
-      console.log(route);
       store.dispatch({ view: route.view });
 
       if (!store.getState().view) {
@@ -25,10 +24,7 @@ export const initRouter = (router: Router, store: Store<AppState>) => {
 
     if (prevState.view !== nextState.view) {
       const Page = nextState.view;
-      console.log(Page);
       const newPage = new Page({});
-      console.log(newPage.props);
-
       renderDOM(newPage);
     }
   });

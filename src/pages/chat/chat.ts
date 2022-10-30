@@ -136,8 +136,8 @@ class ChatPage extends Block<ChatPageProps> {
             {{/if}}
             {{{ChatMessageInput clipPath=clipPath}}}
           </div>
-          {{{Modal id="modal-add-user" toggler=toggleAddUserModal inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
-          {{{Modal id="modal-delete-user" toggler=toggleDeleteUserModal inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
+          {{{Modal id="modal-add-user" toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
+          {{{Modal id="modal-delete-user" toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
         </div>
      {{/Layout}}
     `;

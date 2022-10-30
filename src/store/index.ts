@@ -7,4 +7,5 @@ export const defaultState: AppState = {
   chats: [],
   selectedChat: null,
   isPopupShown: false,
+  foundUsers: [],
 };

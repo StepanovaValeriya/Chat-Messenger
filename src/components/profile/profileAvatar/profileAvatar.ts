@@ -28,7 +28,7 @@ export default class ProfileAvatar extends Block {
             src="{{avatarPath}}"
             alt="avatar"
             width="60px"
-            height="60"
+            height="60px"
           />
         </div>
       </div>

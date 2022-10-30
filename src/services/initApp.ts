@@ -5,6 +5,7 @@ import ChatsAPI from "api/chatsAPI";
 import { apiError } from "helpers/apiError";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
+import { getAvatar } from "./userData";
 
 const authApi = new AuthAPI();
 const chatsApi = new ChatsAPI();
@@ -13,20 +14,22 @@ export async function initApp(dispatch: Dispatch<AppState>) {
   // await new Promise((r) => setTimeout(r, 1000));
 
   try {
-    const user = await authApi.getUserInfo();
+    const user = (await authApi.getUserInfo()) as UserDTO;
+    console.log(user);
 
     if (apiError(user)) {
-      console.log(user.status);
       // window.router.go("/login");
       return;
     }
+
+    user.avatar = await getAvatar(user);
     const chats = (await chatsApi.getChats()) as ChatFromServer[];
 
     dispatch({
-      user: apiUserTransformers(user as UserDTO),
+      user: apiUserTransformers(user),
       chats: chats.map((chat) => apiChatTransformers(chat)),
     });
-    // window.router.go("/chat");
+    window.router.go("/chat");
   } catch (err) {
     console.error(err);
   } finally {

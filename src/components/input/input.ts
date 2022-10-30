@@ -6,7 +6,7 @@ interface InputProps {
   onBlur?: () => void;
   onInput?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel" | "search";
+  type?: "text" | "password" | "email" | "tel" | "search" | "file";
   text?: string;
   id?: string;
   error?: string;

@@ -35,7 +35,6 @@ export default class Router implements RouterProps {
   }
 
   private _onRouteChange(pathname: string = window.location.pathname) {
-    console.log(pathname);
     const route = this.getRoute(pathname);
 
     if (!route) {

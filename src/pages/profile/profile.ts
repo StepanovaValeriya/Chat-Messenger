@@ -1,13 +1,9 @@
 import Block from "core/Block";
-import { createModalToggler } from "utils/dom";
-import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
 import Router from "core/router";
 import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
 import { signout } from "services/auth";
 import { userDataArray } from "utils/userDataArray";
-
-const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
 type ProfilePageProps = {
   router: Router;
@@ -19,7 +15,7 @@ type ProfilePageProps = {
 class ProfilePage extends Block<ProfilePageProps> {
   static componentName = "ProfilePage";
   constructor(props: ProfilePageProps) {
-    super({ ...props, toggleChangeAvatarModal });
+    super({ ...props });
     const data = props.user ? userDataArray(props.user) : [];
     console.log(data);
 
@@ -79,7 +75,6 @@ class ProfilePage extends Block<ProfilePageProps> {
                 text="Exit"
               }}}
           </div>
-           {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal  inputLabel="Choose file" inputId="user_avatar" title="Upload file" buttonText="Change" inputName="user_avatar"}}}
         </div>
       {{/Layout}}
     `;
