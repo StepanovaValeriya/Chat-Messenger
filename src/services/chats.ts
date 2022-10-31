@@ -106,7 +106,7 @@ export const deleteUserFromChat = async (
   dispatch({ isLoading: false, loginFormError: null });
 };
 
-export const getChat = async (
+export const getChatInfo = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
   action: ChatType
