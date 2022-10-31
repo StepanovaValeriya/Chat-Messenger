@@ -4,6 +4,7 @@ import Router from "core/router";
 import store, { Store } from "core/store";
 import { initApp } from "./services/initApp";
 import { initRouter } from "services/initRouter";
+import Socket from "core/WebSocket";
 
 import MainPage from "./pages/main/main";
 
@@ -43,6 +44,7 @@ declare global {
   interface Window {
     router: Router;
     store: Store<AppState>;
+    webSocket: Socket;
   }
 }
 
@@ -50,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const router = new Router();
   window.router = router;
   window.store = store;
+
+  const socketController = new Socket();
+  window.webSocket = socketController;
 
   renderDOM(new MainPage({ router }));
 

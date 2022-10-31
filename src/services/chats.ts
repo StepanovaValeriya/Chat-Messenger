@@ -106,29 +106,66 @@ export const deleteUserFromChat = async (
   dispatch({ isLoading: false, loginFormError: null });
 };
 
-export const getChatUsers = async (
+export const getChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
   action: ChatType
 ) => {
-  dispatch({ isLoading: true });
+  const token = (await api.getChatToken(action.id)).token;
 
-  const response = (await api.getChatUsers({ chatId: action.id })) as UserDTO[];
+  if (apiError(token)) {
+    dispatch({ isLoading: false, loginFormError: token.reason });
 
-  if (apiError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
+    return;
+  }
+
+  const users = (await api.getChatUsers({
+    chatId: action.id,
+  })) as UserDTO[];
+
+  if (apiError(users)) {
+    dispatch({ isLoading: false, loginFormError: users.reason });
 
     return;
   }
 
   const selectedChat = {
     ...action,
-    chatUsers: response.map((user) => apiUserTransformers(user)),
+    chatUsers: users.map((user) => apiUserTransformers(user)),
+    chatToken: token as string,
   };
+
+  if (state.user) {
+    openSocket(state.user.id, selectedChat);
+  }
 
   dispatch({
     selectedChat: selectedChat,
     isLoading: false,
     loginFormError: null,
   });
+};
+
+export const openSocket = (id: number, chat: ChatType) => {
+  const socket = window.webSocket.socketsMap.get(String(id));
+
+  if (!socket) {
+    window.webSocket.createConnection(id, chat);
+
+    return;
+  }
+};
+
+export const sendMessage = (message: string, chat: ChatType) => {
+  const socket = window.webSocket.socketsMap.get(String(chat.id))?.socket;
+  const messageObject = {
+    content: message,
+    type: "message",
+  };
+
+  socket?.send(JSON.stringify(messageObject));
+};
+
+export const getUnreadMessagesCount = async (action: ChatType) => {
+  return (await api.getUnreadMessagesCount({ chatId: action.id })) as number;
 };

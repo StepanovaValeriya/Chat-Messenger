@@ -36,6 +36,8 @@ declare global {
     createdBy: number;
     unreadCount: number;
     lastMessage: Record<string, any>;
+    chatUsers?: Array<UserType>;
+    chatToken?: string;
   };
 }
 

@@ -62,12 +62,29 @@ export type DeleteChatRequestData = {
 };
 
 export type UserToChatRequestData = {
-  users: UserType[];
-  chatId: Number;
+  users: number[];
+  chat: ChatType;
 };
 
 export type getChatUsersRequestData = {
-  chatId: Number;
+  chatId: number;
 };
 
 export type ResponseData = {} | APIError;
+
+export type Sockets = {
+  chat_id: number;
+  time: string;
+  type: string;
+  user_id: string;
+  content: string;
+  file?: {
+    id: number;
+    user_id: number;
+    path: string;
+    filename: string;
+    content_type: string;
+    content_size: number;
+    upload_date: string;
+  };
+};
