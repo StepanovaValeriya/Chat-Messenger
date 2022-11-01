@@ -1,6 +1,6 @@
-import { ChatFromServer } from "api/types";
+import { ChatDTO } from "api/types";
 
-export const apiChatTransformers = (data: ChatFromServer): ChatType => {
+export const apiChatTransformers = (data: ChatDTO): ChatType => {
   return {
     id: data.id,
     title: data.title,

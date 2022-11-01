@@ -1,6 +1,6 @@
 import AuthAPI from "api/authAPI";
 import ChatsAPI from "api/chatsAPI";
-import { ChatFromServer, UserDTO } from "api/types";
+import { ChatDTO, UserDTO } from "api/types";
 import type { Dispatch } from "core";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
@@ -50,7 +50,7 @@ export const signin = async (
   }
 
   user.avatar = await getAvatar(user);
-  const chats = (await chatsApi.getChats()) as ChatFromServer[];
+  const chats = (await chatsApi.getChats()) as ChatDTO[];
 
   dispatch({
     user: apiUserTransformers(user),
@@ -104,7 +104,7 @@ export const signup = async (
   }
 
   user.avatar = await getAvatar(user);
-  const chats = (await chatsApi.getChats()) as ChatFromServer[];
+  const chats = (await chatsApi.getChats()) as ChatDTO[];
 
   dispatch({
     user: apiUserTransformers(user),

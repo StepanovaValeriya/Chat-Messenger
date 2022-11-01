@@ -1,17 +1,26 @@
 import HTTPTransport from "core/HttpTransport";
-import { LoginRequestData, ResponseData, SignupRequestData } from "./types";
+import {
+  LoginRequestData,
+  ResStatus,
+  SignupRequestData,
+  APIError,
+  UserDTO,
+} from "./types";
 
 export default class AuthAPI extends HTTPTransport {
-  constructor() {
-    super();
-  }
-  signin = async (data: LoginRequestData): Promise<ResponseData> =>
-    this.post("auth/signin", { data }) as Promise<ResponseData>;
+  signin = async (data: LoginRequestData): Promise<ResStatus | APIError> =>
+    this.post("auth/signin", { data }) as Promise<ResStatus | APIError>;
 
-  getUserInfo = async () => this.get("auth/user");
+  getUserInfo = async (): Promise<UserDTO | APIError> =>
+    this.get("auth/user") as Promise<UserDTO | APIError>;
 
-  signout = () => this.post("auth/logout");
+  signout = (): Promise<ResStatus | APIError> =>
+    this.post("auth/logout") as Promise<ResStatus | APIError>;
 
-  signup = async (data: SignupRequestData): Promise<ResponseData> =>
-    this.post("auth/signup", { data }) as Promise<ResponseData>;
+  signup = async (
+    data: SignupRequestData
+  ): Promise<Record<string, number> | APIError> =>
+    this.post("auth/signup", { data }) as Promise<
+      Record<string, number> | APIError
+    >;
 }

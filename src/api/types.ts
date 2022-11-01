@@ -3,6 +3,10 @@ export type APIError = {
   status: string;
 };
 
+export enum ResStatus {
+  OK = "ok",
+}
+
 export type UserDTO = {
   id: number;
   login: string;
@@ -41,7 +45,7 @@ export type SignupRequestData = {
   phone: string;
 };
 
-export type ChatFromServer = {
+export type ChatDTO = {
   id: number;
   title: string;
   avatar: Record<string, any>;
@@ -61,6 +65,11 @@ export type DeleteChatRequestData = {
   chatId: number;
 };
 
+export type DeleteChatResponseData = {
+  userId: number;
+  result: Record<string, unknown>;
+};
+
 export type UserToChatRequestData = {
   users: number[];
   chat: ChatType;
@@ -75,6 +84,12 @@ export type getChatUsersRequestData = {
   chatId: number;
 };
 
+export type ChatUsersRequestData = {
+  chatId: number;
+};
+export type UnreadCountResponseData = {
+  unread_count: number;
+};
 export type ResponseData = {} | APIError;
 
 export type Sockets = {

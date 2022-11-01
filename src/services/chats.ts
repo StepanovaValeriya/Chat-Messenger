@@ -1,7 +1,7 @@
 import ChatsAPI from "api/chatsAPI";
 import {
   UserToChatData,
-  ChatFromServer,
+  ChatDTO,
   CreateChatRequestData,
   DeleteChatRequestData,
   UserDTO,
@@ -17,7 +17,7 @@ const api = new ChatsAPI();
 export const getChats = async (dispatch: Dispatch<AppState>) => {
   dispatch({ isLoading: true });
 
-  const response = (await api.getChats()) as ChatFromServer[];
+  const response = (await api.getChats()) as ChatDTO[];
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });

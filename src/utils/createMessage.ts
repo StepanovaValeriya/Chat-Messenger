@@ -52,6 +52,6 @@ export const addDOMMessageElement = (
     const messageData = { content, time };
     const messageElement = createMessageElement(messageData, messageStatus);
 
-    document.querySelector(".chat__talk")?.prepend(messageElement);
+    document.querySelector(".chat__talk")?.append(messageElement);
   }
 };

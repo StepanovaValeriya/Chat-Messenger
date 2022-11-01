@@ -18,12 +18,6 @@ export class MainPage extends Block<MainPageProps> {
       onSignUpPage: () => {
         this.props.router.go("/signup");
       },
-      onError404Page: () => {
-        this.props.router.go("/error");
-      },
-      onError500Page: () => {
-        this.props.router.go("/error");
-      },
     };
   }
 
@@ -41,16 +35,6 @@ export class MainPage extends Block<MainPageProps> {
         {{{Button
           text="Sign Up"
           onClick=onSignUpPage
-          className="button__main"
-        }}}
-        {{{Button
-          text="404"
-          onClick=onError404Page
-          className="button__main"
-        }}}
-        {{{Button
-          text="500"
-          onClick=onError500Page
           className="button__main"
         }}}
       </div>

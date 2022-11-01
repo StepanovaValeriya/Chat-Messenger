@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const socketController = new Socket();
   window.webSocket = socketController;
 
-  renderDOM(new MainPage({ router }));
+  // renderDOM(new MainPage({ router }));
 
   store.on("updated", (prevState, nextState) => {
     if (process.env.DEBUG) {

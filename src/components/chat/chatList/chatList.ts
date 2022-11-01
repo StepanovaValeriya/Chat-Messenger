@@ -20,7 +20,7 @@ class ChatList extends Block<ChatListProps> {
   messagesArray: Array<Sockets> = [];
 
   constructor(props: ChatListProps) {
-    const onChatItemClick = async (event: Event) => {
+    const onChatItemClick = (event: Event) => {
       if ((event.target as HTMLElement).tagName === "BUTTON") {
         return;
       }
