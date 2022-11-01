@@ -5,7 +5,7 @@ interface ErrorPageProps {
   errorText?: string;
 }
 
-export class ErrorPage extends Block {
+export default class ErrorPage extends Block {
   static componentName = "ErrorPage";
   constructor(props: ErrorPageProps) {
     super(props);
