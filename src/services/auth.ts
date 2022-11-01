@@ -36,6 +36,7 @@ export const signin = async (
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
+    alert(response.reason);
 
     return;
   }
@@ -89,6 +90,7 @@ export const signup = async (
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
+    alert(response.reason);
 
     return;
   }

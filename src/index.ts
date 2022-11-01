@@ -23,6 +23,7 @@ import {
 } from "./components/chat";
 import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
 import Modal from "./components/modal";
+import Loader from "./components/loading";
 
 registerComponent(Button);
 registerComponent(Layout);
@@ -39,6 +40,7 @@ registerComponent(ProfileAvatar);
 registerComponent(ProfileNav);
 registerComponent(ProfileItem);
 registerComponent(Modal);
+registerComponent(Loader);
 
 declare global {
   interface Window {

@@ -1,22 +1,27 @@
 import Block from "core/Block";
 import { toggleOptionsWindow, createModalToggler } from "utils/dom";
 import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID } from "utils/const";
+import Router from "core/router";
+import { WithStore } from "helpers";
+import { Store } from "core";
 import "./chatHeader";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
 
-interface ChatHeaderProps {
-  avatarPath: string;
-  userName: string;
+type ChatHeaderProps = {
   actionHeader: string;
   text: string;
   className: string;
   id: string;
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  chats: Nullable<Array<ChatType>>;
   onClick: () => void;
-}
+};
 
-export default class ChatHeader extends Block {
+class ChatHeader extends Block<ChatHeaderProps> {
   static componentName = "ChatHeader";
   constructor(props: ChatHeaderProps) {
     super({
@@ -27,18 +32,27 @@ export default class ChatHeader extends Block {
     });
   }
 
-  protected render(): string {
+  render() {
+    const title = this.props.store.getState().selectedChat?.title;
+    const chatUsers = this.props.store
+      .getState()
+      .selectedChat?.chatUsers?.reduce((acc, user) => {
+        acc += `${user.login}, `;
+        return acc;
+      }, "");
     // language=hbs
     return `
       <div class="chat__header">
         <div class="chat__header__info">
-          <h3 class="chat__header__info__title">{{userName}}</h3>
+          <h3 class="chat__header__info__title">${title}</h3>
+          <p>Members: ${chatUsers?.slice(0, chatUsers.length - 2)}</p>
           <img
-            src="{{avatarPath}}"
-            alt="{{userName}}"
+            src="/img/avatarDefault.jpg"
+            alt="avatar"
             width="54px"
             height="54px"
           />
+
         </div>
         <div class="chat__header__actions">
           {{{Button className="chat__header__actions__button" onClick=toggleOptionsWindow
@@ -62,3 +76,4 @@ export default class ChatHeader extends Block {
     `;
   }
 }
+export default WithStore(ChatHeader);

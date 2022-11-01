@@ -8,68 +8,11 @@ import {
 import Router from "core/router";
 import { WithRouter, WithStore, WithChats } from "helpers";
 import { Store } from "core";
-import { createChat } from "services/chats";
+import { createChat, addUserToChat, deleteUserFromChat } from "services/chats";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
 const toggleAddChatModal = createModalToggler(MODAL_ADD_CHAT_ID);
-
-const data: Object = {
-  clipPath: "/img/clipChat.png",
-  chatHeader: [
-    {
-      avatarPath: "/img/catUser.jpg",
-      userName: "Cat",
-    },
-  ],
-  chatUsers: [
-    {
-      avatarPath: "/img/catUser.jpg",
-      userName: "Cat",
-      lastMsgText: "I am Cat",
-      lastMsgDate: "10:30",
-      msgCounter: 0,
-      active: true,
-    },
-    {
-      avatarPath: "/img/birdUser.jpg",
-      userName: "AngryBird",
-      lastMsgText: "I am Angry",
-      lastMsgDate: "09:30",
-      msgCounter: 1,
-      active: false,
-    },
-  ],
-  days: [
-    {
-      date: "05 October 2022",
-      messages: [
-        {
-          time: "10:30",
-          text: "Hi!",
-        },
-        {
-          time: "10:30",
-          text: "Hi, friend!",
-          outgoing: true,
-          delivered: true,
-          readed: true,
-        },
-        {
-          time: "10:31",
-          text: "I bought a new computer!",
-        },
-        {
-          time: "10:32",
-          text: "Cool!",
-          outgoing: true,
-          delivered: true,
-          readed: false,
-        },
-      ],
-    },
-  ],
-};
 
 type ChatPageProps = {
   router: Router;
@@ -82,7 +25,6 @@ class ChatPage extends Block<ChatPageProps> {
   static componentName = "ChatPage";
   constructor(props: ChatPageProps) {
     super({
-      ...data,
       ...props,
       toggleOptionsWindow,
       toggleAddUserModal,
@@ -103,9 +45,29 @@ class ChatPage extends Block<ChatPageProps> {
         console.log(chatName);
         this.props.store.dispatch(createChat, { title: chatName });
       },
+      addUserToChat: () => {
+        let input = this.element?.querySelector(
+          `input[name='user_to_add']`
+        ) as HTMLInputElement;
+        let login = input.value;
+        console.log(login);
+        const chat = this.props.store.getState().selectedChat;
+        this.props.store.dispatch(addUserToChat, { login: login, chat });
+      },
+      deleteUserFromChat: () => {
+        let input = this.element?.querySelector(
+          `input[name='user_to_delete']`
+        ) as HTMLInputElement;
+        let login = input.value;
+        console.log(login);
+        const chat = this.props.store.getState().selectedChat;
+        this.props.store.dispatch(deleteUserFromChat, { login: login, chat });
+      },
     };
   }
   render() {
+    const id = this.props.store.getState().selectedChat?.id;
+
     // language=hbs
     return `
       {{#Layout name="Chat"}}
@@ -118,36 +80,23 @@ class ChatPage extends Block<ChatPageProps> {
               {{{Input className="chat__nav__search__input" type="search" placeholder="Search"}}}
             </div>
             {{#each chats}}
-            {{{ChatList chat=this}}}
-          {{/each}}
+              {{{ChatList chat=this}}}
+            {{/each}}
               {{{Button className="button__main" text="New Chat" onClick=toggleAddChatModal}}}
           </div>
         <div class="chat__main">
-        {{#each chatHeader}}
-            {{{ChatHeader avatarPath=avatarPath userName=userName}}}
-            {{/each}}
-            {{#if days}}
-              {{#each days}}
-                <span class="message__date">{{date}}</span>
-                {{#each messages}}
-                  {{{Message
-                    time=time
-                    text=text
-                    outgoing=outgoing
-                    delivered=delivered
-                    readed=readed
-                    imgPath=imgPath
-                  }}}
-                {{/each}}
-              {{/each}}
+        {{#if ${id}}}
+            {{{ChatHeader}}}
+                <span class="message__date">30 october</span>
+                  {{{Message}}}
             {{else}}
               {{{EmptyChat}}}
             {{/if}}
-            {{{ChatMessageInput clipPath=clipPath}}}
+            {{{ChatMessageInput}}}
           </div>
           {{{Modal id="modal-add-chat" onSubmit=createChat toggler=toggleAddChatModal inputType="text" inputLabel="Enter chat name" inputId="create_chat" title="Create new chat"  buttonText="Create chat" inputName="create_chat"}}}
-          {{{Modal id="modal-add-user" toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
-          {{{Modal id="modal-delete-user" toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
+          {{{Modal id="modal-add-user" onSubmit=addUserToChat toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
+          {{{Modal id="modal-delete-user" onSubmit=deleteUserFromChat toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
         </div>
      {{/Layout}}
     `;

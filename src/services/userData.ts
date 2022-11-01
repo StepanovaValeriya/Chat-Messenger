@@ -19,9 +19,11 @@ export const changeUserProfile = async (
   dispatch({ isLoading: true });
 
   const response = await api.changeProfile(action);
+  alert("Successfully");
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
+    alert(response.reason);
 
     return;
   }
@@ -43,10 +45,11 @@ export const changeUserPassword = async (
   dispatch({ isLoading: true });
 
   const response = await api.changePassword(action);
+  alert("Successfully");
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
-
+    alert(response.reason);
     return;
   }
 
@@ -79,7 +82,5 @@ export const getAvatar = async (user: UserDTO | UserType) => {
 
 export const getUserByLogin = async (login: string) => {
   const users = (await api.getUserByLogin({ login })) as UserDTO[];
-
-  console.log(users);
   return users;
 };

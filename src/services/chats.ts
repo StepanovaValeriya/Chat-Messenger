@@ -1,6 +1,6 @@
 import ChatsAPI from "api/chatsAPI";
 import {
-  UserToChatRequestData,
+  UserToChatData,
   ChatFromServer,
   CreateChatRequestData,
   DeleteChatRequestData,
@@ -10,6 +10,7 @@ import { Dispatch } from "core/store";
 import { apiError } from "helpers/apiError";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
+import { getUserByLogin } from "./userData";
 
 const api = new ChatsAPI();
 
@@ -73,11 +74,21 @@ export const deleteChat = async (
 export const addUserToChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
-  action: UserToChatRequestData
+  action: UserToChatData
 ) => {
-  dispatch({ isLoading: true });
+  const user = await getUserByLogin(action.login);
 
-  const response = await api.addUserToChat(action);
+  if (user.length === 0) {
+    dispatch({ isLoading: false, loginFormError: "User not found" });
+    alert("User not found");
+
+    return;
+  }
+
+  const response = await api.addUserToChat({
+    users: [user[0].id],
+    chat: action.chat,
+  });
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
@@ -85,17 +96,46 @@ export const addUserToChat = async (
     return;
   }
 
-  dispatch({ isLoading: false, loginFormError: null });
+  const users = (await api.getChatUsers({
+    chatId: action.chat.id,
+  })) as UserDTO[];
+
+  if (apiError(users)) {
+    dispatch({ isLoading: false, loginFormError: users.reason });
+
+    return;
+  }
+
+  const selectedChat = {
+    ...action.chat,
+    chatUsers: users.map((user) => apiUserTransformers(user)),
+  };
+
+  dispatch({
+    selectedChat: selectedChat,
+    isLoading: false,
+    loginFormError: null,
+  });
 };
 
 export const deleteUserFromChat = async (
   dispatch: Dispatch<AppState>,
   state: AppState,
-  action: UserToChatRequestData
+  action: UserToChatData
 ) => {
-  dispatch({ isLoading: true });
+  const user = await getUserByLogin(action.login);
 
-  const response = await api.deleteUserFromChat(action);
+  if (user.length === 0) {
+    dispatch({ isLoading: false, loginFormError: "User not found" });
+    alert("User not found");
+
+    return;
+  }
+
+  const response = await api.deleteUserFromChat({
+    users: [user[0].id],
+    chat: action.chat,
+  });
 
   if (apiError(response)) {
     dispatch({ isLoading: false, loginFormError: response.reason });
@@ -103,7 +143,26 @@ export const deleteUserFromChat = async (
     return;
   }
 
-  dispatch({ isLoading: false, loginFormError: null });
+  const users = (await api.getChatUsers({
+    chatId: action.chat.id,
+  })) as UserDTO[];
+
+  if (apiError(users)) {
+    dispatch({ isLoading: false, loginFormError: users.reason });
+
+    return;
+  }
+
+  const selectedChat = {
+    ...action.chat,
+    chatUsers: users.map((user) => apiUserTransformers(user)),
+  };
+
+  dispatch({
+    selectedChat: selectedChat,
+    isLoading: false,
+    loginFormError: null,
+  });
 };
 
 export const getChatInfo = async (

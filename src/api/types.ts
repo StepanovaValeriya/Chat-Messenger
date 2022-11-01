@@ -66,6 +66,11 @@ export type UserToChatRequestData = {
   chat: ChatType;
 };
 
+export type UserToChatData = {
+  login: string;
+  chat: ChatType;
+};
+
 export type getChatUsersRequestData = {
   chatId: number;
 };
