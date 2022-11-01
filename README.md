@@ -34,5 +34,5 @@ npm run start - для запуска на 3000 порту
 
 [Sprint_1](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/1)
 [Sprint_2](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/2)
-[Sprint_2](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/3)
+[Sprint_3](https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/pull/3)
 
