@@ -12,7 +12,7 @@ export type SocketData = {
   socket: WebSocket;
   oldMessagesArray: Array<Sockets>;
 };
-export default class Socket implements WebSocketProps {
+export class Socket implements WebSocketProps {
   socketsMap: Map<string, SocketData> = new Map();
 
   createConnection(userId: number, chat: ChatType) {

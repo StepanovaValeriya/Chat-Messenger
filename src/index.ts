@@ -4,7 +4,7 @@ import Router from "core/router";
 import store, { Store } from "core/store";
 import { initApp } from "./services/initApp";
 import { initRouter } from "services/initRouter";
-import Socket from "core/WebSocket";
+import { Socket } from "core/WebSocket";
 
 import MainPage from "./pages/main/main";
 
@@ -58,8 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const socketController = new Socket();
   window.webSocket = socketController;
 
-  // renderDOM(new MainPage({ router }));
-
   store.on("updated", (prevState, nextState) => {
     if (process.env.DEBUG) {
       console.log(
@@ -71,5 +69,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   initRouter(router, store);
-  store.dispatch(initApp);
+  initApp(router, store);
 });
