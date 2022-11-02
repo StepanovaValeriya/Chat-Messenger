@@ -1,115 +1,136 @@
 import AuthAPI from "api/authAPI";
 import ChatsAPI from "api/chatsAPI";
-import { ChatDTO, UserDTO } from "api/types";
-import type { Dispatch } from "core";
+import { ChatDTO, UserDTO, DispatchStateHandler } from "api/types";
+import type { Store } from "core";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiError } from "helpers/apiError";
 import MainPage from "pages/main/main";
 import { getAvatar } from "./userData";
+import { initApp } from "./initApp";
 
-type LoginPayload = {
+export type LoginPayload = {
   login: string;
   password: string;
 };
 
-type SignupPayload = {
-  login: "string";
-  password: "string";
-  first_name: "string";
-  second_name: "string";
-  email: "string";
-  phone: "string";
+export type SignupPayload = {
+  login: string;
+  password: string;
+  first_name: string;
+  second_name: string;
+  email: string;
+  phone: string;
 };
 
 const api = new AuthAPI();
 const chatsApi = new ChatsAPI();
 
-export const signin = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: LoginPayload
+export const signin: DispatchStateHandler<LoginPayload> = async (
+  store,
+  action
 ) => {
-  dispatch({ isLoading: true });
+  store.setState({ isLoading: true });
 
-  const response = await api.signin(action);
+  try {
+    const response = await api.signin(action);
 
-  if (apiError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
-    alert(response.reason);
+    if (apiError(response)) {
+      throw new Error(response.reason);
+    }
 
-    return;
+    const user = (await api.getUserInfo()) as UserDTO;
+
+    if (apiError(user)) {
+      throw new Error(user.reason);
+    }
+
+    const avatar = await getAvatar(user);
+    const modifiedUser = { ...user, avatar };
+
+    const chats = (await chatsApi.getChats()) as ChatDTO[];
+
+    if (apiError(chats)) {
+      throw new Error(chats.reason);
+    }
+
+    store.setState({
+      user: apiUserTransformers(modifiedUser),
+      chats: chats.map((chat) => apiChatTransformers(chat)),
+    });
+
+    window.router.go("/chat");
+  } catch (error) {
+    store.setState({ loginFormError: (error as Error).message });
+    window.router.go("/signin");
+  } finally {
+    store.setState({ isLoading: false });
   }
-
-  const user = (await api.getUserInfo()) as UserDTO;
-
-  if (apiError(user)) {
-    dispatch(signout);
-
-    return;
-  }
-
-  user.avatar = await getAvatar(user);
-  const chats = (await chatsApi.getChats()) as ChatDTO[];
-
-  dispatch({
-    user: apiUserTransformers(user),
-    chats: chats.map((chat) => apiChatTransformers(chat)),
-  });
-
-  window.router.go("/chat");
 };
 
-export const signout = async (dispatch: Dispatch<AppState>) => {
-  dispatch({ isLoading: true });
+export const signout = async (store: Store<AppState>) => {
+  store.setState({ isLoading: true });
 
-  await api.signout();
+  try {
+    const response = await api.signout();
 
-  dispatch({
-    isLoading: false,
-    view: MainPage,
-    loginFormError: null,
-    user: null,
-    chats: null,
-    selectedChat: null,
-    isPopupShown: false,
-    foundUsers: [],
-  });
+    if (apiError(response)) {
+      throw new Error(response.reason);
+    }
+  } catch (error) {
+    store.setState({ loginFormError: (error as Error).message });
+  } finally {
+    localStorage.removeItem("currentPage");
 
-  window.router.go("/");
+    store.setState({
+      isLoading: false,
+      view: MainPage,
+      loginFormError: "",
+      user: null,
+      chats: [],
+      selectedChat: null,
+      isPopupShown: false,
+      foundUsers: [],
+    });
+
+    initApp(window.router, store);
+  }
 };
 
-export const signup = async (
-  dispatch: Dispatch<AppState>,
-  state: AppState,
-  action: SignupPayload
+export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
+  store,
+  action
 ) => {
-  dispatch({ isLoading: true });
+  store.setState({ isLoading: true });
 
-  const response = await api.signup(action);
+  try {
+    const response = await api.signup(action);
 
-  if (apiError(response)) {
-    dispatch({ isLoading: false, loginFormError: response.reason });
-    alert(response.reason);
+    if (apiError(response)) {
+      throw new Error(response.reason);
+    }
 
-    return;
+    const user = {
+      ...action,
+      ...response,
+      display_name: "",
+      avatar: "",
+    } as UserDTO;
+    const chats = (await chatsApi.getChats()) as ChatDTO[];
+
+    if (apiError(chats)) {
+      throw new Error(chats.reason);
+    }
+
+    store.setState({
+      user: apiUserTransformers(user),
+      chats: chats.map((chat) => apiChatTransformers(chat)),
+    });
+
+    window.router.go("/chat");
+  } catch (error) {
+    store.setState({ loginFormError: (error as Error).message });
+  } finally {
+    store.setState({ isLoading: false });
   }
-
-  const user = (await api.getUserInfo()) as UserDTO;
-
-  if (apiError(user)) {
-    dispatch(signout);
-
-    return;
-  }
-
-  user.avatar = await getAvatar(user);
-  const chats = (await chatsApi.getChats()) as ChatDTO[];
-
-  dispatch({
-    user: apiUserTransformers(user),
-    chats: chats.map((chat) => apiChatTransformers(chat)),
-  });
-
-  window.router.go("/chat");
 };

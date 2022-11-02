@@ -17,7 +17,6 @@ const toggleAddChatModal = createModalToggler(MODAL_ADD_CHAT_ID);
 type ChatPageProps = {
   router: Router;
   store: Store<AppState>;
-  user: UserType | null;
   chats: Nullable<Array<ChatType>>;
 };
 
@@ -43,7 +42,7 @@ class ChatPage extends Block<ChatPageProps> {
         ) as HTMLInputElement;
         let chatName = input.value;
         console.log(chatName);
-        this.props.store.dispatch(createChat, { title: chatName });
+        createChat(this.props.store, { title: chatName });
       },
       addUserToChat: () => {
         let input = this.element?.querySelector(
@@ -52,7 +51,7 @@ class ChatPage extends Block<ChatPageProps> {
         let login = input.value;
         console.log(login);
         const chat = this.props.store.getState().selectedChat;
-        this.props.store.dispatch(addUserToChat, { login: login, chat });
+        chat && addUserToChat(this.props.store, { login: login, chat });
       },
       deleteUserFromChat: () => {
         let input = this.element?.querySelector(
@@ -61,7 +60,7 @@ class ChatPage extends Block<ChatPageProps> {
         let login = input.value;
         console.log(login);
         const chat = this.props.store.getState().selectedChat;
-        this.props.store.dispatch(deleteUserFromChat, { login: login, chat });
+        chat && deleteUserFromChat(this.props.store, { login: login, chat });
       },
     };
   }

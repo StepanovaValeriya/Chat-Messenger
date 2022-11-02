@@ -17,10 +17,6 @@ export default class AuthAPI extends HTTPTransport {
   signout = (): Promise<ResStatus | APIError> =>
     this.post("auth/logout") as Promise<ResStatus | APIError>;
 
-  signup = async (
-    data: SignupRequestData
-  ): Promise<Record<string, number> | APIError> =>
-    this.post("auth/signup", { data }) as Promise<
-      Record<string, number> | APIError
-    >;
+  signup = async (data: Partial<UserDTO>): Promise<{ id: number } | APIError> =>
+    this.post("auth/signup", { data }) as Promise<{ id: number } | APIError>;
 }

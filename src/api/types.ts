@@ -1,3 +1,5 @@
+import { Store } from "core";
+
 export type APIError = {
   reason: string;
   status: string;
@@ -108,3 +110,8 @@ export type Sockets = {
     upload_date: string;
   };
 };
+
+export type DispatchStateHandler<TAction> = (
+  state: Store<AppState>,
+  action: TAction
+) => Promise<void>;
