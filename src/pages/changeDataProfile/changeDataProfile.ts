@@ -126,7 +126,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
           document.querySelector("#user_form_avatar") as HTMLFormElement
         );
         console.log(formData);
-        this.props.store.dispatch(changeAvatar, formData);
+        changeAvatar(this.props.store, formData);
       },
     };
   }

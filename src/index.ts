@@ -67,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   });
+  console.log(store, router);
 
   initRouter(router, store);
-  initApp(router, store);
+  initApp(store);
 });

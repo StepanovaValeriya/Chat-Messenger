@@ -114,8 +114,7 @@ class SignUpPage extends Block<SignUpPageProps> {
       onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          const regData = this.state.values;
-          this.props.store.dispatch(signup, regData);
+          signup(this.props.store, { ...this.state.values });
         }
       },
     };

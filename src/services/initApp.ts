@@ -1,87 +1,31 @@
 import { UserDTO } from "api/types";
-import AuthAPI from "api/authAPI";
-import { apiError } from "helpers/apiError";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
-import { getAvatar } from "./userData";
 import { Router, Store } from "core";
-import LoginPage from "pages/login/login";
-import ChatPage from "pages/chat/chat";
-import { ROUTS } from "../constants/routes";
 import { getChats } from "./chats";
+import { getUserInfo } from "./auth";
+import { apiError } from "helpers/apiError";
+import { getAvatar } from "./userData";
 
-const authApi = new AuthAPI();
+export async function initApp(store: Store<AppState>) {
+  try {
+    store.setState({ isLoading: true });
 
-export async function initApp(router: Router, store: Store<AppState>) {
-  const currentPage = localStorage.getItem("currentPage");
-  console.log("currentPage", currentPage);
-  console.log("store", store);
+    const user = (await getUserInfo()) as UserDTO;
 
-  if (!currentPage) {
-    store.setState({ isAppInited: true });
-    router.go("/login");
-    return;
-  }
-
-  const user = (await authApi.getUserInfo()) as UserDTO;
-  console.log(user);
-
-  if (apiError(user)) {
-    store.setState({ view: LoginPage });
-    router.go("/login");
-  }
-
-  const isPrivate = ROUTS.find(
-    (route) => route.pathname === currentPage
-  )?.isPrivate;
-
-  console.log("isPrivate", isPrivate);
-
-  if (isPrivate) {
-    try {
-      let avatar = await getAvatar(user);
-
-      if (apiError(avatar)) {
-        router.go("/login");
-      }
-
-      const fullUser = { ...user, avatar };
-      const chats = await getChats(window.store);
-
-      console.log(fullUser);
-
-      store.setState({
-        user: apiUserTransformers(fullUser),
-        chats,
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      store.setState({ isAppInited: true });
-      router.go(currentPage);
+    if (apiError(user)) {
+      throw new Error(user.reason);
     }
-  }
 
-  if (!isPrivate && user) {
-    try {
-      let avatar = await getAvatar(user);
+    const avatar = await getAvatar(user);
+    const modifiedUser = { ...user, avatar };
+    const chats = await getChats(store);
 
-      if (apiError(avatar)) {
-        router.go("/login");
-      }
-
-      const fullUser = { ...user, avatar };
-      const chats = await getChats(store);
-
-      store.setState({
-        user: apiUserTransformers(fullUser),
-        chats,
-        view: ChatPage,
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      store.setState({ isAppInited: true });
-      router.go("/chat");
-    }
+    modifiedUser &&
+      chats &&
+      store.setState({ user: apiUserTransformers(modifiedUser), chats });
+  } catch (error) {
+    console.log((error as Error).message);
+  } finally {
+    store.setState({ isLoading: false, isAppInited: true });
   }
 }

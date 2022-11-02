@@ -1,4 +1,4 @@
-function deepEqual(a: Indexed, b: Indexed): boolean {
+export function deepEqual(a: Indexed, b: Indexed): boolean {
   if (a === b) {
     return true;
   }
@@ -20,13 +20,14 @@ function deepEqual(a: Indexed, b: Indexed): boolean {
   }
 
   return aObjectKeys.reduce((acc: boolean, key) => {
+    if (!acc) return false;
+
     if (!bObjectKeys.includes(key)) {
       acc = false;
       return acc;
     }
+
     acc = deepEqual(a[key] as Indexed, b[key] as Indexed);
     return acc;
   }, true);
 }
-
-export default deepEqual;

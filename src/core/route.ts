@@ -9,19 +9,19 @@ export interface RouteProps {
 }
 
 export default class Route {
-  private _pathname: string;
-  private _blockClass: BlockConstructable;
-  private _isPrivate: boolean;
+  pathname: string;
+  view: BlockConstructable;
+  isPrivate: boolean;
   callback: Function;
 
   constructor({ pathname, view, isPrivate, callback }: RouteProps) {
-    this._pathname = pathname;
-    this._blockClass = view;
-    this._isPrivate = isPrivate;
+    this.pathname = pathname;
+    this.view = view;
+    this.isPrivate = isPrivate;
     this.callback = callback;
   }
 
   match(pathname: string): boolean {
-    return isEqual(pathname, this._pathname);
+    return isEqual(pathname, this.pathname);
   }
 }

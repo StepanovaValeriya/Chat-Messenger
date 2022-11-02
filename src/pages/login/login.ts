@@ -85,8 +85,7 @@ class LoginPage extends Block<LoginPageProps> {
       onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          const loginData = this.state.values;
-          this.props.store.dispatch(signin, loginData);
+          signin(this.props.store, { ...this.state.values });
         }
       },
     };

@@ -1,11 +1,5 @@
 import HTTPTransport from "core/HttpTransport";
-import {
-  LoginRequestData,
-  ResStatus,
-  SignupRequestData,
-  APIError,
-  UserDTO,
-} from "./types";
+import { LoginRequestData, ResStatus, APIError, UserDTO } from "./types";
 
 export default class AuthAPI extends HTTPTransport {
   signin = async (data: LoginRequestData): Promise<ResStatus | APIError> =>

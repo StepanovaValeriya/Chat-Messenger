@@ -1,5 +1,5 @@
 import { BlockClass } from "core";
-import deepEqual from "utils/deepEqual";
+import { deepEqual } from "utils/deepEqual";
 
 type WithUserProps = { user: Nullable<UserType> };
 

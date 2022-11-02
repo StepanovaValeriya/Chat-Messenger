@@ -7,7 +7,6 @@ import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiError } from "helpers/apiError";
 import MainPage from "pages/main/main";
 import { getAvatar } from "./userData";
-import { initApp } from "./initApp";
 
 export type LoginPayload = {
   login: string;
@@ -62,7 +61,7 @@ export const signin: DispatchStateHandler<LoginPayload> = async (
     window.router.go("/chat");
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
-    window.router.go("/signin");
+    window.router.go("/login");
   } finally {
     store.setState({ isLoading: false });
   }
@@ -90,10 +89,9 @@ export const signout = async (store: Store<AppState>) => {
       chats: [],
       selectedChat: null,
       isPopupShown: false,
-      foundUsers: [],
     });
 
-    initApp(window.router, store);
+    window.router.go("/");
   }
 };
 
@@ -132,5 +130,22 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
     store.setState({ loginFormError: (error as Error).message });
   } finally {
     store.setState({ isLoading: false });
+  }
+};
+
+export const getUserInfo = async () => {
+  try {
+    const user = await api.getUserInfo();
+
+    if (apiError(user)) {
+      if (user.reason === "Cookie is not valid") {
+        throw new Error("You are not logged in");
+      }
+      throw new Error(user.reason);
+    }
+
+    return user;
+  } catch (error) {
+    window.store.setState({ loginFormError: (error as Error).message });
   }
 };

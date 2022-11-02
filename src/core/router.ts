@@ -1,12 +1,11 @@
 import { PartialRouteProps } from "../constants/routes";
-import Route, { RouteProps } from "./route";
+import Route from "./route";
 
 interface RouterProps {
   routes: Array<Route>;
 }
 
 export default class Router implements RouterProps {
-  private _currentRoute: Nullable<Route> = null;
   routes: Array<Route> = [];
   static __instance: Router;
 
@@ -35,14 +34,16 @@ export default class Router implements RouterProps {
   }
 
   private _onRouteChange(pathname: string = window.location.pathname) {
-    const route = this.getRoute(pathname);
+    console.log(pathname);
+    let route = this.getRoute(pathname);
 
     if (!route) {
-      console.log("no route");
-      return;
+      route = this.getRoute("/");
     }
 
-    route.callback();
+    window.store.setState({ view: route?.view });
+
+    route?.callback();
   }
 
   go(pathname: string) {

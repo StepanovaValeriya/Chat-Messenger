@@ -1,5 +1,5 @@
 import { BlockClass } from "core/Block";
-import deepEqual from "utils/deepEqual";
+import { deepEqual } from "utils/deepEqual";
 
 type WithChatsProps = { chats: Nullable<ChatType[]> };
 

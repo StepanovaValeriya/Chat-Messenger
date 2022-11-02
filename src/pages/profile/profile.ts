@@ -32,8 +32,8 @@ class ProfilePage extends Block<ProfilePageProps> {
       onChangePasswordPage: () => {
         this.props.router.go("/changePassProfile");
       },
-      onMainPage: () => {
-        this.props.store.dispatch(signout);
+      signout: () => {
+        signout(this.props.store);
       },
     };
   }
@@ -72,7 +72,7 @@ class ProfilePage extends Block<ProfilePageProps> {
                 onClick=onChangePasswordPage
               }}}
               {{{Button
-                onClick=onMainPage
+                onClick=signout
                 className="button__main button__main_red"
                 text="Exit"
               }}}
