@@ -13,9 +13,6 @@ import {
 } from "./types";
 
 export default class ChatsAPI extends HTTPTransport {
-  constructor() {
-    super();
-  }
   createChat = async (
     data: CreateChatRequestData
   ): Promise<ResStatus | APIError> =>

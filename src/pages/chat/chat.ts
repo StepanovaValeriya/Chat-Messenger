@@ -9,6 +9,7 @@ import Router from "core/router";
 import { WithRouter, WithStore, WithChats } from "helpers";
 import { Store } from "core";
 import { createChat, addUserToChat, deleteUserFromChat } from "services/chats";
+import Validate from "core/Validation";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
@@ -53,6 +54,7 @@ class ChatPage extends Block<ChatPageProps> {
         const chat = this.props.store.getState().selectedChat;
         chat && addUserToChat(this.props.store, { login: login, chat });
       },
+
       deleteUserFromChat: () => {
         let input = this.element?.querySelector(
           `input[name='user_to_delete']`

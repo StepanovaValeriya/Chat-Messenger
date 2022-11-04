@@ -10,14 +10,14 @@ export async function initApp(store: Store<AppState>) {
   try {
     store.setState({ isLoading: true });
 
-    const user = (await getUserInfo()) as UserDTO;
+    const response = (await getUserInfo()) as UserDTO;
 
-    if (apiError(user)) {
-      throw new Error(user.reason);
+    if (apiError(response)) {
+      throw new Error(response.reason);
     }
 
-    const avatar = await getAvatar(user);
-    const modifiedUser = { ...user, avatar };
+    const avatar = await getAvatar(response);
+    const modifiedUser = { ...response, avatar };
     const chats = await getChats(store);
 
     modifiedUser &&

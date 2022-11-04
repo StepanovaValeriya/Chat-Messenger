@@ -23,7 +23,7 @@ export const getChats = async (store: Store<AppState>) => {
     const response = (await api.getChats()) as ChatDTO[];
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     store.setState({
@@ -51,7 +51,8 @@ export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
       throw new Error(response.reason);
     }
 
-    getChats(store);
+    await getChats(store);
+    window.router.reload();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -69,10 +70,11 @@ export const deleteChat: DispatchStateHandler<DeleteChatRequestData> = async (
     const response = await api.deleteChat(action);
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
-    getChats(store);
+    await getChats(store);
+    window.router.reload();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -90,7 +92,7 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
     const user = await getUserByLogin(action.login);
 
     if (apiError(user)) {
-      throw new Error(user.reason);
+      alert(user.reason);
     }
 
     if (!user || user?.length === 0) {
@@ -103,7 +105,7 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
     });
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     const users = (await api.getChatUsers({
@@ -114,9 +116,12 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
       throw new Error(users.reason);
     }
 
+    let chatUsers = action.chat.chatUsers;
+    chatUsers = chatUsers && [...chatUsers, apiUserTransformers(user[0])];
+
     const selectedChat = {
       ...action.chat,
-      chatUsers: users.map((user) => apiUserTransformers(user)),
+      chatUsers,
     };
 
     store.setState({ selectedChat: selectedChat });
@@ -153,17 +158,14 @@ export const deleteUserFromChat: DispatchStateHandler<UserToChatData> = async (
       throw new Error(response.reason);
     }
 
-    const users = (await api.getChatUsers({
-      chatId: action.chat.id,
-    })) as UserDTO[];
-
-    if (apiError(users)) {
-      throw new Error(users.reason);
-    }
+    let chatUsers = action.chat.chatUsers;
+    chatUsers =
+      chatUsers &&
+      chatUsers.filter((item) => item.id !== apiUserTransformers(user[0]).id);
 
     const selectedChat = {
       ...action.chat,
-      chatUsers: users.map((user) => apiUserTransformers(user)),
+      chatUsers,
     };
 
     store.setState({ selectedChat: selectedChat });

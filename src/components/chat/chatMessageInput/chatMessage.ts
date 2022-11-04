@@ -78,7 +78,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
   }
 
   protected render(): string {
-    const { errors, values } = this.state;
+    const { errors } = this.state;
     // language=hbs
     return `
       <div class="chat__message">

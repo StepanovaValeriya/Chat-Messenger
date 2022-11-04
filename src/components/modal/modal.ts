@@ -18,12 +18,6 @@ export class Modal extends Block {
 
   constructor({ toggler, ...rest }: ModalProps) {
     super({ events: { click: toggler }, ...rest });
-
-    // this.setProps({
-    //   formError: () => this.props.store.getState().formError,
-    //   formSuccess: () => this.props.store.getState().formSuccess,
-    //   isLoading: () => this.props.store.getState().isLoading,
-    // });
   }
 
   render(): string {

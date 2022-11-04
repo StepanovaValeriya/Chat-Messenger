@@ -27,7 +27,7 @@ class ChatList extends Block<ChatListProps> {
 
       // this.props.store.dispatch({ isLoading: true });
 
-      this.props.store.dispatch(getChatInfo, this.props.chat);
+      getChatInfo(this.props.store, { ...this.props.chat });
     };
 
     super({
@@ -35,7 +35,7 @@ class ChatList extends Block<ChatListProps> {
       events: { click: onChatItemClick },
       deleteChat: () => {
         console.log(this.props.chat);
-        this.props.store.dispatch(deleteChat, { chatId: this.props.chat.id });
+        deleteChat(this.props.store, { chatId: this.props.chat.id });
       },
     });
   }

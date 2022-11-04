@@ -118,7 +118,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
           const profileData = this.state.values;
-          this.props.store.dispatch(changeUserProfile, profileData);
+          changeUserProfile(this.props.store, { ...profileData });
         }
       },
       onAvatarChange: () => {
@@ -144,7 +144,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
           {{{ProfileNav}}}
           <div class="profile__main">
           {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${values.first_name}"}}}
-              <div class='profile__info'>
+              <form class='profile__info'>
               {{{ControlledInput
                 className="input__profile"
                 onBlur=onBlur
@@ -223,14 +223,14 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 label="Phone"
                 name="phone"
               }}}
-              </div>
+              </form>
               {{{Button
                 className="button__main"
                 text="Save"
                 onClick=onSubmit
               }}}
           </div>
-          {{{Modal id="modal-change-avatar" toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" onSubmit=onAvatarChange}}}
+          {{{Modal id="modal-change-avatar"  toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" onSubmit=onAvatarChange}}}
         </div>
       {{/Layout}}
     `;

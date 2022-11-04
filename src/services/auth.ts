@@ -5,7 +5,6 @@ import type { Store } from "core";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiError } from "helpers/apiError";
-import MainPage from "pages/main/main";
 import { getAvatar } from "./userData";
 
 export type LoginPayload = {
@@ -35,13 +34,13 @@ export const signin: DispatchStateHandler<LoginPayload> = async (
     const response = await api.signin(action);
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     const user = (await api.getUserInfo()) as UserDTO;
 
     if (apiError(user)) {
-      throw new Error(user.reason);
+      alert(user.reason);
     }
 
     const avatar = await getAvatar(user);
@@ -50,7 +49,7 @@ export const signin: DispatchStateHandler<LoginPayload> = async (
     const chats = (await chatsApi.getChats()) as ChatDTO[];
 
     if (apiError(chats)) {
-      throw new Error(chats.reason);
+      alert(chats.reason);
     }
 
     store.setState({
@@ -74,16 +73,13 @@ export const signout = async (store: Store<AppState>) => {
     const response = await api.signout();
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
-    localStorage.removeItem("currentPage");
-
     store.setState({
       isLoading: false,
-      view: MainPage,
       loginFormError: "",
       user: null,
       chats: [],
@@ -105,7 +101,7 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
     const response = await api.signup(action);
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     const user = {
@@ -117,7 +113,7 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
     const chats = (await chatsApi.getChats()) as ChatDTO[];
 
     if (apiError(chats)) {
-      throw new Error(chats.reason);
+      alert(chats.reason);
     }
 
     store.setState({
@@ -139,7 +135,7 @@ export const getUserInfo = async () => {
 
     if (apiError(user)) {
       if (user.reason === "Cookie is not valid") {
-        throw new Error("You are not logged in");
+        alert("You are not logged in");
       }
       throw new Error(user.reason);
     }

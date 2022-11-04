@@ -5,6 +5,7 @@ interface ButtonProps {
   text: string;
   className: string;
   id?: string;
+  type?: "submit" | "button" | "reset";
   onClick: () => void;
 }
 export class Button extends Block {
@@ -15,7 +16,7 @@ export class Button extends Block {
   protected render(): string {
     // language=hbs
     return `
-        <button id="{{id}}" class="{{className}}" type="button">{{text}}</button>
+        <button id="{{id}}" class="{{className}}" type="{{type}}">{{text}}</button>
     `;
   }
 }

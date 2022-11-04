@@ -70,23 +70,27 @@ export const changeAvatar: DispatchStateHandler<FormData> = async (
 
   try {
     let newUser = (await api.changeAvatar(action)) as UserDTO;
+    console.log(newUser);
 
     if (apiError(newUser)) {
       throw new Error(newUser.reason);
     }
 
     const avatar = await getAvatar(newUser);
+    console.log(avatar);
 
     if (apiError(avatar)) {
       throw new Error(avatar.reason);
     }
 
     newUser = { ...newUser, avatar };
+    console.log(newUser);
 
     store.setState({ user: apiUserTransformers(newUser) });
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
   } finally {
+    window.router.reload();
     store.setState({ isLoading: false });
   }
 };
