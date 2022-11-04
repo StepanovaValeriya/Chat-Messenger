@@ -159,7 +159,7 @@ export default class Block<P = any> {
     return this.element!;
   }
 
-  _makePropsProxy(props: any): any {
+  _makePropsProxy(props: P): P {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
     const self = this;

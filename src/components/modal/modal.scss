@@ -35,3 +35,9 @@
   margin-bottom: 50px;
   color: $colorForTitle;
 }
+.modal-form__fields-block {
+  span {
+    color: red;
+    font-size: 11px;
+  }
+}

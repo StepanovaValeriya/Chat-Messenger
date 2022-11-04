@@ -6,11 +6,8 @@ interface ProfileItemProps {
   info: string;
 }
 
-export default class ProfileItem extends Block {
+export default class ProfileItem extends Block<ProfileItemProps> {
   static componentName = "ProfileItem";
-  constructor({ label, info }: ProfileItemProps) {
-    super({ label, info });
-  }
 
   protected render(): string {
     // language=hbs

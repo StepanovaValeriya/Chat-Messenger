@@ -40,7 +40,7 @@ export const signin: DispatchStateHandler<LoginPayload> = async (
     const user = (await api.getUserInfo()) as UserDTO;
 
     if (apiError(user)) {
-      alert(user.reason);
+      throw new Error(user.reason);
     }
 
     const avatar = await getAvatar(user);
@@ -49,7 +49,7 @@ export const signin: DispatchStateHandler<LoginPayload> = async (
     const chats = (await chatsApi.getChats()) as ChatDTO[];
 
     if (apiError(chats)) {
-      alert(chats.reason);
+      throw new Error(chats.reason);
     }
 
     store.setState({
@@ -113,7 +113,7 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
     const chats = (await chatsApi.getChats()) as ChatDTO[];
 
     if (apiError(chats)) {
-      alert(chats.reason);
+      throw new Error(chats.reason);
     }
 
     store.setState({

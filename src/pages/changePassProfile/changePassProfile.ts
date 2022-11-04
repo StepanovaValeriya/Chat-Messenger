@@ -13,9 +13,7 @@ type ChangePassProfilePageProps = {
 
 class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
   static componentName = "ChangePassProfilePage";
-  constructor(props: ChangePassProfilePageProps) {
-    super({ ...props });
-  }
+
   protected getStateFromProps(_props: ChangePassProfilePageProps) {
     this.state = {
       values: {
@@ -103,7 +101,7 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
             newPassword: this.state.values.password,
           };
           console.log(profileData);
-          this.props.store.dispatch(changeUserPassword, profileData);
+          changeUserPassword(this.props.store, { ...profileData });
         }
       },
     };

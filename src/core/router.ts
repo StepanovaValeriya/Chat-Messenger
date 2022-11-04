@@ -52,8 +52,9 @@ export default class Router implements IRouter {
     this._onRouteChange(pathname);
   }
 
-  reload() {
+  upload() {
     const Page = window.store.getState().view;
+    console.log(Page);
 
     renderDOM(new Page({}));
   }

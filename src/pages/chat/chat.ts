@@ -9,7 +9,6 @@ import Router from "core/router";
 import { WithRouter, WithStore, WithChats } from "helpers";
 import { Store } from "core";
 import { createChat, addUserToChat, deleteUserFromChat } from "services/chats";
-import Validate from "core/Validation";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
@@ -42,7 +41,6 @@ class ChatPage extends Block<ChatPageProps> {
           `input[name='create_chat']`
         ) as HTMLInputElement;
         let chatName = input.value;
-        console.log(chatName);
         createChat(this.props.store, { title: chatName });
       },
       addUserToChat: () => {
@@ -50,7 +48,6 @@ class ChatPage extends Block<ChatPageProps> {
           `input[name='user_to_add']`
         ) as HTMLInputElement;
         let login = input.value;
-        console.log(login);
         const chat = this.props.store.getState().selectedChat;
         chat && addUserToChat(this.props.store, { login: login, chat });
       },
@@ -95,9 +92,9 @@ class ChatPage extends Block<ChatPageProps> {
             {{/if}}
             {{{ChatMessageInput}}}
           </div>
-          {{{Modal id="modal-add-chat" onSubmit=createChat toggler=toggleAddChatModal inputType="text" inputLabel="Enter chat name" inputId="create_chat" title="Create new chat"  buttonText="Create chat" inputName="create_chat"}}}
-          {{{Modal id="modal-add-user" onSubmit=addUserToChat toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"}}}
-          {{{Modal id="modal-delete-user" onSubmit=deleteUserFromChat toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete"}}}
+          {{{Modal id="modal-add-chat" onSubmit=createChat toggler=toggleAddChatModal inputType="text" inputLabel="Enter chat name" inputId="create_chat" title="Create new chat"  buttonText="Create chat" inputName="create_chat" classError="error__addChat"}}}
+          {{{Modal id="modal-add-user" onSubmit=addUserToChat toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"  classError="error__addUser"}}}
+          {{{Modal id="modal-delete-user" onSubmit=deleteUserFromChat toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete" classError="error__deleteUser"}}}
         </div>
      {{/Layout}}
     `;

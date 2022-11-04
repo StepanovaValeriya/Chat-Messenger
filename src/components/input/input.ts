@@ -16,14 +16,8 @@ interface InputProps {
   placeholder?: string;
 }
 
-export class Input extends Block {
+export class Input extends Block<InputProps> {
   static componentName = "Input";
-  constructor({ onInput, onBlur, onFocus, ...props }: InputProps) {
-    super({
-      ...props,
-      events: { input: onInput, blur: onBlur, focus: onFocus },
-    });
-  }
 
   protected render(): string {
     // language=hbs

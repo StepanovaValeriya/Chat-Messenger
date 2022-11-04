@@ -1,7 +1,7 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
 import { signup } from "services/auth";
-import { WithRouter, WithStore, WithUser } from "helpers";
+import { WithRouter, WithStore } from "helpers";
 import { Router } from "core";
 import { Store } from "core";
 

@@ -14,13 +14,8 @@ interface ControlledInputProps {
   className?: string;
 }
 
-export class ControlledInput extends Block {
+export class ControlledInput extends Block<ControlledInputProps> {
   static componentName = "ControlledInput";
-  constructor(props: ControlledInputProps) {
-    super({
-      ...props,
-    });
-  }
 
   protected render(): string {
     // language=hbs

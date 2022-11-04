@@ -1,7 +1,7 @@
 import Block from "core/Block";
 import "./profileNav";
 import Router from "core/router";
-import { WithRouter, WithStore, WithUser } from "helpers";
+import { WithRouter, WithStore } from "helpers";
 import { Store } from "core";
 
 type ProfileNavProps = {

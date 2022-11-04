@@ -8,11 +8,8 @@ interface LinkProps {
   onClick: () => void;
 }
 
-export class Link extends Block {
+export class Link extends Block<LinkProps> {
   static componentName = "Link";
-  constructor(props: LinkProps) {
-    super(props);
-  }
 
   protected render(): string {
     // language=hbs

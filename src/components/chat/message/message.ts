@@ -11,12 +11,8 @@ interface MessageProps {
   events: Object;
 }
 
-export default class Message extends Block {
+export default class Message extends Block<MessageProps> {
   static componentName = "Message";
-
-  constructor(props: MessageProps) {
-    super(props);
-  }
 
   render() {
     return `

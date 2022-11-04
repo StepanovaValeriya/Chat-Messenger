@@ -5,11 +5,9 @@ interface ErrorPageProps {
   errorText?: string;
 }
 
-export default class ErrorPage extends Block {
+export default class ErrorPage extends Block<ErrorPageProps> {
   static componentName = "ErrorPage";
-  constructor(props: ErrorPageProps) {
-    super(props);
-  }
+
   render() {
     // language=hbs
     return `

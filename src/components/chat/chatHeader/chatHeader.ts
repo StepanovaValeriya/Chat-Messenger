@@ -55,7 +55,7 @@ class ChatHeader extends Block<ChatHeaderProps> {
 
         </div>
         <div class="chat__header__actions">
-          {{{Button className="chat__header__actions__button" onClick=toggleOptionsWindow
+          {{{Button type="button" className="chat__header__actions__button" onClick=toggleOptionsWindow
           }}}
           <img
             src='/img/headerActions.png'

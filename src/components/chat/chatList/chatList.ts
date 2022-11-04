@@ -58,8 +58,7 @@ class ChatList extends Block<ChatListProps> {
           </div>
         </div>
           <div class="chat__item__count">
-            {{{Button className="button__cancel" text="X" onClick=deleteChat}}}
-
+            {{{Button type="button" className="button__cancel" text="X" onClick=deleteChat}}}
               <span class="chat__item__count__counter">{{chat.unreadCount}}</span>
 
           </div>

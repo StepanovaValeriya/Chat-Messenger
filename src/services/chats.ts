@@ -46,13 +46,14 @@ export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
 
   try {
     const response = await api.createChat(action);
+    console.log(response);
 
     if (apiError(response)) {
       throw new Error(response.reason);
     }
 
-    await getChats(store);
-    window.router.reload();
+    // await getChats(store);
+    // window.router.upload();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -74,7 +75,7 @@ export const deleteChat: DispatchStateHandler<DeleteChatRequestData> = async (
     }
 
     await getChats(store);
-    window.router.reload();
+    window.router.upload();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {

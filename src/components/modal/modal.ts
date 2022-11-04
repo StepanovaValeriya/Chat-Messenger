@@ -10,15 +10,12 @@ interface ModalProps {
   buttonText: string;
   inputLabel: string;
   inputType: string;
+  classError?: string;
   toggler?: () => void;
 }
 
-export class Modal extends Block {
+export class Modal extends Block<ModalProps> {
   static componentName = "Modal";
-
-  constructor({ toggler, ...rest }: ModalProps) {
-    super({ events: { click: toggler }, ...rest });
-  }
 
   render(): string {
     // language=hbs
@@ -37,6 +34,7 @@ export class Modal extends Block {
                   label=inputLabel
                   name=inputName
                 }}}
+                <span id="{{classError}}" class="hidden">Field cant't be empty</span>
                 {{{Button type="submit" className="button__main" text=buttonText onClick=onSubmit}}}
               </div>
             </form>

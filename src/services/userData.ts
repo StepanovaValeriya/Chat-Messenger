@@ -20,7 +20,7 @@ export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
     const response = await api.changeProfile(action);
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     const avatar = store.getState()?.user?.avatar || avatarDefault;
@@ -51,7 +51,7 @@ export const changeUserPassword: DispatchStateHandler<
     const response = await api.changePassword(action);
 
     if (apiError(response)) {
-      throw new Error(response.reason);
+      alert(response.reason);
     }
 
     window.router.back();
@@ -90,7 +90,7 @@ export const changeAvatar: DispatchStateHandler<FormData> = async (
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
   } finally {
-    window.router.reload();
+    window.router.upload();
     store.setState({ isLoading: false });
   }
 };
