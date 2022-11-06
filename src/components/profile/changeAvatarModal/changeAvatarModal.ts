@@ -1,20 +1,14 @@
 import Block from "core/Block";
-import "./modal";
 
-interface ModalProps {
-  id: string;
-  title: string;
+type ChangeAvatarModalProps = {
   inputName: string;
-  inputId: string;
   buttonText: string;
-  inputLabel: string;
-  inputType: string;
   classError?: string;
   toggler?: () => void;
-}
+};
 
-export class Modal extends Block<ModalProps> {
-  static componentName = "Modal";
+export default class ChangeAvatarModal extends Block<ChangeAvatarModalProps> {
+  static componentName = "ChangeAvatarModal";
 
   protected getStateFromProps() {
     this.state = {
@@ -27,25 +21,25 @@ export class Modal extends Block<ModalProps> {
   render(): string {
     // language=hbs
     return `
-      <div id="{{id}}" class="modal hidden">
+      <div id="modal-change-avatar" class="modal hidden">
         <div class="modal__wrapper">
           <div class="modal-content">
           {{{Button className="modal__cancel" text="X" onClick=onCancelModal type="button"}}}
-            <h2 class="modal-content__title">{{title}}</h2>
-            <div  class="modal-content__form">
+            <h2 class="modal-content__title">Choose file</h2>
+            <form id="user_form_avatar" class="modal-content__form">
               <div class="modal-form__fields-block">
                 {{{ControlledInput
                   className="input__field"
                   ref="modalInputRef"
-                  id=inputId
-                  type=inputType
-                  label=inputLabel
+                  id="avatar"
+                  type="file"
+                  label="Choose file"
                   name=inputName
                 }}}
-                <span id="{{classError}}" class="hidden">Field cant't be empty</span>
+                <span id="{{classError}}" class="hidden">Choose file</span>
                 {{{Button type="submit" className="button__main" text=buttonText onClick=onSubmit}}}
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>`;

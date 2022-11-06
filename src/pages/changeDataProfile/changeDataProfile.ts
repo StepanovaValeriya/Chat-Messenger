@@ -125,7 +125,9 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         const formData = new FormData(
           document.querySelector("#user_form_avatar") as HTMLFormElement
         );
-        console.log(formData);
+        if (!formData) {
+          console.log("dj");
+        }
         changeAvatar(this.props.store, formData);
       },
     };
@@ -230,7 +232,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onClick=onSubmit
               }}}
           </div>
-          {{{Modal id="modal-change-avatar"  toggler=toggleChangeAvatarModal inputType="file"  inputLabel="Choose file" inputId="avatar" formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" onSubmit=onAvatarChange}}}
+          {{{ChangeAvatarModal toggler=toggleChangeAvatarModal  formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" classError="error__addAvatar" onSubmit=onAvatarChange}}}
         </div>
       {{/Layout}}
     `;

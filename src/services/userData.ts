@@ -62,7 +62,7 @@ export const changeUserPassword: DispatchStateHandler<
   }
 };
 
-export const changeAvatar: DispatchStateHandler<FormData> = async (
+export const changeAvatar: DispatchStateHandler<any> = async (
   store,
   action
 ) => {
@@ -70,7 +70,6 @@ export const changeAvatar: DispatchStateHandler<FormData> = async (
 
   try {
     let newUser = (await api.changeAvatar(action)) as UserDTO;
-    console.log(newUser);
 
     if (apiError(newUser)) {
       throw new Error(newUser.reason);

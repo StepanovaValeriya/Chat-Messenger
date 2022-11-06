@@ -1,12 +1,10 @@
-import { registerComponent, renderDOM } from "./core";
+import { registerComponent } from "./core";
 import "./styles/style.scss";
 import Router from "core/router";
 import store, { Store } from "core/store";
 import { initApp } from "./services/initApp";
 import { initRouter } from "services/initRouter";
 import { Socket } from "core/WebSocket";
-
-import MainPage from "./pages/main/main";
 
 import Button from "./components/button";
 import Layout from "./components/layout";
@@ -21,7 +19,12 @@ import {
   EmptyChat,
   Message,
 } from "./components/chat";
-import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
+import {
+  ProfileAvatar,
+  ProfileNav,
+  ProfileItem,
+  ChangeAvatarModal,
+} from "./components/profile";
 import Modal from "./components/modal";
 import Loader from "./components/loading";
 
@@ -39,6 +42,7 @@ registerComponent(Message);
 registerComponent(ProfileAvatar);
 registerComponent(ProfileNav);
 registerComponent(ProfileItem);
+registerComponent(ChangeAvatarModal);
 registerComponent(Modal);
 registerComponent(Loader);
 
@@ -58,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const socketController = new Socket();
   window.webSocket = socketController;
 
-  store.on("updated", (prevState, nextState) => {
+  store.on("updated", (nextState) => {
     if (process.env.DEBUG) {
       console.log(
         "%cstore updated",

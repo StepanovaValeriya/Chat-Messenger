@@ -6,6 +6,10 @@ interface IRouter {
   routes: Array<Route>;
 }
 
+interface IRouter {
+  routes: Array<Route>;
+}
+
 export default class Router implements IRouter {
   routes: Array<Route> = [];
   static __instance: Router;
@@ -36,11 +40,9 @@ export default class Router implements IRouter {
 
   private _onRouteChange(pathname: string = window.location.pathname) {
     console.log(pathname);
-    let route = this.getRoute(pathname);
+    const route = this.getRoute(pathname) || this.getRoute("/error");
 
-    if (!route) {
-      route = this.getRoute("/error");
-    }
+    console.log(route);
 
     window.store.setState({ view: route?.view });
 
@@ -54,7 +56,6 @@ export default class Router implements IRouter {
 
   upload() {
     const Page = window.store.getState().view;
-    console.log(Page);
 
     renderDOM(new Page({}));
   }

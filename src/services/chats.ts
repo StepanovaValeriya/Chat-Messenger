@@ -52,8 +52,8 @@ export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
       throw new Error(response.reason);
     }
 
-    // await getChats(store);
-    // window.router.upload();
+    await getChats(store);
+    window.router.upload();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {

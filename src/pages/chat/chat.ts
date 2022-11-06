@@ -41,7 +41,12 @@ class ChatPage extends Block<ChatPageProps> {
           `input[name='create_chat']`
         ) as HTMLInputElement;
         let chatName = input.value;
-        createChat(this.props.store, { title: chatName });
+        if (!chatName) {
+          document.querySelector("#error__addChat")?.classList.remove("hidden");
+        } else {
+          document.querySelector("#error__addChat")?.classList.add("hidden");
+          createChat(this.props.store, { title: chatName });
+        }
       },
       addUserToChat: () => {
         let input = this.element?.querySelector(
@@ -49,7 +54,12 @@ class ChatPage extends Block<ChatPageProps> {
         ) as HTMLInputElement;
         let login = input.value;
         const chat = this.props.store.getState().selectedChat;
-        chat && addUserToChat(this.props.store, { login: login, chat });
+        if (!login) {
+          document.querySelector("#error__addUser")?.classList.remove("hidden");
+        } else {
+          document.querySelector("#error__addUser")?.classList.add("hidden");
+          chat && addUserToChat(this.props.store, { login: login, chat });
+        }
       },
 
       deleteUserFromChat: () => {
@@ -57,9 +67,15 @@ class ChatPage extends Block<ChatPageProps> {
           `input[name='user_to_delete']`
         ) as HTMLInputElement;
         let login = input.value;
-        console.log(login);
         const chat = this.props.store.getState().selectedChat;
-        chat && deleteUserFromChat(this.props.store, { login: login, chat });
+        if (!login) {
+          document
+            .querySelector("#error__deleteUser")
+            ?.classList.remove("hidden");
+        } else {
+          document.querySelector("#error__deleteUser")?.classList.add("hidden");
+          chat && deleteUserFromChat(this.props.store, { login: login, chat });
+        }
       },
     };
   }
