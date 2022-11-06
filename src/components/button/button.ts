@@ -1,13 +1,13 @@
 import Block from "core/Block";
 import "./button";
 
-interface ButtonProps {
+type ButtonProps = {
   text: string;
   className: string;
   id?: string;
   type?: "submit" | "button" | "reset";
   onClick: () => void;
-}
+};
 export class Button extends Block {
   static componentName = "Button";
   constructor({ text, className, onClick }: ButtonProps) {

@@ -30,11 +30,13 @@ export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
       avatar,
     };
 
+    alert("Your data has been successfully changed");
+
     store.setState({
       user: updatedUser,
     });
 
-    window.router.back();
+    // window.router.back();
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {

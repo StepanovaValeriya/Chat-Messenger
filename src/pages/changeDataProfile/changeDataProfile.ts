@@ -52,86 +52,91 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         };
         this.setState(nextState);
       },
-      onBlur: (e: FocusEvent) => {
-        if (e.target) {
-          console.log("blur");
-          const element = e.target as HTMLInputElement;
-          const message = Validate(element.value, element.id);
-          const newValues = { ...this.state.values };
-          const newErrors = { ...this.state.errors };
-          newValues[element.id] = element.value;
-          if (message) {
-            newErrors[element.id] = message;
-          }
-          this.state.handleErrors(newValues, newErrors);
-        }
-      },
-
-      onInput: (e: Event) => {
-        const element = e.target as HTMLInputElement;
-        const message = Validate(element.value, element.id);
-        if (element.id === "email") {
-          this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "login") {
-          this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "display_name") {
-          this.refs.displayNameInputRef.refs.errorRef.setProps({
-            text: message,
-          });
-        }
-        if (element.id === "first_name") {
-          this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "second_name") {
-          this.refs.SecondNameInputRef.refs.errorRef.setProps({
-            text: message,
-          });
-        }
-        if (element.id === "phone") {
-          this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
-        }
-      },
-      formValid: () => {
-        let isValid = true;
-        const newValues = { ...this.state.values };
-        const newErrors = { ...this.state.errors };
-        Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
-          newValues[key] = input.value;
-          const message = Validate(newValues[key], key);
-          if (message) {
-            isValid = false;
-            newErrors[key] = message;
-          }
-        });
-        if (!isValid) {
-          this.state.handleErrors(newValues, newErrors);
-        }
-        return isValid;
-      },
-      onSubmit: () => {
+      onSubmit: (e: MouseEvent) => {
+        e.preventDefault;
         console.log("sub");
-        if (this.state.formValid()) {
+        if (this.formValid()) {
           console.log("submit", this.state.values);
           const profileData = this.state.values;
-          changeUserProfile(this.props.store, { ...profileData });
+          console.log(profileData);
+          changeUserProfile(this.props.store, profileData);
         }
       },
-      onAvatarChange: () => {
-        const formData = new FormData(
-          document.querySelector("#user_form_avatar") as HTMLFormElement
-        );
-        if (!formData) {
-          console.log("dj");
-        }
-        changeAvatar(this.props.store, formData);
-      },
+      onBlur: this.onBlur.bind(this),
+      onInput: this.onInput.bind(this),
+      onAvatarChange: this.onAvatarChange.bind(this),
     };
   }
+  onBlur(e: Event) {
+    if (e.target) {
+      console.log(e.target);
+      console.log("blur");
+      const element = e.target as HTMLInputElement;
+      const message = Validate(element.value, element.id);
+      const newValues = { ...this.state.values };
+      const newErrors = { ...this.state.errors };
+      newValues[element.id] = element.value;
+      if (message) {
+        newErrors[element.id] = message;
+      }
+      this.state.handleErrors(newValues, newErrors);
+    }
+  }
+
+  onInput(e: Event) {
+    const element = e.target as HTMLInputElement;
+    const message = Validate(element.value, element.id);
+    if (element.id === "email") {
+      this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "login") {
+      this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "display_name") {
+      this.refs.displayNameInputRef.refs.errorRef.setProps({
+        text: message,
+      });
+    }
+    if (element.id === "first_name") {
+      this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "second_name") {
+      this.refs.SecondNameInputRef.refs.errorRef.setProps({
+        text: message,
+      });
+    }
+    if (element.id === "phone") {
+      this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
+    }
+  }
+  formValid() {
+    let isValid = true;
+    const newValues = { ...this.state.values };
+    const newErrors = { ...this.state.errors };
+    Object.keys(this.state.values).forEach((key) => {
+      let input = this.element?.querySelector(
+        `input[name='${key}']`
+      ) as HTMLInputElement;
+      newValues[key] = input.value;
+      const message = Validate(newValues[key], key);
+      if (message) {
+        isValid = false;
+        newErrors[key] = message;
+      }
+    });
+    if (!isValid) {
+      this.state.handleErrors(newValues, newErrors);
+    }
+    return isValid;
+  }
+
+  onAvatarChange() {
+    const formData = new FormData(
+      document.querySelector("#user_form_avatar") as HTMLFormElement
+    );
+    changeAvatar(this.props.store, formData);
+  }
+
   render() {
     const { errors, values } = this.state;
     const avatarImg = this.props.user?.avatar ?? "";
@@ -227,6 +232,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
               }}}
               </form>
               {{{Button
+                type="submit"
                 className="button__main"
                 text="Save"
                 onClick=onSubmit
@@ -238,4 +244,5 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
     `;
   }
 }
+
 export default WithStore(WithRouter(WithUser(ChangeDataProfilePage)));

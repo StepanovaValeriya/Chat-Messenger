@@ -1,9 +1,9 @@
 import Block from "core/Block";
 
-interface ErrorPageProps {
+type ErrorPageProps = {
   errorCode?: string;
   errorText?: string;
-}
+};
 
 export default class ErrorPage extends Block<ErrorPageProps> {
   static componentName = "ErrorPage";

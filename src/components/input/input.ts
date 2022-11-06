@@ -2,7 +2,7 @@ import Block from "../../core/Block";
 
 import "./input";
 
-interface InputProps {
+type InputProps = {
   onBlur?: () => void;
   onInput?: () => void;
   onFocus?: () => void;
@@ -14,10 +14,17 @@ interface InputProps {
   value?: string;
   className?: string;
   placeholder?: string;
-}
+};
 
-export class Input extends Block<InputProps> {
+export class Input extends Block {
   static componentName = "Input";
+
+  constructor({ onInput, onBlur, onFocus, ...props }: InputProps) {
+    super({
+      ...props,
+      events: { input: onInput, blur: onBlur, focus: onFocus },
+    });
+  }
 
   protected render(): string {
     // language=hbs
