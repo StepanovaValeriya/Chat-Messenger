@@ -41,8 +41,12 @@ class ProfilePage extends Block<ProfilePageProps> {
   render() {
     const avatarImg = this.props.user?.avatar ?? "";
     const userName = this.props.user?.firstName ?? "";
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}

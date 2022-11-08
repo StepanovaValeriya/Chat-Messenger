@@ -108,8 +108,12 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
   }
   render() {
     const { errors, values } = this.state;
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}

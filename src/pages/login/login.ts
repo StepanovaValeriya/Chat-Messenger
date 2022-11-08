@@ -95,9 +95,9 @@ class LoginPage extends Block<LoginPageProps> {
     const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
-    {{#if ${isLoading}}}
-    {{{Loader}}}
-  {{/if}}
+   {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Login" }}
         <div class="page__login _page">
           <div class="auth">

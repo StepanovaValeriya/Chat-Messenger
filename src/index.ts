@@ -26,7 +26,7 @@ import {
   ChangeAvatarModal,
 } from "./components/profile";
 import Modal from "./components/modal";
-import Loader from "./components/loading";
+import Loader from "./components/loader";
 
 registerComponent(Button);
 registerComponent(Layout);

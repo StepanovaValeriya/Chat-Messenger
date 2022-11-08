@@ -2,9 +2,11 @@ import Block from "core/Block";
 import Router from "core/router";
 import "./main";
 import { WithRouter } from "helpers/withRouter";
+import { Store } from "core";
 
 export type MainPageProps = {
   router: Router;
+  store: Store<AppState>;
 };
 
 export class MainPage extends Block<MainPageProps> {
@@ -24,6 +26,7 @@ export class MainPage extends Block<MainPageProps> {
   render() {
     // language=hbs
     return `
+
     {{#Layout name="Main" }}
       <div class="page__welcome _page">
         <h1 class="page__welcome__title">Welcome to Chat-Messenger!</h1>

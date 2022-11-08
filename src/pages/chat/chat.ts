@@ -81,9 +81,13 @@ class ChatPage extends Block<ChatPageProps> {
   }
   render() {
     const id = this.props.store.getState().selectedChat?.id;
+    const isLoading = this.props.store.getState().isLoading;
 
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Chat"}}
         <div class="content chat">
           <div class="chat__nav">

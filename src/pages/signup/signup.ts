@@ -120,9 +120,13 @@ class SignUpPage extends Block<SignUpPageProps> {
     };
   }
   render() {
+    const isLoading = this.props.store.getState().isLoading;
     const { errors, values } = this.state;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+              {{{Loader}}}
+            {{/if}}
       {{#Layout name="SignUp" }}
         <div class="page__login _page">
           <div class="auth">
