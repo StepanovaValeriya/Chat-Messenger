@@ -4,10 +4,15 @@ import { deleteChat, getChatInfo } from "services/chats";
 import { Store } from "core/store";
 import { WithStore } from "helpers/withStore";
 import "./chatList";
+import { openSocket } from "services/chats";
 
+interface IChatListProps {
+  id: number;
+}
 type ChatListProps = {
   store: Store<AppState>;
   chat: ChatType;
+  messages: Message[] | undefined;
   deleteChat: () => void;
   events: {
     click: (event: Event) => void;
@@ -24,8 +29,15 @@ class ChatList extends Block<ChatListProps> {
       if ((event.target as HTMLElement).tagName === "BUTTON") {
         return;
       }
-
-      // this.props.store.dispatch({ isLoading: true });
+      const { target } = event;
+      const item = (target as HTMLElement).closest("li") as HTMLLIElement;
+      console.log(item);
+      const chatId: number = parseInt(item.dataset.id!, 10);
+      console.log(chatId);
+      this.props.store.setState({ messages: [] });
+      // const currentChat = this.props.chat.find(
+      //   (chat: ChatType) => chat.id === chatId
+      // ) as ChatType;
 
       getChatInfo(this.props.store, { ...this.props.chat });
     };
@@ -44,7 +56,7 @@ class ChatList extends Block<ChatListProps> {
     // language=hbs
     return `
       <ul class="chat__list">
-        <li class="chat__item">
+        <li class="chat__item" data-id={{chat.id}}>
         <div class="chat__item__main">
           <div class="chat__item__image">
             <img

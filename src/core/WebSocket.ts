@@ -30,17 +30,12 @@ export class Socket implements WebSocketProps {
     socket.addEventListener("open", () => {
       console.log("Соединение установлено");
 
-      let currentMessageNumber = 0;
-
-      while (currentMessageNumber < chat.unreadCount) {
-        const messageObject = {
-          content: String(currentMessageNumber),
+      socket.send(
+        JSON.stringify({
+          content: "0",
           type: "get old",
-        };
-
-        socket.send(JSON.stringify(messageObject));
-        currentMessageNumber += 20;
-      }
+        })
+      );
     });
 
     socket.addEventListener("close", (event) => {
@@ -60,10 +55,12 @@ export class Socket implements WebSocketProps {
       console.log("Получены данные", event.data);
 
       const data = JSON.parse(event.data);
+      console.log(data);
 
       if (Array.isArray(data)) {
         const socketData = this.socketsMap.get(String(chat.id)) as SocketData;
         socketData.oldMessagesArray = [...socketData.oldMessagesArray, ...data];
+        console.log(socketData);
 
         this.socketsMap.set(String(chat.id), {
           socket: socketData.socket,

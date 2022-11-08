@@ -15,6 +15,8 @@ declare global {
     chats: Nullable<Array<ChatType>>;
     selectedChat: Nullable<ChatType>;
     isPopupShown: boolean;
+    messages: Message[];
+    socket: WebSocket | null;
   };
 
   export type UserType = {
@@ -37,6 +39,17 @@ declare global {
     lastMessage: Record<string, any>;
     chatUsers?: Array<UserType>;
     chatToken?: string;
+  };
+
+  export type Message = {
+    id: number;
+    userId: number;
+    chatId: number;
+    type: string;
+    time: string;
+    content: string;
+    isRead: boolean;
+    file: string;
   };
 }
 

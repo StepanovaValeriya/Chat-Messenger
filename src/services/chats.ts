@@ -201,10 +201,13 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (
       chatUsers: users.map((user) => apiUserTransformers(user)),
       chatToken: token as string,
     };
+    console.log(selectedChat);
 
     const { user } = store.getState();
+    const { messages } = store.getState();
 
     if (user) {
+      console.log("open");
       openSocket(user.id, selectedChat);
     }
 

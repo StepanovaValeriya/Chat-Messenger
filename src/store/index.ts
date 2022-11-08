@@ -7,4 +7,6 @@ export const defaultState: AppState = {
   chats: [],
   selectedChat: null,
   isPopupShown: false,
+  messages: [],
+  socket: null,
 };
