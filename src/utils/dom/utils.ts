@@ -14,9 +14,7 @@ export function createModalToggler(modalId: string) {
       const { parentElement } = target;
       parentElement.classList.toggle("hidden");
     } else {
-      console.log(_modalId);
       const el = document.getElementById(_modalId) as HTMLElement;
-      console.log(el);
       el.classList.contains("hidden") && el.classList.toggle("hidden");
     }
   };

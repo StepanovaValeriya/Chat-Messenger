@@ -17,7 +17,6 @@ export class Socket implements WebSocketProps {
 
   createConnection(userId: number, chat: ChatType) {
     const { id, chatToken } = chat;
-    console.log(id, chatToken);
     const socket = new WebSocket(
       `${BASE_URL}/chats/${userId}/${id}/${chatToken}`
     );
@@ -55,12 +54,10 @@ export class Socket implements WebSocketProps {
       console.log("Получены данные", event.data);
 
       const data = JSON.parse(event.data);
-      console.log(data);
 
       if (Array.isArray(data)) {
         const socketData = this.socketsMap.get(String(chat.id)) as SocketData;
         socketData.oldMessagesArray = [...socketData.oldMessagesArray, ...data];
-        console.log(socketData);
 
         this.socketsMap.set(String(chat.id), {
           socket: socketData.socket,

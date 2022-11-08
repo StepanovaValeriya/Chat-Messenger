@@ -16,14 +16,6 @@ interface ModalProps {
 export class Modal extends Block<ModalProps> {
   static componentName = "Modal";
 
-  protected getStateFromProps() {
-    this.state = {
-      onCancelModal: () => {
-        document.querySelector(".modal")?.classList.add("hidden");
-      },
-    };
-  }
-
   render(): string {
     // language=hbs
     return `

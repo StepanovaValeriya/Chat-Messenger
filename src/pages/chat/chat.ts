@@ -36,6 +36,30 @@ class ChatPage extends Block<ChatPageProps> {
       onProfilePage: () => {
         this.props.router.go("/profile");
       },
+      onCancelModal: () => {
+        let addChat = document.querySelector("#modal-add-chat");
+        let addUser = document.querySelector("#modal-add-user");
+        let delUser = document.querySelector("#modal-delete-user");
+        if (addChat) {
+          addChat.classList.add("hidden");
+        }
+        if (addUser) {
+          addUser.classList.add("hidden");
+        }
+        if (delUser) {
+          delUser.classList.add("hidden");
+        }
+      },
+      // onCancelCreateChat: () => {
+      //   let addChat = document.querySelector("#modal-add-chat");
+      //   console.log(addChat);
+      //   addChat.classList.add("hidden");
+      // },
+      // onCancelAddUser: () => {
+      //   let addUser = document.querySelector("#modal-add-user");
+      //   console.log(addUser);
+      //   addUser.classList.add("hidden");
+      // },
       createChat: () => {
         let input = this.element?.querySelector(
           `input[name='create_chat']`
@@ -105,16 +129,16 @@ class ChatPage extends Block<ChatPageProps> {
         <div class="chat__main">
         {{#if ${id}}}
             {{{ChatHeader}}}
-                <span class="message__date">30 october</span>
+                <span class="message__date"></span>
                   {{{Message}}}
             {{else}}
               {{{EmptyChat}}}
             {{/if}}
             {{{ChatMessageInput}}}
           </div>
-          {{{Modal id="modal-add-chat" onSubmit=createChat toggler=toggleAddChatModal inputType="text" inputLabel="Enter chat name" inputId="create_chat" title="Create new chat"  buttonText="Create chat" inputName="create_chat" classError="error__addChat"}}}
-          {{{Modal id="modal-add-user" onSubmit=addUserToChat toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"  classError="error__addUser"}}}
-          {{{Modal id="modal-delete-user" onSubmit=deleteUserFromChat toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete" classError="error__deleteUser"}}}
+          {{{Modal id="modal-add-chat" onCancelModal=onCancelModal  onSubmit=createChat toggler=toggleAddChatModal inputType="text" inputLabel="Enter chat name" inputId="create_chat" title="Create new chat"  buttonText="Create chat" inputName="create_chat" classError="error__addChat"}}}
+          {{{Modal id="modal-add-user"  onCancelModal=onCancelModal  onSubmit=addUserToChat toggler=toggleAddUserModal inputType="text" inputLabel="Login" inputId="user_to_add" title="Add user" buttonText="Add" inputName="user_to_add"  classError="error__addUser"}}}
+          {{{Modal id="modal-delete-user"  onCancelModal=onCancelModal  onSubmit=deleteUserFromChat toggler=toggleDeleteUserModal inputType="text" inputLabel="Login" inputId="delete-user-name" title="Delete user" buttonText="Delete" inputName="user_to_delete" classError="error__deleteUser"}}}
         </div>
      {{/Layout}}
     `;
