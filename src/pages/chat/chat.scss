@@ -18,12 +18,15 @@
       align-self: flex-end;
       display: flex;
       gap: 5px;
-      &:hover {
-        color: $hoverColorChat;
-      }
+
       &__title {
         font-size: 14px;
         line-height: 12px;
+        background-color: transparent;
+        cursor: pointer;
+        &:hover {
+          color: $hoverColorChat;
+        }
       }
     }
     &__search {
@@ -52,6 +55,12 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 0px 20px;
+    @include breakpoint(xl) {
+      padding: 0px 40px;
+    }
+    @include breakpoint(lg) {
+      display: none;
+    }
   }
 }
 .message__date {

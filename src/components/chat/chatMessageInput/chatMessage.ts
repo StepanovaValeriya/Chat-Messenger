@@ -1,18 +1,26 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { toggleAttachWindow } from "utils/dom";
+import { sendMessage } from "services/chats";
+import { Store } from "core/store";
+import Router from "core/router";
+import { WithStore } from "helpers";
 import "./chatMessage";
 
-interface ChatMessageProps {
-  clipPath: string;
-}
+type ChatMessageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  chats: Nullable<Array<ChatType>>;
+};
 
-export default class ChatMessageInput extends Block {
+class ChatMessageInput extends Block<ChatMessageProps> {
   static componentName = "ChatMessageInput";
-  constructor({ clipPath }: ChatMessageProps) {
-    super({ clipPath });
+  constructor(props: ChatMessageProps) {
+    super({ ...props, toggleAttachWindow });
   }
 
-  protected getStateFromProps() {
+  protected getStateFromProps(_props: ChatMessageProps) {
     this.state = {
       values: {
         message: "",
@@ -43,7 +51,6 @@ export default class ChatMessageInput extends Block {
           ) as HTMLInputElement;
           newValues[key] = input.value;
           const messages = Validate(newValues[key], key);
-          console.log(messages);
           if (messages) {
             isValid = false;
             newErrors[key] = messages;
@@ -59,19 +66,38 @@ export default class ChatMessageInput extends Block {
         console.log("sub");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
+          let message = this.state.values.message;
+          const chat = this.props.store.getState().selectedChat;
+          if (chat) {
+            sendMessage(message, chat);
+          }
+          message = "";
         }
       },
     };
   }
 
   protected render(): string {
-    const { errors, values } = this.state;
+    const { errors } = this.state;
     // language=hbs
     return `
       <div class="chat__message">
-        <button class="chat__message__actions">
-          <img src="{{clipPath}}" alt="clip" />
-        </button>
+      {{{Button className="chat__message__actions" onClick=toggleAttachWindow}}}
+          <img src="/img/clipChat.png" alt="clip" />
+        <ul class="chat__message__options options hidden">
+          <li class="options__item">
+            {{{Button className="options__button" type="button" text="Photo or Video"}}}
+            <img src="/img/image.png" alt="action">
+          </li>
+          <li class="options__item">
+            {{{Button  className="options__button" type="button" text="File"}}}
+            <img src="/img/file.png" alt="action">
+          </li>
+          <li class="options__item">
+            {{{Button className="options__button" type="button" text="Location"}}}
+            <img src="/img/location.png" alt="action">
+          </li>
+      </ul>
         {{{Input
           className="chat__message__input"
           ref="message"
@@ -90,7 +116,7 @@ export default class ChatMessageInput extends Block {
         }}}
         {{{InputError ref="errorRef" text="${errors.message}"}}}
       </div>
-
     `;
   }
 }
+export default WithStore(ChatMessageInput);

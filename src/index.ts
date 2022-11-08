@@ -1,14 +1,10 @@
-import { renderDOM, registerComponent } from "./core";
+import { registerComponent } from "./core";
 import "./styles/style.scss";
-
-import MainPage from "./pages/main";
-import ErrorPage from "./pages/errors";
-import LoginPage from "./pages/login";
-import SignUpPage from "./pages/signup";
-import ChatPage from "./pages/chat";
-import ProfilePage from "./pages/profile";
-import ChangePassProfilePage from "./pages/changePassProfile";
-import ChangeDataProfilePage from "./pages/changeDataProfile";
+import Router from "core/router";
+import store, { Store } from "core/store";
+import { initApp } from "./services/initApp";
+import { initRouter } from "services/initRouter";
+import { Socket } from "core/WebSocket";
 
 import Button from "./components/button";
 import Layout from "./components/layout";
@@ -23,7 +19,14 @@ import {
   EmptyChat,
   Message,
 } from "./components/chat";
-import { ProfileAvatar, ProfileNav, ProfileItem } from "./components/profile";
+import {
+  ProfileAvatar,
+  ProfileNav,
+  ProfileItem,
+  ChangeAvatarModal,
+} from "./components/profile";
+import Modal from "./components/modal";
+import Loader from "./components/loader";
 
 registerComponent(Button);
 registerComponent(Layout);
@@ -39,45 +42,37 @@ registerComponent(Message);
 registerComponent(ProfileAvatar);
 registerComponent(ProfileNav);
 registerComponent(ProfileItem);
+registerComponent(ChangeAvatarModal);
+registerComponent(Modal);
+registerComponent(Loader);
+
+declare global {
+  interface Window {
+    router: Router;
+    store: Store<AppState>;
+    webSocket: Socket;
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  switch (window.location.pathname) {
-    case "/":
-      renderDOM(new MainPage());
-      break;
-    case "/error404":
-      renderDOM(
-        new ErrorPage({ errorCode: "404", errorText: "Page does not exist" })
-      );
-      break;
-    case "/error500":
-      renderDOM(
-        new ErrorPage({
-          errorCode: "500",
-          errorText: "We are aware of the problem and are already solving it.",
-        })
-      );
-      break;
-    case "/login":
-      renderDOM(new LoginPage());
-      break;
+  const router = new Router();
+  window.router = router;
+  window.store = store;
 
-    case "/signup":
-      renderDOM(new SignUpPage());
-      break;
-    case "/chat":
-      renderDOM(new ChatPage());
-      break;
-    case "/profile":
-      renderDOM(new ProfilePage());
-      break;
-    case "/changePassProfile":
-      renderDOM(new ChangePassProfilePage());
-      break;
-    case "/changeDataProfile":
-      renderDOM(new ChangeDataProfilePage());
-      break;
-    default:
-      console.log("nothing");
-  }
+  const socketController = new Socket();
+  window.webSocket = socketController;
+
+  store.on("updated", (nextState) => {
+    if (process.env.DEBUG) {
+      console.log(
+        "%cstore updated",
+        "background: #222; color: #bada55",
+        nextState
+      );
+    }
+  });
+  console.log(store, router);
+
+  initRouter(router, store);
+  initApp(store);
 });

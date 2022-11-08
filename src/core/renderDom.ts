@@ -5,4 +5,5 @@ export default function renderDOM(block: Block) {
 
   root!.innerHTML = "";
   root!.appendChild(block.getContent());
+  block.dispatchComponentDidMount();
 }

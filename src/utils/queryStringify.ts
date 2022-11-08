@@ -1,8 +1,53 @@
-function queryStringify(data: { [key: string]: string }): string {
-  const params = Object.entries(data).reduce((acc, [key, value]) => {
-    acc += `${key}=${value}&`;
-    return acc;
-  }, "?");
+import { isObject } from "./isObject";
 
-  return params.slice(0, params.length - 1);
+type StringIndexed = Record<string, any>;
+
+function stringifyPrimitive(
+  key: string,
+  value: number | string | boolean,
+  postfix = ""
+) {
+  return postfix ? `${key}[${postfix}]=${value}` : `${key}=${value}`;
 }
+
+function stringifyObject(prefix: string, object: object): string {
+  if (Array.isArray(object)) {
+    const flattenArray = object.map((item, index) => {
+      if (typeof item !== "object") {
+        return stringifyPrimitive(prefix, item, String(index));
+      }
+
+      return stringifyObject(String(index), item);
+    });
+
+    return flattenArray.join("&");
+  }
+
+  return Object.entries(object)
+    .map(([key, value]) => {
+      if (typeof value !== "object" && value !== null) {
+        return stringifyPrimitive(prefix, value, key);
+      }
+
+      return stringifyObject(`${prefix}[${key}]`, value);
+    })
+    .join("&");
+}
+
+function queryStringify(data: StringIndexed): string | never {
+  if (!isObject(data)) {
+    throw new Error("input must be an object");
+  }
+
+  const params = Object.entries(data).map(([key, value]) => {
+    if (typeof value !== "object" && value !== null) {
+      return stringifyPrimitive(key, value);
+    }
+
+    return stringifyObject(key, value);
+  });
+
+  return params.join("&");
+}
+
+export default queryStringify;

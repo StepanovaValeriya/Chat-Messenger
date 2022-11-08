@@ -2,9 +2,9 @@ import Block from "../../core/Block";
 
 import "./inputError";
 
-interface InputErrorProps {
+type InputErrorProps = {
   text?: string;
-}
+};
 
 export class InputError extends Block<InputErrorProps> {
   static componentName = "InputError";

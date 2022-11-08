@@ -1,11 +1,20 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { signup } from "services/auth";
+import { WithRouter, WithStore } from "helpers";
+import { Router } from "core";
+import { Store } from "core";
 
-export class SignUpPage extends Block {
+type SignUpPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  formError: () => void;
+};
+
+class SignUpPage extends Block<SignUpPageProps> {
   static componentName = "SignUpPage";
-  constructor() {
-    super({});
-  }
+
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -25,6 +34,9 @@ export class SignUpPage extends Block {
         phone: "",
         password: "",
         passwordSecond: "",
+      },
+      onLoginPage: () => {
+        this.props.router.go("/login");
       },
       handleErrors: (
         values: { [key: string]: number },
@@ -99,23 +111,26 @@ export class SignUpPage extends Block {
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
-        console.log("sub");
+      onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/chat";
+          signup(this.props.store, { ...this.state.values });
         }
       },
     };
   }
   render() {
+    const isLoading = this.props.store.getState().isLoading;
     const { errors, values } = this.state;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+              {{{Loader}}}
+            {{/if}}
       {{#Layout name="SignUp" }}
         <div class="page__login _page">
           <div class="auth">
-            <h1 class="auth__title">Sign In</h1>
+            <h1 class="auth__title">Sign Up</h1>
             <form class="auth__form">
               {{{ControlledInput
                 className="input__field"
@@ -214,10 +229,10 @@ export class SignUpPage extends Block {
               onClick=onSubmit
               className="button__main"
             }}}
-            {{{Link
-              className="auth__link"
+            {{{Button
+              className="button__main"
               text="Enter"
-              to="/login"
+              onClick=onLoginPage
             }}}
          </div>
         </div>
@@ -225,3 +240,4 @@ export class SignUpPage extends Block {
     `;
   }
 }
+export default WithStore(WithRouter(SignUpPage));

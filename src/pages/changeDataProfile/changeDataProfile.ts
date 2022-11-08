@@ -1,19 +1,37 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import { createModalToggler } from "utils/dom";
+import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
+import { changeUserProfile } from "services/userData";
+import { changeAvatar } from "services/userData";
 
-export class ChangeDataProfilePage extends Block {
+const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
+
+type ChangeDataProfilePageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  userData: Array<any>;
+};
+
+class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   static componentName = "ChangeDataProfilePage";
-  constructor() {
-    super();
+  constructor(props: ChangeDataProfilePageProps) {
+    super({ ...props, toggleChangeAvatarModal });
   }
-  protected getStateFromProps() {
+
+  protected getStateFromProps(_props: ChangeDataProfilePageProps) {
     this.state = {
       values: {
-        email: "",
-        login: "",
-        first_name: "",
-        second_name: "",
-        phone: "",
+        email: _props.user?.email,
+        login: _props.user?.login,
+        display_name: _props.user?.displayName,
+        first_name: _props.user?.firstName,
+        second_name: _props.user?.secondName,
+        phone: _props.user?.phone,
       },
       errors: {
         email: "",
@@ -21,6 +39,7 @@ export class ChangeDataProfilePage extends Block {
         first_name: "",
         second_name: "",
         phone: "",
+        display_name: "",
       },
 
       handleErrors: (
@@ -33,81 +52,106 @@ export class ChangeDataProfilePage extends Block {
         };
         this.setState(nextState);
       },
-      onBlur: (e: FocusEvent) => {
-        if (e.target) {
-          console.log("blur");
-          const element = e.target as HTMLInputElement;
-          const message = Validate(element.value, element.id);
-          const newValues = { ...this.state.values };
-          const newErrors = { ...this.state.errors };
-          newValues[element.id] = element.value;
-          if (message) {
-            newErrors[element.id] = message;
-          }
-          this.state.handleErrors(newValues, newErrors);
-        }
-      },
-
-      onInput: (e: Event) => {
-        const element = e.target as HTMLInputElement;
-        const message = Validate(element.value, element.id);
-        if (element.id === "email") {
-          this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "login") {
-          this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "first_name") {
-          this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "second_name") {
-          this.refs.SecondNameInputRef.refs.errorRef.setProps({
-            text: message,
-          });
-        }
-        if (element.id === "phone") {
-          this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
-        }
-      },
-      formValid: () => {
-        let isValid = true;
-        const newValues = { ...this.state.values };
-        const newErrors = { ...this.state.errors };
-        Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
-          newValues[key] = input.value;
-          const message = Validate(newValues[key], key);
-          if (message) {
-            isValid = false;
-            newErrors[key] = message;
-          }
-        });
-        if (!isValid) {
-          this.state.handleErrors(newValues, newErrors);
-        }
-        return isValid;
-      },
-      onSubmit: (e: PointerEvent) => {
+      onSubmit: (e: MouseEvent) => {
+        e.preventDefault;
         console.log("sub");
-        if (this.state.formValid()) {
+        if (this.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/profile";
+          const profileData = this.state.values;
+          console.log(profileData);
+          changeUserProfile(this.props.store, profileData);
         }
       },
+      onBlur: this.onBlur.bind(this),
+      onInput: this.onInput.bind(this),
+      onAvatarChange: this.onAvatarChange.bind(this),
     };
   }
+  onBlur(e: Event) {
+    if (e.target) {
+      console.log(e.target);
+      console.log("blur");
+      const element = e.target as HTMLInputElement;
+      const message = Validate(element.value, element.id);
+      const newValues = { ...this.state.values };
+      const newErrors = { ...this.state.errors };
+      newValues[element.id] = element.value;
+      if (message) {
+        newErrors[element.id] = message;
+      }
+      this.state.handleErrors(newValues, newErrors);
+    }
+  }
+
+  onInput(e: Event) {
+    const element = e.target as HTMLInputElement;
+    const message = Validate(element.value, element.id);
+    if (element.id === "email") {
+      this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "login") {
+      this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "display_name") {
+      this.refs.displayNameInputRef.refs.errorRef.setProps({
+        text: message,
+      });
+    }
+    if (element.id === "first_name") {
+      this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
+    }
+    if (element.id === "second_name") {
+      this.refs.SecondNameInputRef.refs.errorRef.setProps({
+        text: message,
+      });
+    }
+    if (element.id === "phone") {
+      this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
+    }
+  }
+  formValid() {
+    let isValid = true;
+    const newValues = { ...this.state.values };
+    const newErrors = { ...this.state.errors };
+    Object.keys(this.state.values).forEach((key) => {
+      let input = this.element?.querySelector(
+        `input[name='${key}']`
+      ) as HTMLInputElement;
+      newValues[key] = input.value;
+      const message = Validate(newValues[key], key);
+      if (message) {
+        isValid = false;
+        newErrors[key] = message;
+      }
+    });
+    if (!isValid) {
+      this.state.handleErrors(newValues, newErrors);
+    }
+    return isValid;
+  }
+
+  onAvatarChange() {
+    const formData = new FormData(
+      document.querySelector("#user_form_avatar") as HTMLFormElement
+    );
+    changeAvatar(this.props.store, formData);
+  }
+
   render() {
     const { errors, values } = this.state;
+    const avatarImg = this.props.user?.avatar ?? "";
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+              {{{Loader}}}
+            {{/if}}
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
           <div class="profile__main">
-          {{{ProfileAvatar avatarPath = "/img/catUser.jpg" userName="${values.first_name}"}}}
-              <div class='profile__info'>
+          {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${values.first_name}"}}}
+              <form class='profile__info'>
               {{{ControlledInput
                 className="input__profile"
                 onBlur=onBlur
@@ -130,9 +174,22 @@ export class ChangeDataProfilePage extends Block {
                 error="${errors.login}"
                 ref="loginInputRef"
                 id="login"
-                type="login"
+                type="text"
                 label="Login"
                 name="login"
+              }}}
+              {{{ControlledInput
+                className="input__profile"
+                onBlur=onBlur
+                onFocus=onFocus
+                onInput=onInput
+                value="${values.display_name}"
+                error="${errors.display_name}"
+                ref="displayNameInputRef"
+                id="display_name"
+                type="text"
+                label="Display Name"
+                name="display_name"
               }}}
               {{{ControlledInput
                 className="input__profile"
@@ -173,15 +230,19 @@ export class ChangeDataProfilePage extends Block {
                 label="Phone"
                 name="phone"
               }}}
-              </div>
+              </form>
               {{{Button
+                type="submit"
                 className="button__main"
                 text="Save"
                 onClick=onSubmit
               }}}
           </div>
+          {{{ChangeAvatarModal toggler=toggleChangeAvatarModal  formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" classError="error__addAvatar" onSubmit=onAvatarChange}}}
         </div>
       {{/Layout}}
     `;
   }
 }
+
+export default WithStore(WithRouter(WithUser(ChangeDataProfilePage)));

@@ -3,6 +3,7 @@
 @import "../components/layout/layout.scss";
 @import "../components/button/button.scss";
 @import "../components/controlledInput/controlledInput.scss";
+@import "../components//modal/modal.scss";
 @import "../pages/errors/errors.scss";
 @import "../pages/main/main.scss";
 @import "../pages/login/login.scss";
@@ -47,4 +48,7 @@ body {
 ._page {
   margin: auto;
   padding: 20px;
+}
+.hidden {
+  display: none;
 }

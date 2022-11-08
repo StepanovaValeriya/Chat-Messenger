@@ -22,7 +22,7 @@ export default function Validate(value: string, name: string): string {
       }
       break;
     case "password":
-      // case "passwordSecond":
+    case "passwordRepeat":
       if (!(value.length >= 8 && value.length <= 40)) {
         errors.push("Use 8 to 40 characters");
       }

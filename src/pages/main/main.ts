@@ -1,21 +1,24 @@
 import Block from "core/Block";
+import Router from "core/router";
 import "./main";
+import { WithRouter } from "helpers/withRouter";
+import { Store } from "core";
 
-export class MainPage extends Block {
+export type MainPageProps = {
+  router: Router;
+  store: Store<AppState>;
+};
+
+export class MainPage extends Block<MainPageProps> {
   static componentName = "MainPage";
+
   protected getStateFromProps() {
     this.state = {
       onLoginPage: () => {
-        window.location.href = "/login";
+        this.props.router.go("/login");
       },
       onSignUpPage: () => {
-        window.location.href = "/signup";
-      },
-      onError404Page: () => {
-        window.location.href = "/error404";
-      },
-      onError500Page: () => {
-        window.location.href = "/error500";
+        this.props.router.go("/signup");
       },
     };
   }
@@ -23,6 +26,7 @@ export class MainPage extends Block {
   render() {
     // language=hbs
     return `
+
     {{#Layout name="Main" }}
       <div class="page__welcome _page">
         <h1 class="page__welcome__title">Welcome to Chat-Messenger!</h1>
@@ -36,18 +40,9 @@ export class MainPage extends Block {
           onClick=onSignUpPage
           className="button__main"
         }}}
-        {{{Button
-          text="404"
-          onClick=onError404Page
-          className="button__main"
-        }}}
-        {{{Button
-          text="500"
-          onClick=onError500Page
-          className="button__main"
-        }}}
       </div>
   {{/Layout}}
     `;
   }
 }
+export default WithRouter(MainPage);

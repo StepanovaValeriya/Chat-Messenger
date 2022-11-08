@@ -1,10 +1,11 @@
 import Block from "../../core/Block";
 import "./controlledInput";
 
-interface ControlledInputProps {
+type ControlledInputProps = {
   onInput?: () => void;
+  onBlur?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel" | "search";
+  type?: "text" | "password" | "email" | "tel" | "search" | "file";
   value?: string;
   error?: string;
   label?: string;
@@ -12,15 +13,9 @@ interface ControlledInputProps {
   id?: string;
   name?: string;
   className?: string;
-}
-
-export class ControlledInput extends Block {
+};
+export class ControlledInput extends Block<ControlledInputProps> {
   static componentName = "ControlledInput";
-  constructor(props: ControlledInputProps) {
-    super({
-      ...props,
-    });
-  }
 
   protected render(): string {
     // language=hbs

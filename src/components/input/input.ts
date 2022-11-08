@@ -2,11 +2,11 @@ import Block from "../../core/Block";
 
 import "./input";
 
-interface InputProps {
+type InputProps = {
   onBlur?: () => void;
   onInput?: () => void;
   onFocus?: () => void;
-  type?: "text" | "password" | "email" | "tel" | "search";
+  type?: "text" | "password" | "email" | "tel" | "search" | "file";
   text?: string;
   id?: string;
   error?: string;
@@ -14,10 +14,11 @@ interface InputProps {
   value?: string;
   className?: string;
   placeholder?: string;
-}
+};
 
 export class Input extends Block {
   static componentName = "Input";
+
   constructor({ onInput, onBlur, onFocus, ...props }: InputProps) {
     super({
       ...props,

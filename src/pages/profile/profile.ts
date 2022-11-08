@@ -1,38 +1,66 @@
 import Block from "core/Block";
-import { userData } from "../../data/userData";
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
+import { signout } from "services/auth";
+import { userDataArray } from "utils/userDataArray";
 
-export class ProfilePage extends Block {
+type ProfilePageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+  userData: Array<any>;
+};
+
+class ProfilePage extends Block<ProfilePageProps> {
   static componentName = "ProfilePage";
-  constructor() {
-    super({ userData });
+  constructor(props: ProfilePageProps) {
+    super({ ...props });
+    const data = props.user ? userDataArray(props.user) : [];
+    console.log(data);
+
+    this.setProps({
+      ...this.props,
+      userData: data,
+    });
   }
-  protected getStateFromProps() {
+  protected getStateFromProps(_props: ProfilePageProps) {
     this.state = {
       onChangeDataPage: () => {
-        window.location.href = "/changeDataProfile";
+        this.props.router.go("/changeDataProfile");
       },
       onChangePasswordPage: () => {
-        window.location.href = "/changePassProfile";
+        this.props.router.go("/changePassProfile");
       },
-      onMainPage: () => {
-        window.location.href = "/";
+      signout: () => {
+        signout(this.props.store);
       },
     };
   }
+
   render() {
+    const avatarImg = this.props.user?.avatar ?? "";
+    const userName = this.props.user?.firstName ?? "";
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
           <div class="profile__main">
-            {{{ProfileAvatar avatarPath = userData.userAvatar userName=userData.userName}}}
+            {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${userName}"}}}
               <div class='profile__info'>
-              {{#each userData.userInfo}}
+              {{#each userData}}
+                {{#with this}}
                 {{{ProfileItem
                   label=title
-                  title=data
+                  info=data
                 }}}
+                {{/with}}
+
               {{/each}}
               </div>
               {{{Button
@@ -48,7 +76,7 @@ export class ProfilePage extends Block {
                 onClick=onChangePasswordPage
               }}}
               {{{Button
-                onClick=onMainPage
+                onClick=signout
                 className="button__main button__main_red"
                 text="Exit"
               }}}
@@ -58,3 +86,4 @@ export class ProfilePage extends Block {
     `;
   }
 }
+export default WithRouter(WithStore(WithUser(ProfilePage)));

@@ -1,12 +1,19 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import Router from "core/router";
+import { signin } from "services/auth";
+import { WithRouter, WithStore } from "helpers";
+import { Store } from "core";
 
-export class LoginPage extends Block {
+type LoginPageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+};
+
+class LoginPage extends Block<LoginPageProps> {
   static componentName = "LoginPage";
-  constructor() {
-    super();
-    this.setProps({});
-  }
+
   protected getStateFromProps() {
     this.state = {
       values: {
@@ -17,18 +24,25 @@ export class LoginPage extends Block {
         login: "",
         password: "",
       },
+      onSignUp: () => {
+        this.props.router.go("/signup");
+      },
       handleErrors: (
         values: { [key: string]: number },
         errors: { [key: string]: number }
       ) => {
         const nextState = {
-          errors,
-          values,
+          ...this.state,
         };
+
+        nextState.errors = errors;
+        nextState.values = values;
+
         this.setState(nextState);
       },
       onBlur: (e: FocusEvent) => {
         if (e.target) {
+          console.log("blur");
           const element = e.target as HTMLInputElement;
           const message = Validate(element.value, element.id);
           const newValues = { ...this.state.values };
@@ -63,24 +77,27 @@ export class LoginPage extends Block {
             newErrors[key] = message;
           }
         });
-        if (!isValid) {
+        if (isValid) {
           this.state.handleErrors(newValues, newErrors);
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
-        console.log("sub");
+      onSubmit: () => {
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/chat";
+          signin(this.props.store, { ...this.state.values });
         }
       },
     };
   }
   render() {
     const { errors, values } = this.state;
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+   {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Login" }}
         <div class="page__login _page">
           <div class="auth">
@@ -102,7 +119,7 @@ export class LoginPage extends Block {
               {{{ControlledInput
                 className="input__field"
                 value="${values.password}"
-                error=""
+                error="${errors.password}"
                 ref="passwordInputRef"
                 id="password"
                 type="password"
@@ -115,10 +132,10 @@ export class LoginPage extends Block {
               onClick=onSubmit
               className="button__main"
             }}}
-            {{{Link
-              className="auth__link"
+            {{{Button
+              className="button__main"
               text="Create account"
-              to="/signup"
+              onClick=onSignUp
             }}}
          </div>
         </div>
@@ -126,3 +143,4 @@ export class LoginPage extends Block {
     `;
   }
 }
+export default WithRouter(WithStore(LoginPage));

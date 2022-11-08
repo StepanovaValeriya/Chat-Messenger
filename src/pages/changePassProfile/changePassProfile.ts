@@ -1,12 +1,20 @@
 import Block from "core/Block";
 import Validate from "core/Validation";
+import Router from "core/router";
+import { WithRouter, WithStore, WithUser } from "helpers";
+import { Store } from "core";
+import { changeUserPassword } from "services/userData";
 
-export class ChangePassProfilePage extends Block {
+type ChangePassProfilePageProps = {
+  router: Router;
+  store: Store<AppState>;
+  user: UserType | null;
+};
+
+class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
   static componentName = "ChangePassProfilePage";
-  constructor() {
-    super();
-  }
-  protected getStateFromProps() {
+
+  protected getStateFromProps(_props: ChangePassProfilePageProps) {
     this.state = {
       values: {
         passwordOld: "",
@@ -45,10 +53,17 @@ export class ChangePassProfilePage extends Block {
       },
 
       onInput: (e: Event) => {
+        console.log("input");
         const element = e.target as HTMLInputElement;
         const message = Validate(element.value, element.id);
+        if (element.id === "passwordOld") {
+          this.refs.passwordOldRef.refs.errorRef.setProps({ text: message });
+        }
         if (element.id === "password") {
           this.refs.passwordNewRef.refs.errorRef.setProps({ text: message });
+        }
+        if (element.id === "passwordRepeat") {
+          this.refs.passwordRepeatRef.refs.errorRef.setProps({ text: message });
         }
       },
       formValid: () => {
@@ -71,24 +86,34 @@ export class ChangePassProfilePage extends Block {
           newErrors.passwordRepeat = "Passwords are not equal";
         }
 
-        if (!isValid) {
+        if (isValid) {
           this.state.handleErrors(newValues, newErrors);
+          newErrors.passwordRepeat = "";
         }
         return isValid;
       },
-      onSubmit: (e: PointerEvent) => {
+      onSubmit: () => {
         console.log("sub");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
-          window.location.href = "/profile";
+          const profileData = {
+            oldPassword: this.state.values.passwordOld,
+            newPassword: this.state.values.password,
+          };
+          console.log(profileData);
+          changeUserPassword(this.props.store, { ...profileData });
         }
       },
     };
   }
   render() {
     const { errors, values } = this.state;
+    const isLoading = this.props.store.getState().isLoading;
     // language=hbs
     return `
+    {{#if ${isLoading}}}
+      {{{Loader}}}
+    {{/if}}
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
@@ -101,6 +126,10 @@ export class ChangePassProfilePage extends Block {
                 type="password"
                 id="passwordOld"
                 name="passwordOld"
+                ref="passwordOldRef"
+                onBlur=onBlur
+                onFocus=onFocus
+                onInput=onInput
               }}}
               {{{ControlledInput
                 className="input__profile"
@@ -140,3 +169,4 @@ export class ChangePassProfilePage extends Block {
     `;
   }
 }
+export default WithStore(WithRouter(WithUser(ChangePassProfilePage)));
