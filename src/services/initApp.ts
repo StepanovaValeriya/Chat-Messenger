@@ -1,6 +1,6 @@
 import { UserDTO } from "api/types";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
-import { Router, Store } from "core";
+import { Store } from "core";
 import { getChats } from "./chats";
 import { getUserInfo } from "./auth";
 import { apiError } from "helpers/apiError";
