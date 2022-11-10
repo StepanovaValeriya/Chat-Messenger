@@ -9,4 +9,5 @@ export const defaultState: AppState = {
   isPopupShown: false,
   messages: [],
   socket: null,
+  currentPath: "/",
 };

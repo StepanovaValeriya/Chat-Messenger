@@ -17,6 +17,7 @@ declare global {
     isPopupShown: boolean;
     messages: Message[];
     socket: WebSocket | null;
+    currentPath: string;
   };
 
   export type UserType = {
