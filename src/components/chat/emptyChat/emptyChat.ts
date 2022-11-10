@@ -1,7 +1,8 @@
 import Block from "core/Block";
 import "./emptyChat";
+type EmptyChatProps = {};
 
-export default class EmptyChat extends Block {
+export default class EmptyChat extends Block<EmptyChatProps> {
   static componentName = "EmptyChat";
 
   protected render(): string {

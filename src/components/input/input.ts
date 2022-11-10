@@ -2,7 +2,7 @@ import Block from "../../core/Block";
 
 import "./input";
 
-type InputProps = {
+type IncomingInputProps = {
   onBlur?: () => void;
   onInput?: () => void;
   onFocus?: () => void;
@@ -16,13 +16,35 @@ type InputProps = {
   placeholder?: string;
 };
 
-export class Input extends Block {
+type InputProps = {
+  events: {
+    blur?: EventListener;
+    focus?: EventListener;
+    input?: EventListener;
+  };
+  type?: "text" | "password" | "email" | "tel" | "search" | "file";
+  text?: string;
+  id?: string;
+  error?: string;
+  name?: string;
+  value?: string;
+  className?: string;
+  placeholder?: string;
+};
+
+export class Input extends Block<InputProps> {
   static componentName = "Input";
 
-  constructor({ onInput, onBlur, onFocus, ...props }: InputProps) {
+  constructor(props: IncomingInputProps) {
+    const { onBlur, onFocus, onInput, ...rest } = props;
+
     super({
-      ...props,
-      events: { input: onInput, blur: onBlur, focus: onFocus },
+      ...rest,
+      events: {
+        blur: onBlur,
+        focus: onFocus,
+        input: onInput,
+      },
     });
   }
 

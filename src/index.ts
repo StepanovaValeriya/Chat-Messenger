@@ -63,13 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.webSocket = socketController;
 
   store.on("updated", (nextState) => {
-    if (process.env.DEBUG) {
-      console.log(
-        "%cstore updated",
-        "background: #222; color: #bada55",
-        nextState
-      );
-    }
+    console.log(
+      "%cstore updated",
+      "background: #222; color: #bada55",
+      nextState
+    );
   });
   console.log(store, router);
 

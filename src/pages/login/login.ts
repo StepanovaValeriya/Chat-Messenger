@@ -83,6 +83,7 @@ class LoginPage extends Block<LoginPageProps> {
         return isValid;
       },
       onSubmit: () => {
+        console.log("jds");
         if (this.state.formValid()) {
           console.log("submit", this.state.values);
           signin(this.props.store, { ...this.state.values });

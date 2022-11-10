@@ -18,6 +18,10 @@ type ChatPageProps = {
   router: Router;
   store: Store<AppState>;
   chats: Nullable<Array<ChatType>>;
+  toggleOptionsWindow: () => void;
+  toggleAddUserModal: (event: PointerEvent) => void;
+  toggleDeleteUserModal: (event: PointerEvent) => void;
+  toggleAddChatModal: (event: PointerEvent) => void;
 };
 
 class ChatPage extends Block<ChatPageProps> {
@@ -50,16 +54,6 @@ class ChatPage extends Block<ChatPageProps> {
           delUser.classList.add("hidden");
         }
       },
-      // onCancelCreateChat: () => {
-      //   let addChat = document.querySelector("#modal-add-chat");
-      //   console.log(addChat);
-      //   addChat.classList.add("hidden");
-      // },
-      // onCancelAddUser: () => {
-      //   let addUser = document.querySelector("#modal-add-user");
-      //   console.log(addUser);
-      //   addUser.classList.add("hidden");
-      // },
       createChat: () => {
         let input = this.element?.querySelector(
           `input[name='create_chat']`

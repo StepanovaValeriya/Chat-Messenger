@@ -1,7 +1,7 @@
 import Block from "core/Block";
 import "./profileNav";
 import Router from "core/router";
-import { WithRouter, WithStore } from "helpers";
+import { WithRouter } from "helpers";
 import { Store } from "core";
 
 type ProfileNavProps = {
@@ -36,4 +36,4 @@ class ProfileNav extends Block<ProfileNavProps> {
     `;
   }
 }
-export default WithRouter(WithStore(ProfileNav));
+export default WithRouter(ProfileNav);

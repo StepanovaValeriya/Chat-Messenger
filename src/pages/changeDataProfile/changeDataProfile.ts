@@ -15,6 +15,7 @@ type ChangeDataProfilePageProps = {
   store: Store<AppState>;
   user: UserType | null;
   userData: Array<any>;
+  toggleChangeAvatarModal: (event: PointerEvent) => void;
 };
 
 class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {

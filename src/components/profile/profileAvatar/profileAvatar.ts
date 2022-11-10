@@ -5,12 +5,13 @@ import "./profileAvatar";
 
 const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
-interface ProfileAvatarProps {
+type ProfileAvatarProps = {
   avatarPath: string;
   userName: string;
-}
+  toggleChangeAvatarModal: (event: PointerEvent) => void;
+};
 
-export default class ProfileAvatar extends Block {
+export default class ProfileAvatar extends Block<ProfileAvatarProps> {
   static componentName = "ProfileAvatar";
   constructor({ avatarPath, userName }: ProfileAvatarProps) {
     super({ avatarPath, userName, toggleChangeAvatarModal });

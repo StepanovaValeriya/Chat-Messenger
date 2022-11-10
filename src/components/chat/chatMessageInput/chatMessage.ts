@@ -12,6 +12,7 @@ type ChatMessageProps = {
   store: Store<AppState>;
   user: UserType | null;
   chats: Nullable<Array<ChatType>>;
+  toggleAttachWindow: () => void;
 };
 
 class ChatMessageInput extends Block<ChatMessageProps> {
@@ -38,7 +39,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
         };
         this.setState(nextState);
       },
-      onFocus: (e: Event) => {
+      onFocus: () => {
         this.refs.errorRef.setProps({ text: "" });
       },
       formValid: () => {

@@ -1,13 +1,10 @@
 import { Sockets } from "api/types";
 import Block from "core/Block";
-import { deleteChat, getChatInfo } from "services/chats";
+import { deleteChat, getChatInfo, openSocket } from "services/chats";
+import { WithStore } from "helpers";
 import { Store } from "core/store";
-import { WithStore } from "helpers/withStore";
 import "./chatList";
 
-interface IChatListProps {
-  id: number;
-}
 type ChatListProps = {
   store: Store<AppState>;
   chat: ChatType;
@@ -24,12 +21,19 @@ class ChatList extends Block<ChatListProps> {
   messagesArray: Array<Sockets> = [];
 
   constructor(props: ChatListProps) {
-    const onChatItemClick = (event: Event) => {
+    const onChatItemClick = async (event: Event) => {
       if ((event.target as HTMLElement).tagName === "BUTTON") {
         return;
       }
-      this.props.store.setState({ messages: [] });
-      getChatInfo(this.props.store, { ...this.props.chat });
+
+      await getChatInfo(this.props.store, { ...this.props.chat });
+
+      const { user, selectedChat } = this.props.store.getState();
+      if (user && selectedChat) {
+        openSocket(user.id, selectedChat);
+      }
+      // this.props.store.setState({ messages: [] });
+      // getChatInfo(this.props.store, { ...this.props.chat });
     };
 
     super({

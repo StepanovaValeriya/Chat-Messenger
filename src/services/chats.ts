@@ -204,7 +204,6 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (
     console.log(selectedChat);
 
     const { user } = store.getState();
-    const { messages } = store.getState();
 
     if (user) {
       console.log("open");

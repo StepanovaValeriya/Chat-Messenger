@@ -3,7 +3,6 @@ import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { Store } from "core";
 import { getChats } from "./chats";
 import { getUserInfo } from "./auth";
-import { apiError } from "helpers/apiError";
 import { getAvatar } from "./userData";
 
 export async function initApp(store: Store<AppState>) {
@@ -12,19 +11,20 @@ export async function initApp(store: Store<AppState>) {
 
     const response = (await getUserInfo()) as UserDTO;
 
-    if (apiError(response)) {
-      throw new Error(response.reason);
+    if (response) {
+      const avatar = await getAvatar(response);
+      const modifiedUser = { ...response, avatar };
+      const chats = await getChats(store);
+
+      modifiedUser &&
+        chats &&
+        store.setState({ user: apiUserTransformers(modifiedUser), chats });
+      return true;
     }
-
-    const avatar = await getAvatar(response);
-    const modifiedUser = { ...response, avatar };
-    const chats = await getChats(store);
-
-    modifiedUser &&
-      chats &&
-      store.setState({ user: apiUserTransformers(modifiedUser), chats });
+    throw new Error("You are not logged in");
   } catch (error) {
     console.log((error as Error).message);
+    return false;
   } finally {
     store.setState({ isLoading: false, isAppInited: true });
   }

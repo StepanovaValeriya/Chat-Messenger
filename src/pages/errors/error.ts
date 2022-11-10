@@ -15,7 +15,7 @@ export default class ErrorPage extends Block<ErrorPageProps> {
       <div class="page__login _page">
         <div class="errors">
           <h1 class="errors__title">{{errorCode}}</h1>
-          <p class="errors__text">{{errorText}}</p>
+          <p class="errors__text">Page does not exist</p>
           {{{Link
             className="errors__link"
             text="Back to chats"
