@@ -14,7 +14,7 @@ type ControlledInputProps = {
   name?: string;
   className?: string;
 };
-export class ControlledInput extends Block<ControlledInputProps> {
+export default class ControlledInput extends Block<ControlledInputProps> {
   static componentName = "ControlledInput";
 
   protected render(): string {

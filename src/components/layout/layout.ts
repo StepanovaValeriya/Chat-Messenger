@@ -2,7 +2,7 @@ import Block from "core/Block";
 import "./layout";
 interface LayoutProps {}
 
-export class Layout extends Block<LayoutProps> {
+export default class Layout extends Block<LayoutProps> {
   static componentName = "Layout";
   protected render(): string {
     // language=hbs

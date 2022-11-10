@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime";
 import { registerComponent } from "./core";
 import "./styles/style.scss";
 import Router from "core/router";
@@ -5,46 +6,11 @@ import store, { Store } from "core/store";
 import { initApp } from "./services/initApp";
 import { initRouter } from "services/initRouter";
 import { Socket } from "core/WebSocket";
+import * as components from "components";
 
-import Button from "./components/button";
-import Layout from "./components/layout";
-import Link from "./components/link";
-import Input from "./components/input";
-import InputError from "./components/inputError";
-import ControlledInput from "./components/controlledInput";
-import {
-  ChatList,
-  ChatHeader,
-  ChatMessageInput,
-  EmptyChat,
-  Message,
-} from "./components/chat";
-import {
-  ProfileAvatar,
-  ProfileNav,
-  ProfileItem,
-  ChangeAvatarModal,
-} from "./components/profile";
-import Modal from "./components/modal";
-import Loader from "./components/loader";
-
-registerComponent(Button);
-registerComponent(Layout);
-registerComponent(Link);
-registerComponent(Input);
-registerComponent(InputError);
-registerComponent(ControlledInput);
-registerComponent(ChatList);
-registerComponent(ChatHeader);
-registerComponent(ChatMessageInput);
-registerComponent(EmptyChat);
-registerComponent(Message);
-registerComponent(ProfileAvatar);
-registerComponent(ProfileNav);
-registerComponent(ProfileItem);
-registerComponent(ChangeAvatarModal);
-registerComponent(Modal);
-registerComponent(Loader);
+Object.values(components).forEach((Component: any) => {
+  registerComponent(Component);
+});
 
 declare global {
   interface Window {
@@ -69,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
       nextState
     );
   });
-  console.log(store, router);
 
   initRouter(router, store);
   initApp(store);

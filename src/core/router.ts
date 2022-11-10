@@ -38,7 +38,7 @@ export default class Router implements IRouter {
     this._onRouteChange();
   }
 
-  private _onRouteChange(pathname: string = window.location.pathname) {
+  _onRouteChange(pathname: string = window.location.pathname) {
     console.log(pathname);
     const route = this.getRoute(pathname) || this.getRoute("/error");
 

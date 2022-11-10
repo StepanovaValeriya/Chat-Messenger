@@ -1,11 +1,9 @@
 import Block from "core/Block";
 import "./loader.scss";
 
-type LoaderProps={
+type LoaderProps = {};
 
-}
-
-export class Loader extends Block<LoaderProps> {
+export default class Loader extends Block<LoaderProps> {
   static componentName: string = "Loader";
 
   render() {

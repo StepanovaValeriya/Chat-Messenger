@@ -19,7 +19,7 @@ type ButtonProps = {
   };
 };
 
-export class Button extends Block<ButtonProps> {
+export default class Button extends Block<ButtonProps> {
   static componentName = "Button";
   constructor({ text, className, onClick }: IncomingButtonProps) {
     super({ text, className, events: { click: onClick } });

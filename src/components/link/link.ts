@@ -8,7 +8,7 @@ interface LinkProps {
   onClick: () => void;
 }
 
-export class Link extends Block<LinkProps> {
+export default class Link extends Block<LinkProps> {
   static componentName = "Link";
 
   protected render(): string {
