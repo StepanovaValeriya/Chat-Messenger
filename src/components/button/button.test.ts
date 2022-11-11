@@ -20,7 +20,7 @@ describe("components/Button", () => {
       props: { type: "button" },
     });
 
-    expect(getByTestId(document.body, "button")).toBeInTheDocument();
-    expect(getByTestId(document.body, "button")).toHaveTextContent("");
+    expect(getByTestId(document.body, "button_test")).toBeInTheDocument();
+    expect(getByTestId(document.body, "button_test")).toHaveTextContent("");
   });
 });

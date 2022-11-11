@@ -28,16 +28,15 @@ describe("core/Store", () => {
     expect(store.getState()).toEqual(newState);
   });
 
-  it("should emit event after store was update", () => {
-    const store = new Store({ userId: -1 });
+  it("should emit update event if store was changed", () => {
     const mock = jest.fn();
+    const nextState = { ...defaultState, loginFormError: "User not found" };
 
-    store.on("changed", mock);
-
-    store.setState({ userId: 123 });
+    store.on("updated", mock);
+    store.setState({ loginFormError: "User not found" });
 
     expect(mock).toHaveBeenCalled();
-    expect(mock).toHaveBeenCalledWith({ userId: -1 }, { userId: 123 });
+    expect(mock).toHaveBeenCalledWith(defaultState, nextState);
   });
 
   it("should set partial state", () => {

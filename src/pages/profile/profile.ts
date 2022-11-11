@@ -52,7 +52,7 @@ class ProfilePage extends Block<ProfilePageProps> {
           {{{ProfileNav}}}
           <div class="profile__main" data-testid='profileInfo'>
             {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${userName}"}}}
-              <div class='profile__info'>
+              <div class='profile__info' data-testid='profileItem'>
               {{#each userData}}
                 {{#with this}}
                 {{{ProfileItem
@@ -68,20 +68,20 @@ class ProfilePage extends Block<ProfilePageProps> {
                 text="Change
                 profile"
                 onClick=onChangeDataPage
-                data-testid='button__changeData'
+                dataTestid='button__changeData'
               }}}
               {{{Button
                 className="button__main"
                 text="Change
                 password"
                 onClick=onChangePasswordPage
-                data-testid='button__changePass'
+                dataTestid='button__changePass'
               }}}
               {{{Button
                 onClick=signout
                 className="button__main button__main_red"
                 text="Exit"
-                data-testid='button__signout'
+                dataTestid='button__signout'
               }}}
           </div>
         </div>

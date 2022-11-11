@@ -44,7 +44,7 @@ export default class Router implements IRouter {
 
     console.log(route);
 
-    window.store.setState({ view: route?.view });
+    window.store.setState({ view: route?.view, currentPath: route?.pathname });
 
     route?.callback();
   }

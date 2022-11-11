@@ -12,7 +12,7 @@ export default class ProfileItem extends Block<ProfileItemProps> {
   protected render(): string {
     // language=hbs
     return `
-      <div class="profile__item" data-testid='profileItem'>
+      <div class="profile__item" >
         <div class="profile__item__label">{{label}}</div>
         <div class="profile__item__title">{{info}}</div>
       </div>

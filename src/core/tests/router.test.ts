@@ -2,7 +2,7 @@ import Router from "core/router";
 import { Store } from "core";
 import { initRouter } from "services/initRouter";
 import { defaultState } from "store";
-import ErrorPage from "pages/errors/error";
+import TestingPage from "../../tests/TestingPage";
 
 describe("core/router", () => {
   let router: Router;
@@ -19,13 +19,13 @@ describe("core/router", () => {
   it("Router should register routes", () => {
     const callback = () => {};
     router.use(
-      { pathname: "/error", view: ErrorPage, isPrivate: false },
+      { pathname: "/test", view: TestingPage, isPrivate: false },
       callback
     );
 
     expect(router.routes).toContainEqual({
-      pathname: "/error",
-      view: ErrorPage,
+      pathname: "/test",
+      view: TestingPage,
       isPrivate: false,
       callback: callback,
     });
@@ -36,11 +36,11 @@ describe("core/router", () => {
     const callback = () => {};
 
     router.use(
-      { pathname: "/error", view: ErrorPage, isPrivate: false },
+      { pathname: "/test", view: TestingPage, isPrivate: false },
       callback
     );
-    router.go("/error");
+    router.go("/test");
 
-    expect(store.getState().currentPath).toBe("/error");
+    expect(store.getState().currentPath).toBe("/test");
   });
 });

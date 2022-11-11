@@ -15,7 +15,13 @@ type ButtonProps = {
 
 export default class Button extends Block<ButtonProps> {
   static componentName = "Button";
-  constructor({ type, dataTestid, text, className, onClick }: ButtonProps) {
+  constructor({
+    type,
+    dataTestid = "button_test",
+    text,
+    className,
+    onClick,
+  }: ButtonProps) {
     super({ text, type, dataTestid, className, events: { click: onClick } });
   }
   protected render(): string {

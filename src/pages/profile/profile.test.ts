@@ -9,11 +9,10 @@ import { renderBlock } from "../../tests/renderUtils";
 import Profile from "./profile";
 
 const USER_MOCK = {
-  avatar:
-    "/d66cf98f-05dc-49ba-8d2b-c1db0c5888c3/761d694b-39b5-4dee-ab15-78a2bf05461d_12.png",
+  avatar: "blob:http://localhost:1234/63d8f851-4340-43cf-81b0-3458f6812a9f",
   displayName: "TestTest",
   email: "test@mail.ru",
-  firstName: "Test",
+  firstName: "Testik",
   id: 3094,
   login: "Test",
   phone: "89138888888",
@@ -63,7 +62,7 @@ describe("pages/profile", () => {
       getByTestId(document.body, "button__changePass")
     ).toBeInTheDocument();
     expect(getByTestId(document.body, "button__signout")).toBeInTheDocument();
-    expect(getAllByText(document.body, "Test")).toHaveLength(2);
+    expect(getAllByText(document.body, "Testik")).toHaveLength(2);
     expect(getByText(document.body, "test@mail.ru")).toBeInTheDocument();
     expect(getByText(document.body, "89138888888")).toBeInTheDocument();
     expect(getByText(document.body, "Test")).toBeInTheDocument();
