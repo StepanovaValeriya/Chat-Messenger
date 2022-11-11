@@ -1,4 +1,4 @@
-import { Store } from "./store";
+import { Store } from "core";
 import { defaultState } from "store/index";
 
 describe("core/Store", () => {

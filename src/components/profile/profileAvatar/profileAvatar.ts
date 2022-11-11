@@ -20,7 +20,7 @@ export default class ProfileAvatar extends Block<ProfileAvatarProps> {
   protected render(): string {
     // language=hbs
     return `
-    <div class="prifile__header">
+    <div class="prifile__header" data-testid='profileAvatar'>
       <h1 class="profile__title">{{userName}}</h1>
         <div class="profile__avatar">
         {{{Button className="profile__avatar__button" onClick=toggleChangeAvatarModal}}}

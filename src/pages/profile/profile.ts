@@ -9,7 +9,7 @@ type ProfilePageProps = {
   router: Router;
   store: Store<AppState>;
   user: UserType | null;
-  userData: Array<any>;
+  userData?: Array<any>;
 };
 
 class ProfilePage extends Block<ProfilePageProps> {
@@ -50,7 +50,7 @@ class ProfilePage extends Block<ProfilePageProps> {
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
-          <div class="profile__main">
+          <div class="profile__main" data-testid='profileInfo'>
             {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${userName}"}}}
               <div class='profile__info'>
               {{#each userData}}
@@ -68,17 +68,20 @@ class ProfilePage extends Block<ProfilePageProps> {
                 text="Change
                 profile"
                 onClick=onChangeDataPage
+                data-testid='button__changeData'
               }}}
               {{{Button
                 className="button__main"
                 text="Change
                 password"
                 onClick=onChangePasswordPage
+                data-testid='button__changePass'
               }}}
               {{{Button
                 onClick=signout
                 className="button__main button__main_red"
                 text="Exit"
+                data-testid='button__signout'
               }}}
           </div>
         </div>

@@ -26,7 +26,7 @@ class ProfileNav extends Block<ProfileNavProps> {
   protected render(): string {
     // language=hbs
     return `
-    <div class="profile__nav">
+    <div class="profile__nav"  data-testid='profileNav'>
     {{{Button
       onClick=onChatPage
       text="<"
