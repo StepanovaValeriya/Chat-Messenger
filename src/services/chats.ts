@@ -46,7 +46,6 @@ export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
 
   try {
     const response = await api.createChat(action);
-    console.log(response);
 
     if (apiError(response)) {
       throw new Error(response.reason);

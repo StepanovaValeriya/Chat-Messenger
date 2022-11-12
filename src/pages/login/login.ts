@@ -42,7 +42,6 @@ class LoginPage extends Block<LoginPageProps> {
       },
       onBlur: (e: FocusEvent) => {
         if (e.target) {
-          console.log("blur");
           const element = e.target as HTMLInputElement;
           const message = Validate(element.value, element.id);
           const newValues = { ...this.state.values };
@@ -83,9 +82,7 @@ class LoginPage extends Block<LoginPageProps> {
         return isValid;
       },
       onSubmit: () => {
-        console.log("jds");
         if (this.state.formValid()) {
-          console.log("submit", this.state.values);
           signin(this.props.store, { ...this.state.values });
         }
       },

@@ -32,15 +32,12 @@ class ChatList extends Block<ChatListProps> {
       if (user && selectedChat) {
         openSocket(user.id, selectedChat);
       }
-      // this.props.store.setState({ messages: [] });
-      // getChatInfo(this.props.store, { ...this.props.chat });
     };
 
     super({
       ...props,
       events: { click: onChatItemClick },
       deleteChat: () => {
-        console.log(this.props.chat);
         deleteChat(this.props.store, { chatId: this.props.chat.id });
       },
     });

@@ -55,11 +55,8 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
       },
       onSubmit: (e: MouseEvent) => {
         e.preventDefault;
-        console.log("sub");
         if (this.formValid()) {
-          console.log("submit", this.state.values);
           const profileData = this.state.values;
-          console.log(profileData);
           changeUserProfile(this.props.store, profileData);
         }
       },
@@ -70,8 +67,6 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   }
   onBlur(e: Event) {
     if (e.target) {
-      console.log(e.target);
-      console.log("blur");
       const element = e.target as HTMLInputElement;
       const message = Validate(element.value, element.id);
       const newValues = { ...this.state.values };

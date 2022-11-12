@@ -64,9 +64,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       },
       onSubmit: (e: Event) => {
         e.preventDefault();
-        console.log("sub");
         if (this.state.formValid()) {
-          console.log("submit", this.state.values);
           let message = this.state.values.message;
           const chat = this.props.store.getState().selectedChat;
           if (chat) {

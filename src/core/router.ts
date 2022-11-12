@@ -32,13 +32,13 @@ export default class Router implements IRouter {
 
   start() {
     window.onpopstate = () => {
-      this._onRouteChange.call(this);
+      this.onRouteChange.call(this);
     };
 
-    this._onRouteChange();
+    this.onRouteChange();
   }
 
-  _onRouteChange(pathname: string = window.location.pathname) {
+  onRouteChange(pathname: string = window.location.pathname) {
     console.log(pathname);
     const route = this.getRoute(pathname) || this.getRoute("/error");
 
@@ -51,7 +51,7 @@ export default class Router implements IRouter {
 
   go(pathname: string) {
     window.history.pushState({}, "", pathname);
-    this._onRouteChange(pathname);
+    this.onRouteChange(pathname);
   }
 
   upload() {

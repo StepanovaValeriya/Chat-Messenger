@@ -39,7 +39,6 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
       },
       onBlur: (e: FocusEvent) => {
         if (e.target) {
-          console.log("blur");
           const element = e.target as HTMLInputElement;
           const message = Validate(element.value, element.id);
           const newValues = { ...this.state.values };
@@ -53,7 +52,6 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
       },
 
       onInput: (e: Event) => {
-        console.log("input");
         const element = e.target as HTMLInputElement;
         const message = Validate(element.value, element.id);
         if (element.id === "passwordOld") {
@@ -75,7 +73,6 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
             `input[name='${key}']`
           ) as HTMLInputElement;
           newValues[key] = input.value;
-          console.log(input.value);
           const message = Validate(newValues[key], key);
           if (message) {
             isValid = false;
@@ -93,14 +90,11 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
         return isValid;
       },
       onSubmit: () => {
-        console.log("sub");
         if (this.state.formValid()) {
-          console.log("submit", this.state.values);
           const profileData = {
             oldPassword: this.state.values.passwordOld,
             newPassword: this.state.values.password,
           };
-          console.log(profileData);
           changeUserPassword(this.props.store, { ...profileData });
         }
       },

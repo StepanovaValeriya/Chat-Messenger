@@ -51,7 +51,7 @@ export class Socket implements WebSocketProps {
     });
 
     socket.addEventListener("message", (event) => {
-      console.log("Получены данные", event.data);
+      console.log("Получены данные");
 
       const data = JSON.parse(event.data);
 
