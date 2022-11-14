@@ -24,10 +24,7 @@ export type SignupPayload = {
 const api = new AuthAPI();
 const chatsApi = new ChatsAPI();
 
-export const signin: DispatchStateHandler<LoginPayload> = async (
-  store,
-  action
-) => {
+export const signin: DispatchStateHandler<LoginPayload> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -91,10 +88,7 @@ export const signout = async (store: Store<AppState>) => {
   }
 };
 
-export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
-  store,
-  action
-) => {
+export const signup: DispatchStateHandler<Partial<UserDTO>> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -135,7 +129,7 @@ export const getUserInfo = async () => {
 
     if (apiError(user)) {
       if (user.reason === "Cookie is not valid") {
-        alert("You are not logged in");
+        throw new Error("You are not logged in");
       }
       throw new Error(user.reason);
     }
@@ -143,5 +137,6 @@ export const getUserInfo = async () => {
     return user;
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
+    return null;
   }
 };

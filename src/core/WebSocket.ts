@@ -3,26 +3,25 @@ import { addDOMMessageElement } from "utils/createMessage";
 
 const BASE_URL = "wss://ya-praktikum.tech/ws";
 
+export type SocketData = {
+  socket: WebSocket;
+  oldMessagesArray: Array<Sockets>;
+};
 export interface WebSocketProps {
   socketsMap: Map<string, SocketData>;
   createConnection: (userId: number, chat: ChatType) => void;
   setHandlers: (socket: WebSocket, userId: number, chat: ChatType) => void;
 }
-export type SocketData = {
-  socket: WebSocket;
-  oldMessagesArray: Array<Sockets>;
-};
+
 export class Socket implements WebSocketProps {
   socketsMap: Map<string, SocketData> = new Map();
 
   createConnection(userId: number, chat: ChatType) {
     const { id, chatToken } = chat;
-    const socket = new WebSocket(
-      `${BASE_URL}/chats/${userId}/${id}/${chatToken}`
-    );
+    const socket = new WebSocket(`${BASE_URL}/chats/${userId}/${id}/${chatToken}`);
 
     this.setHandlers(socket, userId, chat);
-    this.socketsMap.set(String(id), { socket: socket, oldMessagesArray: [] });
+    this.socketsMap.set(String(id), { socket, oldMessagesArray: [] });
   }
 
   setHandlers(socket: WebSocket, userId: number, chat: ChatType) {
@@ -44,9 +43,7 @@ export class Socket implements WebSocketProps {
         console.log("Обрыв соединения");
       }
 
-      console.log(
-        `Код: ${event.code} | Причина: ${(event as CloseEvent).reason}`
-      );
+      console.log(`Код: ${event.code} | Причина: ${(event as CloseEvent).reason}`);
       this.socketsMap.delete(String(userId));
     });
 

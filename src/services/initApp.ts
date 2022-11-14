@@ -16,12 +16,13 @@ export async function initApp(store: Store<AppState>) {
       const modifiedUser = { ...response, avatar };
       const chats = await getChats(store);
 
-      modifiedUser &&
-        chats &&
+      if (modifiedUser && chats) {
         store.setState({ user: apiUserTransformers(modifiedUser), chats });
-      return true;
+      }
+
+      return response;
     }
-    throw new Error("You are not logged in");
+    return null;
   } catch (error) {
     console.log((error as Error).message);
     return false;

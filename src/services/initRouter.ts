@@ -1,8 +1,8 @@
-import { ROUTS } from "../constants/routes";
 import renderDOM from "core/renderDom";
 import Router from "core/router";
 import { Store } from "core/store";
-import { MainPage } from "pages/main/main";
+import MainPage from "pages/main/main";
+import { ROUTS } from "../constants/routes";
 
 export const initRouter = (router: Router, store: Store<AppState>) => {
   ROUTS.forEach((route) => {
@@ -30,8 +30,6 @@ export const initRouter = (router: Router, store: Store<AppState>) => {
       const newPage = new Page({});
 
       renderDOM(newPage);
-
-      return;
     }
   });
 };

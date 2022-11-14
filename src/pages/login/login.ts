@@ -27,10 +27,7 @@ class LoginPage extends Block<LoginPageProps> {
       onSignUp: () => {
         this.props.router.go("/signup");
       },
-      handleErrors: (
-        values: { [key: string]: number },
-        errors: { [key: string]: number }
-      ) => {
+      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
         const nextState = {
           ...this.state,
         };
@@ -66,9 +63,7 @@ class LoginPage extends Block<LoginPageProps> {
         const newValues = { ...this.state.values };
         const newErrors = { ...this.state.errors };
         Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
+          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
           newValues[key] = input.value;
           const message = Validate(newValues[key], key);
           if (message) {
@@ -88,9 +83,10 @@ class LoginPage extends Block<LoginPageProps> {
       },
     };
   }
+
   render() {
     const { errors, values } = this.state;
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     // language=hbs
     return `
    {{#if ${isLoading}}}

@@ -1,6 +1,10 @@
-import EventBus from "./EventBus";
+/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line import/no-unresolved
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
+import EventBus from "./EventBus";
 
 type Events = Values<typeof Block.EVENTS>;
 
@@ -22,10 +26,13 @@ export default class Block<P extends Indexed<any>> {
   public id = nanoid(6);
 
   protected _element: Nullable<HTMLElement> = null;
+
   protected props: Readonly<P>;
+
   protected children: { [id: string]: Block<{}> } = {};
 
   private _eventBus: EventBus<Events>;
+
   protected state: any = {};
 
   refs: { [id: string]: Block<{}> } = {};
@@ -49,9 +56,11 @@ export default class Block<P extends Indexed<any>> {
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
+
   _createResources() {
     this._element = this._createDocumentElement("div");
   }
+
   private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
@@ -119,6 +128,7 @@ export default class Block<P extends Indexed<any>> {
   get element() {
     return this._element;
   }
+
   setState = (nextState: any) => {
     if (!nextState) {
       return;
@@ -149,9 +159,7 @@ export default class Block<P extends Indexed<any>> {
     // Хак, чтобы вызвать CDM только после добавления в DOM
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
-        if (
-          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
-        ) {
+        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
           this._eventBus.emit(Block.EVENTS.FLOW_CDM);
         }
       }, 100);
@@ -161,6 +169,7 @@ export default class Block<P extends Indexed<any>> {
   }
 
   private _makePropsProxy(props: any): any {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
     return new Proxy(props as unknown as object, {
@@ -185,7 +194,7 @@ export default class Block<P extends Indexed<any>> {
   }
 
   private _removeEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const { events } = this.props as any;
 
     if (!events || !this._element) {
       return;
@@ -197,7 +206,7 @@ export default class Block<P extends Indexed<any>> {
   }
 
   private _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const { events } = this.props as any;
 
     if (!events) {
       return;

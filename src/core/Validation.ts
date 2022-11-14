@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export default function Validate(value: string, name: string): string {
   const errors = [];
   switch (name) {

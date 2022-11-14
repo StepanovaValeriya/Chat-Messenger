@@ -1,29 +1,24 @@
-import { PartialRouteProps } from "constants/routes";
 import renderDOM from "./renderDom";
 import Route from "./route";
 
 interface IRouter {
   routes: Array<Route>;
 }
-
-interface IRouter {
-  routes: Array<Route>;
-}
-
 export default class Router implements IRouter {
   routes: Array<Route> = [];
-  static __instance: Router;
+
+  static __instance: IRouter;
 
   constructor() {
-    if (Router.__instance) {
-      return Router.__instance;
-    }
-
     Router.__instance = this;
+    window.onpopstate = () => {
+      this.onRouteChange.call(this);
+    };
   }
 
   use(props: PartialRouteProps, callback: () => void) {
-    const route = new Route({ ...props, callback });
+    const routeProps = { ...props, callback } as RouteProps;
+    const route = new Route(routeProps);
 
     this.routes.push(route);
 
@@ -39,10 +34,7 @@ export default class Router implements IRouter {
   }
 
   onRouteChange(pathname: string = window.location.pathname) {
-    console.log(pathname);
     const route = this.getRoute(pathname) || this.getRoute("/error");
-
-    console.log(route);
 
     window.store.setState({ view: route?.view, currentPath: route?.pathname });
 

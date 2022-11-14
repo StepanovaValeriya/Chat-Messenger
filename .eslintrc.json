@@ -1,5 +1,6 @@
 {
   "env": {
+    "node": true,
     "browser": true,
     "es2021": true
   },
@@ -11,21 +12,57 @@
   "extends": [
     "airbnb",
     "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "plugin:import/recommended",
-    "prettier/@typescript-eslint",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "import"],
   "settings": {
+    "import/resolver": "webpack",
     "import/extensions": [".js", ".jsx", ".ts"]
   },
   "rules": {
-    "prettier/prettier": "error",
-    "import/extensions": 0,
+    "prettier/prettier": "off",
+    "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "linebreak-style": 0,
-    "import/no-unresolved": [2, { "caseSensitive": false }]
+    "linebreak-style": "off",
+    "import/no-unresolved": ["warn", { "caseSensitive": false }],
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-console": "off",
+    "no-alert": "off",
+    "no-param-reassign": "off",
+    "no-shadow": "off",
+    "camelcase": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": true, "optionalDependencies": true, "peerDependencies": true }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "no-use-before-define": [
+      "warn",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": false,
+        "allowNamedExports": false
+      }
+    ],
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ]
   }
 }

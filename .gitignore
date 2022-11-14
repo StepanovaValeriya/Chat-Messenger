@@ -11,7 +11,7 @@ node_modules
 dist
 .parcel-cache
 coverage
-/.husky
+
 
 # Editor directories and files
 .vscode/*

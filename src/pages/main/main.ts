@@ -11,7 +11,7 @@ export type MainPageProps = {
   onSignUpPage: () => void;
 };
 
-export class MainPage extends Block<MainPageProps> {
+class MainPage extends Block<MainPageProps> {
   static componentName = "MainPage";
 
   constructor(props: MainPageProps) {

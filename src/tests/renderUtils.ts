@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BlockClass, renderDOM, registerComponent, Store } from "core";
 import { defaultState } from "store/index";
 import { initRouter } from "services/initRouter";
