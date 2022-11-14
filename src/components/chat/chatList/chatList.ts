@@ -3,7 +3,7 @@ import Block from "core/Block";
 import { deleteChat, getChatInfo, openSocket } from "services/chats";
 import { WithStore } from "helpers";
 import { Store } from "core/store";
-import "./chatList";
+import "./chatList.scss";
 
 type ChatListProps = {
   store: Store<AppState>;
@@ -17,7 +17,9 @@ type ChatListProps = {
 
 class ChatList extends Block<ChatListProps> {
   static componentName = "ChatList";
-  unreadCount: number = 0;
+
+  unreadCount = 0;
+
   messagesArray: Array<Sockets> = [];
 
   constructor(props: ChatListProps) {

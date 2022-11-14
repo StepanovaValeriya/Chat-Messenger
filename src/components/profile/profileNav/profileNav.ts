@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import "./profileNav";
+import "./profileNav.scss";
 import Router from "core/router";
 import { WithRouter } from "helpers";
 import { Store } from "core";

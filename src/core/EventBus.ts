@@ -2,7 +2,6 @@ export type Listener<T extends unknown[]> = (...args: T) => void;
 
 export default class EventBus<
   E extends string = string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   M extends { [K in E]: unknown[] } = Record<E, any[]>
 > {
   private listeners: { [key in E]?: Listener<M[E]>[] } = {};

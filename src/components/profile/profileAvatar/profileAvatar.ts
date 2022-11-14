@@ -1,7 +1,7 @@
 import Block from "core/Block";
 import { createModalToggler } from "utils/dom";
 import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
-import "./profileAvatar";
+import "./profileAvatar.scss";
 
 const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
@@ -13,6 +13,7 @@ type ProfileAvatarProps = {
 
 export default class ProfileAvatar extends Block<ProfileAvatarProps> {
   static componentName = "ProfileAvatar";
+
   constructor({ avatarPath, userName }: ProfileAvatarProps) {
     super({ avatarPath, userName, toggleChangeAvatarModal });
   }

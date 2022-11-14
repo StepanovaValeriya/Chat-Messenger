@@ -1,6 +1,7 @@
 .chat__list {
   display: flex;
 }
+
 .chat__item {
   border-top: $borderChatNav;
   border-bottom: $borderChatNav;
@@ -10,42 +11,51 @@
   flex: 0 0 100%;
   gap: 5px;
   padding: 12px 15px;
+
   &__main {
     display: flex;
     align-items: center;
     gap: 20px;
   }
+
   &__image {
     display: flex;
+
     img {
       width: 65px;
       height: 65px;
       border-radius: 100px;
     }
   }
+
   &__info {
     display: flex;
     flex-direction: column;
     justify-self: start;
     gap: 10px;
+
     &__title {
       @include profileNameTitle;
     }
+
     &__message {
       font-size: 12px;
       line-height: 15px;
     }
   }
+
   &__count {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
+
     &__time {
       font-size: 11px;
       line-height: 13px;
     }
+
     &__counter {
       color: $colorButton;
       background-color: $backgroundButton;
@@ -58,12 +68,14 @@
       font-size: 12px;
     }
   }
+
   &:hover {
     cursor: pointer;
-    background-color: rgba(62, 65, 66, 0.349);
+    background-color: rgb(62 65 66 / 34.9%);
     color: $hoverColorChat;
   }
 }
+
 .button__cancel {
   cursor: pointer;
   padding: 2px;

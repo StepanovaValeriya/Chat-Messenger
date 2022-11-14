@@ -7,33 +7,28 @@
   justify-content: space-around;
   align-items: center;
   padding: 100px 0;
-  background-color: 92b7fca1;
+  background-color: #92b7fca1;
   z-index: 20;
 }
+
 .lds-ring {
   position: relative;
-
   display: inline-block;
-
   width: 80px;
   height: 80px;
-  top: 00px;
+  top: 00;
 }
 
 .lds-ring div {
   position: absolute;
-
   display: block;
-
   box-sizing: border-box;
   width: 64px;
   height: 64px;
   margin: 8px;
-
   border: 8px solid #fff;
   border-color: #fff transparent transparent;
   border-radius: 50%;
-
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
@@ -48,6 +43,7 @@
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);

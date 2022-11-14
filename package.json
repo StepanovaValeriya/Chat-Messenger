@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts}\"",
     "stylelint": "stylelint \"src/**/*.{css,scss}\" --fix",
     "eslint": "eslint . --ext .ts,.js",
-    "lint": "npm run eslint && npm run stylelint:fix",
+    "lint": "npm run eslint && npm run stylelint",
     "prepare": "husky install"
   },
   "repository": {
@@ -60,10 +60,13 @@
     "mini-css-extract-plugin": "2.6.1",
     "msw": "0.48.1",
     "postcss-preset-env": "6.7.0",
+    "postcss-scss": "4.0.5",
     "prettier": "2.7.1",
     "sass": "1.56.1",
     "sass-loader": "13.1.0",
     "stylelint": "14.13.0",
+    "stylelint-config-recommended-scss": "8.0.0",
+    "stylelint-config-standard": "28.0.0",
     "stylelint-scss": "4.3.0",
     "ts-loader": "9.4.1",
     "tsconfig-paths-webpack-plugin": "4.0.0",

@@ -2,8 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 import { signup } from "services/auth";
 import { WithRouter, WithStore } from "helpers";
-import { Router } from "core";
-import { Store } from "core";
+import { Router, Store } from "core";
 
 type SignUpPageProps = {
   router: Router;
@@ -38,10 +37,7 @@ class SignUpPage extends Block<SignUpPageProps> {
       onLoginPage: () => {
         this.props.router.go("/login");
       },
-      handleErrors: (
-        values: { [key: string]: number },
-        errors: { [key: string]: number }
-      ) => {
+      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
         const nextState = {
           errors,
           values,
@@ -91,9 +87,7 @@ class SignUpPage extends Block<SignUpPageProps> {
         const newValues = { ...this.state.values };
         const newErrors = { ...this.state.errors };
         Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
+          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
           newValues[key] = input.value;
           const message = Validate(newValues[key], key);
           if (message) {
@@ -117,8 +111,9 @@ class SignUpPage extends Block<SignUpPageProps> {
       },
     };
   }
+
   render() {
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     const { errors, values } = this.state;
     // language=hbs
     return `

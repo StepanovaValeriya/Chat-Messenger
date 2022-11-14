@@ -1,14 +1,14 @@
 @import "./variables";
 @import "./mixins";
-@import "../components/layout/layout.scss";
-@import "../components/button/button.scss";
-@import "../components/controlledInput/controlledInput.scss";
+@import "../components/layout/layout";
+@import "../components/button/button";
+@import "../components/controlledInput/controlledInput";
 @import "../components//modal/modal.scss";
-@import "../pages/errors/errors.scss";
-@import "../pages/main/main.scss";
-@import "../pages/login/login.scss";
-@import "../pages/chat/chat.scss";
-@import "../pages/profile/profile.scss";
+@import "../pages/errors/errors";
+@import "../pages/main/main";
+@import "../pages/login/login";
+@import "../pages/chat/chat";
+@import "../pages/profile/profile";
 
 *,
 *::before,
@@ -18,18 +18,22 @@
   border: 0;
   box-sizing: border-box;
 }
+
 a {
   text-decoration: none;
   color: inherit;
 }
+
 ul,
 ol,
 li {
   list-style: none;
 }
+
 img {
   vertical-align: top;
 }
+
 h1,
 h2,
 h3,
@@ -38,17 +42,20 @@ h5,
 h6 {
   margin: 0;
 }
+
 body {
   background-color: $backgroundLayout;
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: 500;
   size: 13px;
   line-height: 13px;
 }
+
 ._page {
   margin: auto;
   padding: 20px;
 }
+
 .hidden {
   display: none;
 }

@@ -14,6 +14,7 @@ type ProfilePageProps = {
 
 class ProfilePage extends Block<ProfilePageProps> {
   static componentName = "ProfilePage";
+
   constructor(props: ProfilePageProps) {
     super({ ...props });
     const data = props.user ? userDataArray(props.user) : [];
@@ -24,7 +25,8 @@ class ProfilePage extends Block<ProfilePageProps> {
       userData: data,
     });
   }
-  protected getStateFromProps(_props: ProfilePageProps) {
+
+  protected getStateFromProps() {
     this.state = {
       onChangeDataPage: () => {
         this.props.router.go("/changeDataProfile");
@@ -41,7 +43,7 @@ class ProfilePage extends Block<ProfilePageProps> {
   render() {
     const avatarImg = this.props.user?.avatar ?? "";
     const userName = this.props.user?.firstName ?? "";
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     // language=hbs
     return `
     {{#if ${isLoading}}}

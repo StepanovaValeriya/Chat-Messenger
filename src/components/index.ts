@@ -1,4 +1,4 @@
-export { default as Button } from "components/button/button";
+export { Button } from "components/button/button";
 export { default as ChatHeader } from "components/chat/chatHeader/chatHeader";
 export { default as ChatList } from "components/chat/chatList/chatList";
 export { default as ChatMessageInput } from "components/chat/chatMessageInput/chatMessage";

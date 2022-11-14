@@ -8,7 +8,6 @@ interface MessageProps {
   outgoing: boolean;
   delivered: boolean;
   readed: boolean;
-  events: Object;
 }
 
 export default class Message extends Block<MessageProps> {

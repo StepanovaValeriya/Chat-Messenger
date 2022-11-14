@@ -1,30 +1,38 @@
-@import "../../components/profile/profileNav/profileNav.scss";
+@import "../../components/profile/profileNav/profileNav";
 
 .profile {
   .profile__main {
     flex: 0 0 95%;
+
     @include styleMain;
+
     flex-direction: column;
     justify-content: center;
     gap: 21px;
-    @import "../../components/profile/profileAvatar/profileAvatar.scss";
+
+    @import "../../components/profile/profileAvatar/profileAvatar";
+
     .profile__info {
       min-width: 510px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
       @include breakpoint(md) {
         min-width: 210px;
         padding: 20px 20px 20px 0;
       }
-      @import "../../components/profile/profileItem/profileItem.scss";
+
+      @import "../../components/profile/profileItem/profileItem";
+
       .auth__inputs {
         flex-direction: row;
         justify-content: space-between;
         border-bottom: $borderBottomInput;
         flex-wrap: wrap;
       }
+
       .input__label {
         align-self: center;
         font-size: 13px;
@@ -32,25 +40,32 @@
         flex: 0 0 30%;
       }
     }
+
     .input__profile {
       outline: none;
       padding: 10px 0;
       text-align: right;
       flex: 0 0 70%;
+
       &:focus {
         border: $borderBottomInput;
       }
     }
+
     .button__main_red {
       background-color: $colorLinkRed;
+
       &:hover {
         @include linkHover;
+
         background-color: $hoverColorButtonRed;
       }
     }
   }
+
   .button__main {
     margin: 0;
+
     @include breakpoint(sm) {
       min-width: 0;
       max-width: 180px;

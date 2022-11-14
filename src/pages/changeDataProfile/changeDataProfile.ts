@@ -5,8 +5,7 @@ import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
 import Router from "core/router";
 import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
-import { changeUserProfile } from "services/userData";
-import { changeAvatar } from "services/userData";
+import { changeUserProfile, changeAvatar } from "services/userData";
 
 const toggleChangeAvatarModal = createModalToggler(MODAL_СHANGE_USER_AVATAR_ID);
 
@@ -20,6 +19,7 @@ type ChangeDataProfilePageProps = {
 
 class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   static componentName = "ChangeDataProfilePage";
+
   constructor(props: ChangeDataProfilePageProps) {
     super({ ...props, toggleChangeAvatarModal });
   }
@@ -43,17 +43,15 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         display_name: "",
       },
 
-      handleErrors: (
-        values: { [key: string]: number },
-        errors: { [key: string]: number }
-      ) => {
+      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
         const nextState = {
           errors,
           values,
         };
         this.setState(nextState);
       },
-      onSubmit: (e: MouseEvent) => {
+      onSubmit: (e: SubmitEvent) => {
+        // eslint-disable-next-line no-unused-expressions
         e.preventDefault;
         if (this.formValid()) {
           const profileData = this.state.values;
@@ -65,6 +63,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
       onAvatarChange: this.onAvatarChange.bind(this),
     };
   }
+
   onBlur(e: Event) {
     if (e.target) {
       const element = e.target as HTMLInputElement;
@@ -105,14 +104,13 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
       this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
     }
   }
+
   formValid() {
     let isValid = true;
     const newValues = { ...this.state.values };
     const newErrors = { ...this.state.errors };
     Object.keys(this.state.values).forEach((key) => {
-      let input = this.element?.querySelector(
-        `input[name='${key}']`
-      ) as HTMLInputElement;
+      const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
       newValues[key] = input.value;
       const message = Validate(newValues[key], key);
       if (message) {
@@ -127,16 +125,14 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   }
 
   onAvatarChange() {
-    const formData = new FormData(
-      document.querySelector("#user_form_avatar") as HTMLFormElement
-    );
+    const formData = new FormData(document.querySelector("#user_form_avatar") as HTMLFormElement);
     changeAvatar(this.props.store, formData);
   }
 
   render() {
     const { errors, values } = this.state;
     const avatarImg = this.props.user?.avatar ?? "";
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     // language=hbs
     return `
     {{#if ${isLoading}}}

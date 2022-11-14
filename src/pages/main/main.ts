@@ -1,6 +1,6 @@
 import Block from "core/Block";
 import Router from "core/router";
-import "./main";
+import "./main.scss";
 import { WithRouter } from "helpers/withRouter";
 import { Store } from "core";
 

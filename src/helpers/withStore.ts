@@ -10,7 +10,6 @@ export function WithStore<P extends WithStateProps>(
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     props: any;
 
     constructor(props: P) {

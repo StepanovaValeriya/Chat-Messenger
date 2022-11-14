@@ -1,8 +1,8 @@
-@import "../../components/chat/chatHeader/chatHeader.scss";
-@import "../../components/chat/chatMessageInput/chatMessage.scss";
-@import "../../components/chat/chatList/chatList.scss";
-@import "../../components/chat/emptyChat/emptyChat.scss";
-@import "../../components/chat/message/message.scss";
+@import "../../components/chat/chatHeader/chatHeader";
+@import "../../components/chat/chatMessageInput/chatMessage";
+@import "../../components/chat/chatList/chatList";
+@import "../../components/chat/emptyChat/emptyChat";
+@import "../../components/chat/message/message";
 
 .content {
   display: flex;
@@ -10,10 +10,13 @@
   color: $colorForText;
   font-weight: 500;
 }
+
 .chat {
   .chat__nav {
     @include styleNav;
+
     flex-direction: column;
+
     &__profile {
       align-self: flex-end;
       display: flex;
@@ -24,14 +27,17 @@
         line-height: 12px;
         background-color: transparent;
         cursor: pointer;
+
         &:hover {
           color: $hoverColorChat;
         }
       }
     }
+
     &__search {
       background: $backgroundInput;
       margin-top: 10px;
+
       &__input {
         background-image: url(../../static/img/search.png);
         background-repeat: no-repeat;
@@ -41,6 +47,7 @@
         border-color: transparent;
         padding: 10px;
         text-align: center;
+
         &:focus {
           text-align: start;
           background-position: left 90% bottom 50%;
@@ -48,21 +55,27 @@
       }
     }
   }
+
   .chat__main {
     flex: 0 0 75%;
+
     @include styleMain;
+
     align-items: unset;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 0 20px;
+
     @include breakpoint(xl) {
-      padding: 0px 40px;
+      padding: 0 40px;
     }
+
     @include breakpoint(lg) {
       display: none;
     }
   }
 }
+
 .message__date {
   text-align: center;
 }

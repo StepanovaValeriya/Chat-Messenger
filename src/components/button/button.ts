@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import "./button";
+import "./button.scss";
 
 type ButtonProps = {
   text?: string;
@@ -13,17 +13,13 @@ type ButtonProps = {
   onClick?: () => void;
 };
 
-export default class Button extends Block<ButtonProps> {
+export class Button extends Block<ButtonProps> {
   static componentName = "Button";
-  constructor({
-    type,
-    dataTestid = "button_test",
-    text,
-    className,
-    onClick,
-  }: ButtonProps) {
+
+  constructor({ type, dataTestid = "button_test", text, className, onClick }: ButtonProps) {
     super({ text, type, dataTestid, className, events: { click: onClick } });
   }
+
   protected render(): string {
     // language=hbs
     return `

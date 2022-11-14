@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { getByTestId } from "@testing-library/dom";
 import { renderBlock } from "../../tests/renderUtils";
-import Button from "./button";
+import { Button } from "./button";
 
 describe("components/Button", () => {
   it("should render button with exactly props", () => {

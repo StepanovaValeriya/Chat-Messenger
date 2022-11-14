@@ -4,29 +4,37 @@
   align-items: center;
   border-bottom: $borderChatNav;
   padding-bottom: 10px;
+
   &__info {
     display: flex;
     align-items: center;
     gap: 10px;
+
     img {
       border-radius: 100px;
     }
+
     &__title {
       order: 2;
+
       @include profileNameTitle;
     }
+
     p {
       font-size: 12px;
       order: 3;
     }
   }
+
   &__actions {
     background-color: transparent;
     cursor: pointer;
     padding: 5px 10px;
+
     &:hover {
       transform: scale(1.2);
     }
+
     &__button {
       padding: 10px;
       position: absolute;
@@ -35,6 +43,7 @@
     }
   }
 }
+
 .options {
   position: absolute;
   min-width: 115px;
@@ -51,14 +60,17 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
+
   &__item {
     cursor: pointer;
     display: flex;
     gap: 15px;
+
     &:hover {
       transform: scale(1.1);
     }
   }
+
   &__button {
     background-color: transparent;
     order: 1;

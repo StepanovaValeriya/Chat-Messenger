@@ -4,7 +4,7 @@ import "./loader.scss";
 type LoaderProps = {};
 
 export default class Loader extends Block<LoaderProps> {
-  static componentName: string = "Loader";
+  static componentName = "Loader";
 
   render() {
     // language=hbs

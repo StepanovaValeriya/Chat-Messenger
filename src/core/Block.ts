@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line import/no-unresolved
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";

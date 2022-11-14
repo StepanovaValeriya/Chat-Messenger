@@ -5,7 +5,7 @@ import { sendMessage } from "services/chats";
 import { Store } from "core/store";
 import Router from "core/router";
 import { WithStore } from "helpers";
-import "./chatMessage";
+import "./chatMessage.scss";
 
 type ChatMessageProps = {
   router: Router;
@@ -17,11 +17,12 @@ type ChatMessageProps = {
 
 class ChatMessageInput extends Block<ChatMessageProps> {
   static componentName = "ChatMessageInput";
+
   constructor(props: ChatMessageProps) {
     super({ ...props, toggleAttachWindow });
   }
 
-  protected getStateFromProps(_props: ChatMessageProps) {
+  protected getStateFromProps() {
     this.state = {
       values: {
         message: "",
@@ -29,10 +30,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       errors: {
         message: "",
       },
-      handleErrors: (
-        values: { [key: string]: number },
-        errors: { [key: string]: number }
-      ) => {
+      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
         const nextState = {
           errors,
           values,
@@ -47,9 +45,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
         const newValues = { ...this.state.values };
         const newErrors = { ...this.state.errors };
         Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
+          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
           newValues[key] = input.value;
           const messages = Validate(newValues[key], key);
           if (messages) {
@@ -65,7 +61,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       onSubmit: (e: Event) => {
         e.preventDefault();
         if (this.state.formValid()) {
-          let message = this.state.values.message;
+          let { message } = this.state.values;
           const chat = this.props.store.getState().selectedChat;
           if (chat) {
             sendMessage(message, chat);

@@ -58,7 +58,6 @@ export const changeUserPassword: DispatchStateHandler<ChangePasswordRequestData>
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const changeAvatar: DispatchStateHandler<any> = async (store, action) => {
   store.setState({ isLoading: true });
 

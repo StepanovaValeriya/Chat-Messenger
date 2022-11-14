@@ -1,12 +1,12 @@
-import "regenerator-runtime/runtime";
-import { registerComponent } from "./core";
 import "./styles/style.scss";
 import Router from "core/router";
 import store, { Store } from "core/store";
-import { initApp } from "./services/initApp";
+
 import { initRouter } from "services/initRouter";
 import { Socket } from "core/WebSocket";
 import * as components from "components";
+import { registerComponent } from "./core";
+import { initApp } from "./services/initApp";
 
 Object.values(components).forEach((Component: any) => {
   registerComponent(Component);
@@ -29,11 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.webSocket = socketController;
 
   store.on("updated", (nextState) => {
-    console.log(
-      "%cstore updated",
-      "background: #222; color: #bada55",
-      nextState
-    );
+    console.log("%cstore updated", "background: #222; color: #bada55", nextState);
   });
 
   initRouter(router, store);

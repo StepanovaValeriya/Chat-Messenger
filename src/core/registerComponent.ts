@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Handlebars, { HelperOptions } from "handlebars";
 import Block from "./Block";
 

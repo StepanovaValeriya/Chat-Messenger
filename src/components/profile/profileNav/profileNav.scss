@@ -1,13 +1,17 @@
 .profile__nav {
   @include styleNav;
+
   justify-content: center;
   align-items: center;
+
   &__image:hover {
     transform: scale(1.2);
   }
+
   @include breakpoint(sm) {
-    padding: 0px;
+    padding: 0;
   }
+
   &__button {
     background-color: $backgroundButton;
     color: $colorButton;
@@ -16,6 +20,7 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.1);
     }

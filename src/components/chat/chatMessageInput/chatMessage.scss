@@ -7,27 +7,33 @@
   flex-wrap: wrap;
   padding-top: 10px;
   gap: 10px;
+
   @include breakpoint(xl) {
     justify-content: center;
   }
+
   &__input {
     background-color: $backgroundInput;
     flex: 0 0 85%;
     border-radius: 30px;
     padding: 13px;
+
     @include breakpoint(xl) {
       flex: 0 0 75%;
     }
   }
+
   &__actions {
     padding: 20px;
     position: absolute;
     background: transparent;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.1);
     }
   }
+
   &__send {
     background-color: $backgroundButton;
     color: $colorButton;
@@ -36,14 +42,17 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.1);
     }
   }
+
   .input__error {
     flex: 0 0 100%;
     text-align: center;
   }
+
   .options {
     top: 78.2%;
     left: 31%;

@@ -1,5 +1,4 @@
 import Block from "core/Block";
-import "./link";
 
 interface LinkProps {
   to: string;

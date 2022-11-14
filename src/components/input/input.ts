@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-import "./input";
+import "./input.scss";
 
 type IncomingInputProps = {
   onBlur?: () => void;

@@ -1,5 +1,6 @@
 import Block from "core/Block";
-import "./emptyChat";
+import "./emptyChat.scss";
+
 type EmptyChatProps = {};
 
 export default class EmptyChat extends Block<EmptyChatProps> {

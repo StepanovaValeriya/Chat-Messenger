@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import "./profileItem";
+import "./profileItem.scss";
 
 interface ProfileItemProps {
   label: string;
