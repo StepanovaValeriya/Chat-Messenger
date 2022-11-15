@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import "./button.scss";
+import "./button";
 
 type ButtonProps = {
   text?: string;
