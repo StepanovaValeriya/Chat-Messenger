@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line import/no-unresolved
@@ -193,7 +194,7 @@ export default class Block<P extends Indexed<any>> {
   }
 
   private _removeEvents() {
-    const { events } = this.props as any;
+    const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events || !this._element) {
       return;
@@ -205,7 +206,7 @@ export default class Block<P extends Indexed<any>> {
   }
 
   private _addEvents() {
-    const { events } = this.props as any;
+    const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events) {
       return;

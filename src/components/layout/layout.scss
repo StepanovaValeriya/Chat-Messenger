@@ -1,3 +1,6 @@
+@import "../../styles/variables";
+@import "../../styles/_mixins";
+
 .wrapper {
   min-height: 100vh;
   overflow: hidden;
@@ -16,9 +19,7 @@
   width: 1500px;
   box-sizing: border-box;
   border-radius: 12px;
-  box-shadow:
-    4px 4px 4px 4px rgb(0 0 0 / 8.9%),
-    4px 4px 4px 4px rgb(0 0 0 / 17.1%);
+  box-shadow: 4px 4px 4px 4px rgb(0 0 0 / 8.9%), 4px 4px 4px 4px rgb(0 0 0 / 17.1%);
   padding: 20px;
   display: flex;
 

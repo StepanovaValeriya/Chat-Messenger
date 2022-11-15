@@ -6,6 +6,7 @@ import Router from "core/router";
 import { WithRouter, WithStore, WithChats } from "helpers";
 import { Store } from "core";
 import { createChat, addUserToChat, deleteUserFromChat } from "services/chats";
+import "./chat.scss";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);

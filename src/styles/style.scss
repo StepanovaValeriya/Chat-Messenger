@@ -1,14 +1,5 @@
 @import "./variables";
 @import "./mixins";
-@import "../components/layout/layout";
-@import "../components/button/button";
-@import "../components/controlledInput/controlledInput";
-@import "../components//modal/modal.scss";
-@import "../pages/errors/errors";
-@import "../pages/main/main";
-@import "../pages/login/login";
-@import "../pages/chat/chat";
-@import "../pages/profile/profile";
 
 *,
 *::before,
@@ -57,5 +48,5 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

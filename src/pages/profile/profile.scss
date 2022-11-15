@@ -1,4 +1,5 @@
-@import "../../components/profile/profileNav/profileNav";
+@import "../../styles/variables";
+@import "../../styles/_mixins";
 
 .profile {
   .profile__main {
@@ -9,8 +10,6 @@
     flex-direction: column;
     justify-content: center;
     gap: 21px;
-
-    @import "../../components/profile/profileAvatar/profileAvatar";
 
     .profile__info {
       min-width: 510px;
@@ -23,8 +22,6 @@
         min-width: 210px;
         padding: 20px 20px 20px 0;
       }
-
-      @import "../../components/profile/profileItem/profileItem";
 
       .auth__inputs {
         flex-direction: row;

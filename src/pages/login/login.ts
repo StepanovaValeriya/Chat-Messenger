@@ -4,6 +4,7 @@ import Router from "core/router";
 import { signin } from "services/auth";
 import { WithRouter, WithStore } from "helpers";
 import { Store } from "core";
+import "./login.scss";
 
 type LoginPageProps = {
   router: Router;

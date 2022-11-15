@@ -4,6 +4,7 @@ import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
 import { signout } from "services/auth";
 import { userDataArray } from "utils/userDataArray";
+import "./profile.scss";
 
 type ProfilePageProps = {
   router: Router;

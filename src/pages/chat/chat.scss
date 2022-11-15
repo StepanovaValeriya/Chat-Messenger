@@ -1,8 +1,5 @@
-@import "../../components/chat/chatHeader/chatHeader";
-@import "../../components/chat/chatMessageInput/chatMessage";
-@import "../../components/chat/chatList/chatList";
-@import "../../components/chat/emptyChat/emptyChat";
-@import "../../components/chat/message/message";
+@import "../../styles/variables";
+@import "../../styles/_mixins";
 
 .content {
   display: flex;
@@ -39,7 +36,7 @@
       margin-top: 10px;
 
       &__input {
-        background-image: url(../../static/img/search.png);
+        background-image: url(../../../static/img/search.png);
         background-repeat: no-repeat;
         background-position: left 30% bottom 50%;
         width: 100%;

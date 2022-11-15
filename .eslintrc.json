@@ -21,8 +21,9 @@
   ],
   "plugins": ["@typescript-eslint", "prettier", "import"],
   "settings": {
-    "import/resolver": "webpack",
-    "import/extensions": [".js", ".jsx", ".ts"]
+    "import/resolver": "eslint-import-resolver-webpack",
+    "import/extensions": [".js", ".js", ".ts"],
+    "import/core-modules": ["nanoid"]
   },
   "rules": {
     "prettier/prettier": "off",

@@ -1,4 +1,5 @@
 import Block from "core/Block";
+import "./errors.scss";
 
 type ErrorPageProps = {
   errorCode?: string;
