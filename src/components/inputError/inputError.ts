@@ -6,7 +6,7 @@ type InputErrorProps = {
   text?: string;
 };
 
-export default class InputError extends Block<InputErrorProps> {
+export class InputError extends Block<InputErrorProps> {
   static componentName = "InputError";
 
   protected render(): string {

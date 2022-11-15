@@ -3,7 +3,7 @@ import "./loader.scss";
 
 type LoaderProps = {};
 
-export default class Loader extends Block<LoaderProps> {
+export class Loader extends Block<LoaderProps> {
   static componentName = "Loader";
 
   render() {

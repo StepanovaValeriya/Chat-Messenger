@@ -6,7 +6,7 @@ interface ProfileItemProps {
   info: string;
 }
 
-export default class ProfileItem extends Block<ProfileItemProps> {
+export class ProfileItem extends Block<ProfileItemProps> {
   static componentName = "ProfileItem";
 
   protected render(): string {

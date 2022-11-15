@@ -7,7 +7,7 @@ type ChangeAvatarModalProps = {
   toggler?: () => void;
 };
 
-export default class ChangeAvatarModal extends Block<ChangeAvatarModalProps> {
+export class ChangeAvatarModal extends Block<ChangeAvatarModalProps> {
   static componentName = "ChangeAvatarModal";
 
   protected getStateFromProps() {

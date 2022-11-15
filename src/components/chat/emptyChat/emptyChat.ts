@@ -3,7 +3,7 @@ import "./emptyChat.scss";
 
 type EmptyChatProps = {};
 
-export default class EmptyChat extends Block<EmptyChatProps> {
+export class EmptyChat extends Block<EmptyChatProps> {
   static componentName = "EmptyChat";
 
   protected render(): string {

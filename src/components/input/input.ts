@@ -32,7 +32,7 @@ type InputProps = {
   placeholder?: string;
 };
 
-export default class Input extends Block<InputProps> {
+export class Input extends Block<InputProps> {
   static componentName = "Input";
 
   constructor(props: IncomingInputProps) {

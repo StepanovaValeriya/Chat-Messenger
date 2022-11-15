@@ -10,7 +10,7 @@ interface MessageProps {
   readed: boolean;
 }
 
-export default class Message extends Block<MessageProps> {
+export class Message extends Block<MessageProps> {
   static componentName = "Message";
 
   render() {

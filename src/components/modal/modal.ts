@@ -13,7 +13,7 @@ interface ModalProps {
   toggler?: () => void;
 }
 
-export default class Modal extends Block<ModalProps> {
+export class Modal extends Block<ModalProps> {
   static componentName = "Modal";
 
   render(): string {

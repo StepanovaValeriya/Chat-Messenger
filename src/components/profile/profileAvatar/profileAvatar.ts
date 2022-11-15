@@ -11,7 +11,7 @@ type ProfileAvatarProps = {
   toggleChangeAvatarModal: (event: PointerEvent) => void;
 };
 
-export default class ProfileAvatar extends Block<ProfileAvatarProps> {
+export class ProfileAvatar extends Block<ProfileAvatarProps> {
   static componentName = "ProfileAvatar";
 
   constructor({ avatarPath, userName }: ProfileAvatarProps) {
