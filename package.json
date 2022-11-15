@@ -26,7 +26,7 @@
     "helpers": "./src/helpers",
     "services": "./src/services"
   },
-  "author": "",
+  "author": "Valeriya Stepanova",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/issues"
