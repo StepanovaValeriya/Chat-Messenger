@@ -1,10 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  getByTestId,
-  getAllByText,
-  getByText,
-  waitFor,
-} from "@testing-library/dom";
+import { getByTestId, getAllByText, getByText, waitFor } from "@testing-library/dom";
 import { renderBlock } from "../../tests/renderUtils";
 import Profile from "./profile";
 
@@ -30,12 +25,8 @@ describe("pages/profile", () => {
     expect(getByTestId(document.body, "profileInfo")).toBeInTheDocument();
     expect(getByTestId(document.body, "profileAvatar")).toBeInTheDocument();
     expect(getByTestId(document.body, "profileItem")).toBeInTheDocument();
-    expect(
-      getByTestId(document.body, "button__changeData")
-    ).toBeInTheDocument();
-    expect(
-      getByTestId(document.body, "button__changePass")
-    ).toBeInTheDocument();
+    expect(getByTestId(document.body, "button__changeData")).toBeInTheDocument();
+    expect(getByTestId(document.body, "button__changePass")).toBeInTheDocument();
     expect(getByTestId(document.body, "button__signout")).toBeInTheDocument();
   });
 
@@ -55,12 +46,8 @@ describe("pages/profile", () => {
     expect(getByTestId(document.body, "profileInfo")).toBeInTheDocument();
     expect(getByTestId(document.body, "profileAvatar")).toBeInTheDocument();
     expect(getByTestId(document.body, "profileItem")).toBeInTheDocument();
-    expect(
-      getByTestId(document.body, "button__changeData")
-    ).toBeInTheDocument();
-    expect(
-      getByTestId(document.body, "button__changePass")
-    ).toBeInTheDocument();
+    expect(getByTestId(document.body, "button__changeData")).toBeInTheDocument();
+    expect(getByTestId(document.body, "button__changePass")).toBeInTheDocument();
     expect(getByTestId(document.body, "button__signout")).toBeInTheDocument();
     expect(getAllByText(document.body, "Testik")).toHaveLength(2);
     expect(getByText(document.body, "test@mail.ru")).toBeInTheDocument();
@@ -69,7 +56,7 @@ describe("pages/profile", () => {
     expect(getByText(document.body, "Testov")).toBeInTheDocument();
   });
 
-  it("should logout from profile and redirect to main", async () => {
+  it("should logout from profile and redirect to login", async () => {
     await renderBlock({
       Block: Profile,
       props: {},
@@ -87,15 +74,13 @@ describe("pages/profile", () => {
     })();
 
     await (async () => {
-      await waitFor(() =>
-        expect(getByTestId(document.body, "welcome")).toBeInTheDocument()
-      );
+      await waitFor(() => expect(getByTestId(document.body, "login")).toBeInTheDocument());
     })();
 
     const state = window.store.getState();
 
-    expect(state.view.componentName).toBe("MainPage");
-    expect(state.currentPath).toBe("/");
+    expect(state.view.componentName).toBe("LoginPage");
+    expect(state.currentPath).toBe("/login");
     expect(state.user).toEqual(null);
   });
 });

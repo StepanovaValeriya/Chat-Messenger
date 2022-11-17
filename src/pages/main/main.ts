@@ -32,7 +32,7 @@ class MainPage extends Block<MainPageProps> {
     return `
 
     {{#Layout name="Main" }}
-      <div class="page__welcome _page" data-testid='welcome'>
+      <div class="page__welcome _page">
         <h1 class="page__welcome__title">Welcome to Chat-Messenger!</h1>
         {{{Button
           text="Sign In"

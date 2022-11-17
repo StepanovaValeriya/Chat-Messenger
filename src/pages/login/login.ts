@@ -94,7 +94,7 @@ class LoginPage extends Block<LoginPageProps> {
       {{{Loader}}}
     {{/if}}
       {{#Layout name="Login" }}
-        <div class="page__login _page">
+        <div class="page__login _page" data-testid='login'>
           <div class="auth">
             <h1 class="auth__title">Sign In</h1>
             <form class="auth__form">
