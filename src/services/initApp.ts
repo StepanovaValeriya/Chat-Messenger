@@ -24,8 +24,8 @@ export async function initApp(store: Store<AppState>) {
     }
     return null;
   } catch (error) {
-    console.log((error as Error).message);
-    return false;
+    store.setState({ loginFormError: (error as Error).message });
+    return null;
   } finally {
     store.setState({ isLoading: false, isAppInited: true });
   }
