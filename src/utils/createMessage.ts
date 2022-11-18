@@ -55,3 +55,15 @@ export const addDOMMessageElement = (webSocketMessage: Sockets, userId: number) 
     document.querySelector(".chat__talk")?.append(messageElement);
   }
 };
+
+export const updateMessages = (SocketsMessagesArray: Sockets[], userId: number) => {
+  const container = document.querySelector(".chat__talk");
+
+  if (container) {
+    container.innerHTML = "";
+  }
+
+  SocketsMessagesArray.forEach((message) => {
+    addDOMMessageElement(message, userId);
+  });
+};

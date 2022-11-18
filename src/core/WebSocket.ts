@@ -1,27 +1,28 @@
 import { Sockets } from "api/types";
-import { addDOMMessageElement } from "utils/createMessage";
+import { addDOMMessageElement, updateMessages } from "utils/createMessage";
+import { sortMessagesByTime } from "utils/sortMessageByTime";
 
 const BASE_URL = "wss://ya-praktikum.tech/ws";
 
 export type SocketData = {
   socket: WebSocket;
-  oldMessagesArray: Array<Sockets>;
+  messagesArray: Array<Sockets>;
 };
 export interface WebSocketProps {
-  socketsMap: Map<string, SocketData>;
+  socketsMap: Map<number, SocketData>;
   createConnection: (userId: number, chat: ChatType) => void;
   setHandlers: (socket: WebSocket, userId: number, chat: ChatType) => void;
 }
 
 export class Socket implements WebSocketProps {
-  socketsMap: Map<string, SocketData> = new Map();
+  socketsMap: Map<number, SocketData> = new Map();
 
   createConnection(userId: number, chat: ChatType) {
     const { id, chatToken } = chat;
     const socket = new WebSocket(`${BASE_URL}/chats/${userId}/${id}/${chatToken}`);
 
     this.setHandlers(socket, userId, chat);
-    this.socketsMap.set(String(id), { socket, oldMessagesArray: [] });
+    this.socketsMap.set(id, { socket, messagesArray: [] });
   }
 
   setHandlers(socket: WebSocket, userId: number, chat: ChatType) {
@@ -44,7 +45,7 @@ export class Socket implements WebSocketProps {
       }
 
       console.log(`Код: ${event.code} | Причина: ${(event as CloseEvent).reason}`);
-      this.socketsMap.delete(String(userId));
+      this.socketsMap.delete(chat.id);
     });
 
     socket.addEventListener("message", (event) => {
@@ -53,17 +54,19 @@ export class Socket implements WebSocketProps {
       const data = JSON.parse(event.data);
 
       if (Array.isArray(data)) {
-        const socketData = this.socketsMap.get(String(chat.id)) as SocketData;
-        socketData.oldMessagesArray = [...socketData.oldMessagesArray, ...data];
+        const socketData = this.socketsMap.get(chat.id) as SocketData;
+        const messages = [...socketData.messagesArray, ...data];
 
-        this.socketsMap.set(String(chat.id), {
-          socket: socketData.socket,
-          oldMessagesArray: socketData.oldMessagesArray,
-        });
+        const updatedSocketData = {
+          ...socketData,
+          messagesArray: sortMessagesByTime(messages),
+        };
 
-        data.forEach((message: Sockets) => {
-          addDOMMessageElement(message, userId);
+        this.socketsMap.set(chat.id, {
+          socket: updatedSocketData.socket,
+          messagesArray: updatedSocketData.messagesArray,
         });
+        updateMessages(updatedSocketData.messagesArray, userId);
 
         return;
       }

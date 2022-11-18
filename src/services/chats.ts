@@ -187,13 +187,6 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (store, action)
     };
     console.log(selectedChat);
 
-    const { user } = store.getState();
-
-    if (user) {
-      console.log("open");
-      openSocket(user.id, selectedChat);
-    }
-
     store.setState({ selectedChat });
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
@@ -203,11 +196,7 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (store, action)
 };
 
 export const openSocket = (id: number, chat: ChatType) => {
-  const socket = window.webSocket.socketsMap.get(String(id));
-
-  if (!socket) {
-    window.webSocket.createConnection(id, chat);
-  }
+  window.webSocket.createConnection(id, chat);
 };
 
 export const sendMessage = (message: string, chat: ChatType) => {
