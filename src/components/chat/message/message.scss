@@ -1,18 +1,22 @@
 @import "../../../styles/variables";
 
+.chat__talk {
+  display: flex;
+  flex-direction: column;
+}
 .message {
   background-color: #92b7fca1;
   padding: 15px;
   border-radius: 0 10px 10px;
   margin-bottom: 10px;
-  max-width: 60%;
+  min-width: 40%;
 
   &__incoming {
-    align-self: start;
+    align-self: flex-start;
   }
 
   &__outgoing {
-    align-self: end;
+    align-self: flex-end;
     border-radius: 10px 10px 0;
   }
 
@@ -43,4 +47,7 @@
     width: 100%;
     margin: 10px 0 20px;
   }
+}
+time {
+  font-size: 10px;
 }
