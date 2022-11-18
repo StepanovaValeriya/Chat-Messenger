@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 export default function Validate(value: string, name: string): string {
   const errors = [];
   switch (name) {
@@ -38,7 +37,7 @@ export default function Validate(value: string, name: string): string {
       if (!(value.length >= 10 && value.length <= 18)) {
         errors.push("Use 10 to 15 symbols");
       }
-      if (!/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]+$/.test(value)) {
+      if (!/^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/.test(value)) {
         errors.push("Don't use invalid characters");
       }
       break;

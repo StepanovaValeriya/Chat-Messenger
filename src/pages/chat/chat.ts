@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import Block from "core/Block";
 import { toggleOptionsWindow, createModalToggler } from "utils/dom";
 import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID, MODAL_ADD_CHAT_ID } from "utils/const";
@@ -72,7 +71,9 @@ class ChatPage extends Block<ChatPageProps> {
           document.querySelector("#error__addUser")?.classList.remove("hidden");
         } else {
           document.querySelector("#error__addUser")?.classList.add("hidden");
-          chat && addUserToChat(this.props.store, { login, chat });
+          if (chat) {
+            addUserToChat(this.props.store, { login, chat });
+          }
         }
       },
 
@@ -86,7 +87,9 @@ class ChatPage extends Block<ChatPageProps> {
           document.querySelector("#error__deleteUser")?.classList.remove("hidden");
         } else {
           document.querySelector("#error__deleteUser")?.classList.add("hidden");
-          chat && deleteUserFromChat(this.props.store, { login, chat });
+          if (chat) {
+            deleteUserFromChat(this.props.store, { login, chat });
+          }
         }
       },
     };
