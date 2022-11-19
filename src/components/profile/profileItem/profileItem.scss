@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: $borderBottomInput;
+  padding: 10px 0;
 
   &__label {
     align-self: center;
@@ -13,7 +14,6 @@
   }
 
   &__title {
-    padding: 10px 0;
     text-align: right;
   }
 }
