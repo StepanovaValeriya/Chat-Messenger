@@ -200,7 +200,7 @@ export const openSocket = (id: number, chat: ChatType) => {
 };
 
 export const sendMessage = (message: string, chat: ChatType) => {
-  const socket = window.webSocket.socketsMap.get(String(chat.id))?.socket;
+  const socket = window.webSocket.socketsMap.get(chat.id)?.socket;
   const messageObject = {
     content: message,
     type: "message",
