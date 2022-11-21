@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import "./modal";
+import "./modal.scss";
 
 interface ModalProps {
   id: string;

@@ -1,18 +1,14 @@
-import { BlockConstructable } from "./registerComponent";
 import { isEqual } from "utils/isEqual";
-
-export interface RouteProps {
-  pathname: string;
-  view: BlockConstructable;
-  isPrivate: boolean;
-  callback: Function;
-}
+import { BlockConstructable } from "./registerComponent";
 
 export default class Route {
   pathname: string;
+
   view: BlockConstructable;
+
   isPrivate: boolean;
-  callback: Function;
+
+  callback: () => void;
 
   constructor({ pathname, view, isPrivate, callback }: RouteProps) {
     this.pathname = pathname;

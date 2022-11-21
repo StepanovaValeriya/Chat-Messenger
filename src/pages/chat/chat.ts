@@ -1,14 +1,11 @@
 import Block from "core/Block";
 import { toggleOptionsWindow, createModalToggler } from "utils/dom";
-import {
-  MODAL_ADD_USER_ID,
-  MODAL_DELETE_USER_ID,
-  MODAL_ADD_CHAT_ID,
-} from "utils/const";
+import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID, MODAL_ADD_CHAT_ID } from "utils/const";
 import Router from "core/router";
 import { WithRouter, WithStore, WithChats } from "helpers";
 import { Store } from "core";
 import { createChat, addUserToChat, deleteUserFromChat } from "services/chats";
+import "./chat.scss";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
@@ -18,10 +15,15 @@ type ChatPageProps = {
   router: Router;
   store: Store<AppState>;
   chats: Nullable<Array<ChatType>>;
+  toggleOptionsWindow: () => void;
+  toggleAddUserModal: (event: PointerEvent) => void;
+  toggleDeleteUserModal: (event: PointerEvent) => void;
+  toggleAddChatModal: (event: PointerEvent) => void;
 };
 
 class ChatPage extends Block<ChatPageProps> {
   static componentName = "ChatPage";
+
   constructor(props: ChatPageProps) {
     super({
       ...props,
@@ -31,15 +33,16 @@ class ChatPage extends Block<ChatPageProps> {
       toggleAddChatModal,
     });
   }
-  protected getStateFromProps(_props: ChatPageProps) {
+
+  protected getStateFromProps() {
     this.state = {
       onProfilePage: () => {
         this.props.router.go("/profile");
       },
       onCancelModal: () => {
-        let addChat = document.querySelector("#modal-add-chat");
-        let addUser = document.querySelector("#modal-add-user");
-        let delUser = document.querySelector("#modal-delete-user");
+        const addChat = document.querySelector("#modal-add-chat");
+        const addUser = document.querySelector("#modal-add-user");
+        const delUser = document.querySelector("#modal-delete-user");
         if (addChat) {
           addChat.classList.add("hidden");
         }
@@ -50,21 +53,9 @@ class ChatPage extends Block<ChatPageProps> {
           delUser.classList.add("hidden");
         }
       },
-      // onCancelCreateChat: () => {
-      //   let addChat = document.querySelector("#modal-add-chat");
-      //   console.log(addChat);
-      //   addChat.classList.add("hidden");
-      // },
-      // onCancelAddUser: () => {
-      //   let addUser = document.querySelector("#modal-add-user");
-      //   console.log(addUser);
-      //   addUser.classList.add("hidden");
-      // },
       createChat: () => {
-        let input = this.element?.querySelector(
-          `input[name='create_chat']`
-        ) as HTMLInputElement;
-        let chatName = input.value;
+        const input = this.element?.querySelector(`input[name='create_chat']`) as HTMLInputElement;
+        const chatName = input.value;
         if (!chatName) {
           document.querySelector("#error__addChat")?.classList.remove("hidden");
         } else {
@@ -73,39 +64,40 @@ class ChatPage extends Block<ChatPageProps> {
         }
       },
       addUserToChat: () => {
-        let input = this.element?.querySelector(
-          `input[name='user_to_add']`
-        ) as HTMLInputElement;
-        let login = input.value;
+        const input = this.element?.querySelector(`input[name='user_to_add']`) as HTMLInputElement;
+        const login = input.value;
         const chat = this.props.store.getState().selectedChat;
         if (!login) {
           document.querySelector("#error__addUser")?.classList.remove("hidden");
         } else {
           document.querySelector("#error__addUser")?.classList.add("hidden");
-          chat && addUserToChat(this.props.store, { login: login, chat });
+          if (chat) {
+            addUserToChat(this.props.store, { login, chat });
+          }
         }
       },
 
       deleteUserFromChat: () => {
-        let input = this.element?.querySelector(
+        const input = this.element?.querySelector(
           `input[name='user_to_delete']`
         ) as HTMLInputElement;
-        let login = input.value;
+        const login = input.value;
         const chat = this.props.store.getState().selectedChat;
         if (!login) {
-          document
-            .querySelector("#error__deleteUser")
-            ?.classList.remove("hidden");
+          document.querySelector("#error__deleteUser")?.classList.remove("hidden");
         } else {
           document.querySelector("#error__deleteUser")?.classList.add("hidden");
-          chat && deleteUserFromChat(this.props.store, { login: login, chat });
+          if (chat) {
+            deleteUserFromChat(this.props.store, { login, chat });
+          }
         }
       },
     };
   }
+
   render() {
     const id = this.props.store.getState().selectedChat?.id;
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
 
     // language=hbs
     return `

@@ -1,6 +1,6 @@
 import Block from "../../core/Block";
 
-import "./inputError";
+import "./inputError.scss";
 
 type InputErrorProps = {
   text?: string;
@@ -8,6 +8,7 @@ type InputErrorProps = {
 
 export class InputError extends Block<InputErrorProps> {
   static componentName = "InputError";
+
   protected render(): string {
     // language=hbs
     return `

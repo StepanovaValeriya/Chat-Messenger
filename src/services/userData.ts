@@ -1,8 +1,4 @@
-import {
-  ChangePasswordRequestData,
-  UserDTO,
-  DispatchStateHandler,
-} from "api/types";
+import { ChangePasswordRequestData, UserDTO, DispatchStateHandler } from "api/types";
 import UserAPI from "api/userAPI";
 import { apiError } from "helpers/apiError";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
@@ -10,10 +6,7 @@ import { avatarDefault } from "../constants/avatarDefault";
 
 const api = new UserAPI();
 
-export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
-  store,
-  action
-) => {
+export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -44,9 +37,10 @@ export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
   }
 };
 
-export const changeUserPassword: DispatchStateHandler<
-  ChangePasswordRequestData
-> = async (store, action) => {
+export const changeUserPassword: DispatchStateHandler<ChangePasswordRequestData> = async (
+  store,
+  action
+) => {
   store.setState({ isLoading: true });
 
   try {
@@ -64,10 +58,7 @@ export const changeUserPassword: DispatchStateHandler<
   }
 };
 
-export const changeAvatar: DispatchStateHandler<any> = async (
-  store,
-  action
-) => {
+export const changeAvatar: DispatchStateHandler<any> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -117,5 +108,6 @@ export const getUserByLogin = async (login: string) => {
     return users as UserDTO[];
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
+    return [];
   }
 };

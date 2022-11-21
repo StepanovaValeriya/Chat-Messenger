@@ -4,16 +4,18 @@ import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
 import { signout } from "services/auth";
 import { userDataArray } from "utils/userDataArray";
+import "./profile.scss";
 
 type ProfilePageProps = {
   router: Router;
   store: Store<AppState>;
   user: UserType | null;
-  userData: Array<any>;
+  userData?: Array<any>;
 };
 
 class ProfilePage extends Block<ProfilePageProps> {
   static componentName = "ProfilePage";
+
   constructor(props: ProfilePageProps) {
     super({ ...props });
     const data = props.user ? userDataArray(props.user) : [];
@@ -24,7 +26,8 @@ class ProfilePage extends Block<ProfilePageProps> {
       userData: data,
     });
   }
-  protected getStateFromProps(_props: ProfilePageProps) {
+
+  protected getStateFromProps() {
     this.state = {
       onChangeDataPage: () => {
         this.props.router.go("/changeDataProfile");
@@ -41,7 +44,7 @@ class ProfilePage extends Block<ProfilePageProps> {
   render() {
     const avatarImg = this.props.user?.avatar ?? "";
     const userName = this.props.user?.firstName ?? "";
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     // language=hbs
     return `
     {{#if ${isLoading}}}
@@ -50,9 +53,9 @@ class ProfilePage extends Block<ProfilePageProps> {
       {{#Layout name="Main" }}
         <div class="content profile">
           {{{ProfileNav}}}
-          <div class="profile__main">
+          <div class="profile__main" data-testid='profileInfo'>
             {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${userName}"}}}
-              <div class='profile__info'>
+              <div class='profile__info' data-testid='profileItem'>
               {{#each userData}}
                 {{#with this}}
                 {{{ProfileItem
@@ -68,17 +71,20 @@ class ProfilePage extends Block<ProfilePageProps> {
                 text="Change
                 profile"
                 onClick=onChangeDataPage
+                dataTestid='button__changeData'
               }}}
               {{{Button
                 className="button__main"
                 text="Change
                 password"
                 onClick=onChangePasswordPage
+                dataTestid='button__changePass'
               }}}
               {{{Button
                 onClick=signout
                 className="button__main button__main_red"
                 text="Exit"
+                dataTestid='button__signout'
               }}}
           </div>
         </div>

@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .button__main {
   display: block;
   text-align: center;
@@ -11,6 +13,7 @@
   transition: all 0.3s ease 0s;
   font-weight: 600;
   font-size: 16px;
+
   &:hover {
     background-color: $hoverColorButton;
   }

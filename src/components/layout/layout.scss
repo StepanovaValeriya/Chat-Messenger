@@ -1,24 +1,29 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
 .wrapper {
   min-height: 100vh;
   overflow: hidden;
   display: flex;
   justify-content: center;
   padding: 100px;
+
   @include breakpoint(sm) {
     padding: 20px;
   }
 }
+
 .page {
   position: relative;
   background-color: $backgroundPage;
   width: 1500px;
   box-sizing: border-box;
   border-radius: 12px;
-  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.089),
-    4px 4px 4px 4px rgba(0, 0, 0, 0.171);
+  box-shadow: 4px 4px 4px 4px rgb(0 0 0 / 8.9%), 4px 4px 4px 4px rgb(0 0 0 / 17.1%);
   padding: 20px;
   display: flex;
+
   @include breakpoint(sm) {
-    padding: 0px;
+    padding: 0;
   }
 }

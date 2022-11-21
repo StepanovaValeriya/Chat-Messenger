@@ -1,8 +1,10 @@
 import Block from "core/Block";
 import "./loader.scss";
 
-export class Loader extends Block {
-  static componentName: string = "Loader";
+type LoaderProps = {};
+
+export class Loader extends Block<LoaderProps> {
+  static componentName = "Loader";
 
   render() {
     // language=hbs

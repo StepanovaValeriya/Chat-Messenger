@@ -6,19 +6,6 @@ declare global {
     [key in string]: T;
   };
 
-  export type AppState = {
-    view: BlockConstructable | null;
-    isLoading: boolean;
-    loginFormError: string | null;
-    user: UserType | null;
-    isAppInited: boolean;
-    chats: Nullable<Array<ChatType>>;
-    selectedChat: Nullable<ChatType>;
-    isPopupShown: boolean;
-    messages: Message[];
-    socket: WebSocket | null;
-  };
-
   export type UserType = {
     id: number;
     displayName: string;
@@ -33,10 +20,10 @@ declare global {
   export type ChatType = {
     id: number;
     title: string;
-    avatar: Record<string, any>;
+    avatar: string;
     createdBy: number;
     unreadCount: number;
-    lastMessage: Record<string, any>;
+    lastMessage: Record<string, unknown>;
     chatUsers?: Array<UserType>;
     chatToken?: string;
   };
@@ -51,6 +38,29 @@ declare global {
     isRead: boolean;
     file: string;
   };
+
+  export type AppState = {
+    view: BlockConstructable | null;
+    isLoading: boolean;
+    loginFormError: string | null;
+    user: UserType | null;
+    isAppInited: boolean;
+    chats: Nullable<Array<ChatType>>;
+    selectedChat: Nullable<ChatType>;
+    isPopupShown: boolean;
+    messages: Message[];
+    socket: WebSocket | null;
+    currentPath: string;
+  };
+
+  export interface RouteProps {
+    pathname: string;
+    view: BlockConstructable;
+    isPrivate: boolean;
+    callback: () => void;
+  }
+
+  export type PartialRouteProps = Omit<RouteProps, "callback">;
 }
 
 export {};

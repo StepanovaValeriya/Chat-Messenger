@@ -1,9 +1,8 @@
 import { UserDTO } from "api/types";
 import { apiUserTransformers } from "helpers/apiUserTransformers";
-import { Router, Store } from "core";
+import { Store } from "core";
 import { getChats } from "./chats";
 import { getUserInfo } from "./auth";
-import { apiError } from "helpers/apiError";
 import { getAvatar } from "./userData";
 
 export async function initApp(store: Store<AppState>) {
@@ -12,19 +11,21 @@ export async function initApp(store: Store<AppState>) {
 
     const response = (await getUserInfo()) as UserDTO;
 
-    if (apiError(response)) {
-      throw new Error(response.reason);
+    if (response) {
+      const avatar = await getAvatar(response);
+      const modifiedUser = { ...response, avatar };
+      const chats = await getChats(store);
+
+      if (modifiedUser && chats) {
+        store.setState({ user: apiUserTransformers(modifiedUser), chats });
+      }
+
+      return response;
     }
-
-    const avatar = await getAvatar(response);
-    const modifiedUser = { ...response, avatar };
-    const chats = await getChats(store);
-
-    modifiedUser &&
-      chats &&
-      store.setState({ user: apiUserTransformers(modifiedUser), chats });
+    return null;
   } catch (error) {
-    console.log((error as Error).message);
+    store.setState({ loginFormError: (error as Error).message });
+    return null;
   } finally {
     store.setState({ isLoading: false, isAppInited: true });
   }

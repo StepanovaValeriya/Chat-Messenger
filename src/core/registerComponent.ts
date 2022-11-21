@@ -1,25 +1,20 @@
-import { Block } from "core";
 import Handlebars, { HelperOptions } from "handlebars";
+import Block from "./Block";
 
-export interface BlockConstructable<Props = any> {
-  new (props: Props): Block;
-  componentName: string;
+export interface BlockConstructable<Props extends Record<string, any> = any, IncomingProps = any> {
+  new (props: IncomingProps): Block<Props>;
+  componentName?: string;
 }
 
-export default function registerComponent<Props extends any>(
-  Component: BlockConstructable<Props>
-) {
-  if (!Component.componentName) {
-    throw new Error(
-      `componentName is not provided in component "${Component.name}"`
-    );
-  }
+export type AnyProps = Record<string, any>;
+
+export default function registerComponent<
+  Props extends Record<string, any> = AnyProps,
+  IncomingProps = AnyProps
+>(Component: BlockConstructable<Props, IncomingProps>) {
   Handlebars.registerHelper(
-    Component.componentName,
-    function (
-      this: Props,
-      { hash: { ref, ...hash }, data, fn }: HelperOptions
-    ) {
+    Component.componentName || Component.name,
+    function callbackFn(this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       if (!data.root.children) {
         data.root.children = {};
       }
@@ -36,10 +31,7 @@ export default function registerComponent<Props extends any>(
        */
       (Object.keys(hash) as any).forEach((key: keyof Props) => {
         if (this[key] && typeof this[key] === "string") {
-          hash[key] = hash[key].replace(
-            new RegExp(`{{${String(key)}}}`, "i"),
-            this[key]
-          );
+          hash[key] = hash[key].replace(new RegExp(`{{${key as string}}}`, "i"), this[key]);
         }
       });
 

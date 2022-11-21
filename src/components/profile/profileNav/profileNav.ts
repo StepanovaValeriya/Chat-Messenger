@@ -1,7 +1,7 @@
 import Block from "core/Block";
-import "./profileNav";
+import "./profileNav.scss";
 import Router from "core/router";
-import { WithRouter, WithStore } from "helpers";
+import { WithRouter } from "helpers";
 import { Store } from "core";
 
 type ProfileNavProps = {
@@ -26,7 +26,7 @@ class ProfileNav extends Block<ProfileNavProps> {
   protected render(): string {
     // language=hbs
     return `
-    <div class="profile__nav">
+    <div class="profile__nav"  data-testid='profileNav'>
     {{{Button
       onClick=onChatPage
       text="<"
@@ -36,4 +36,4 @@ class ProfileNav extends Block<ProfileNavProps> {
     `;
   }
 }
-export default WithRouter(WithStore(ProfileNav));
+export default WithRouter(ProfileNav);

@@ -1,26 +1,30 @@
 import Block from "core/Block";
 import Router from "core/router";
-import "./main";
+import "./main.scss";
 import { WithRouter } from "helpers/withRouter";
 import { Store } from "core";
 
 export type MainPageProps = {
   router: Router;
   store: Store<AppState>;
+  onLoginPage: () => void;
+  onSignUpPage: () => void;
 };
 
-export class MainPage extends Block<MainPageProps> {
+class MainPage extends Block<MainPageProps> {
   static componentName = "MainPage";
 
-  protected getStateFromProps() {
-    this.state = {
+  constructor(props: MainPageProps) {
+    super(props);
+
+    this.setProps({
       onLoginPage: () => {
         this.props.router.go("/login");
       },
       onSignUpPage: () => {
         this.props.router.go("/signup");
       },
-    };
+    });
   }
 
   render() {
@@ -36,6 +40,7 @@ export class MainPage extends Block<MainPageProps> {
           className="button__main"
         }}}
         {{{Button
+          type="button"
           text="Sign Up"
           onClick=onSignUpPage
           className="button__main"

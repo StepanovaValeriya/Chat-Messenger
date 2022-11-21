@@ -33,20 +33,17 @@ export const getChats = async (store: Store<AppState>) => {
     return response.map((item) => apiChatTransformers(item));
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
+    return [];
   } finally {
     store.setState({ isLoading: false });
   }
 };
 
-export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
-  store,
-  action
-) => {
+export const createChat: DispatchStateHandler<CreateChatRequestData> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
     const response = await api.createChat(action);
-    console.log(response);
 
     if (apiError(response)) {
       throw new Error(response.reason);
@@ -61,10 +58,7 @@ export const createChat: DispatchStateHandler<CreateChatRequestData> = async (
   }
 };
 
-export const deleteChat: DispatchStateHandler<DeleteChatRequestData> = async (
-  store,
-  action
-) => {
+export const deleteChat: DispatchStateHandler<DeleteChatRequestData> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -83,10 +77,7 @@ export const deleteChat: DispatchStateHandler<DeleteChatRequestData> = async (
   }
 };
 
-export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
-  store,
-  action
-) => {
+export const addUserToChat: DispatchStateHandler<UserToChatData> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -117,7 +108,7 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
       throw new Error(users.reason);
     }
 
-    let chatUsers = action.chat.chatUsers;
+    let { chatUsers } = action.chat;
     chatUsers = chatUsers && [...chatUsers, apiUserTransformers(user[0])];
 
     const selectedChat = {
@@ -125,7 +116,7 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
       chatUsers,
     };
 
-    store.setState({ selectedChat: selectedChat });
+    store.setState({ selectedChat });
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -133,10 +124,7 @@ export const addUserToChat: DispatchStateHandler<UserToChatData> = async (
   }
 };
 
-export const deleteUserFromChat: DispatchStateHandler<UserToChatData> = async (
-  store,
-  action
-) => {
+export const deleteUserFromChat: DispatchStateHandler<UserToChatData> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -159,17 +147,16 @@ export const deleteUserFromChat: DispatchStateHandler<UserToChatData> = async (
       throw new Error(response.reason);
     }
 
-    let chatUsers = action.chat.chatUsers;
+    let { chatUsers } = action.chat;
     chatUsers =
-      chatUsers &&
-      chatUsers.filter((item) => item.id !== apiUserTransformers(user[0]).id);
+      chatUsers && chatUsers.filter((item) => item.id !== apiUserTransformers(user[0]).id);
 
     const selectedChat = {
       ...action.chat,
       chatUsers,
     };
 
-    store.setState({ selectedChat: selectedChat });
+    store.setState({ selectedChat });
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -177,14 +164,11 @@ export const deleteUserFromChat: DispatchStateHandler<UserToChatData> = async (
   }
 };
 
-export const getChatInfo: DispatchStateHandler<ChatType> = async (
-  store,
-  action
-) => {
+export const getChatInfo: DispatchStateHandler<ChatType> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
-    const token = (await api.getChatToken(action.id)).token;
+    const { token } = await api.getChatToken(action.id);
 
     if (apiError(token)) {
       throw new Error(token.reason);
@@ -203,15 +187,7 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (
     };
     console.log(selectedChat);
 
-    const { user } = store.getState();
-    const { messages } = store.getState();
-
-    if (user) {
-      console.log("open");
-      openSocket(user.id, selectedChat);
-    }
-
-    store.setState({ selectedChat: selectedChat });
+    store.setState({ selectedChat });
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });
   } finally {
@@ -220,17 +196,11 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (
 };
 
 export const openSocket = (id: number, chat: ChatType) => {
-  const socket = window.webSocket.socketsMap.get(String(id));
-
-  if (!socket) {
-    window.webSocket.createConnection(id, chat);
-
-    return;
-  }
+  window.webSocket.createConnection(id, chat);
 };
 
 export const sendMessage = (message: string, chat: ChatType) => {
-  const socket = window.webSocket.socketsMap.get(String(chat.id))?.socket;
+  const socket = window.webSocket.socketsMap.get(chat.id)?.socket;
   const messageObject = {
     content: message,
     type: "message",
@@ -249,5 +219,6 @@ export const getUnreadMessagesCount = async (action: ChatType) => {
     return unreadCount as UnreadCountResponseData;
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
+    return 0;
   }
 };

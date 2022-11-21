@@ -1,4 +1,4 @@
-import { RouteProps } from "core/route";
+/* eslint-disable import/no-cycle */
 import LoginPage from "pages/login/login";
 import SignUpPage from "pages/signup/signup";
 import MainPage from "pages/main/main";
@@ -7,8 +7,6 @@ import ProfilePage from "pages/profile/profile";
 import ChangeDataProfilePage from "pages/changeDataProfile/changeDataProfile";
 import ChangePassProfilePage from "pages/changePassProfile/changePassProfile";
 import ErrorPage from "pages/errors/error";
-
-export type PartialRouteProps = Omit<RouteProps, "callback">;
 
 export const ROUTS: Array<PartialRouteProps> = [
   {

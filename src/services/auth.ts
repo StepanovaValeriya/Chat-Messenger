@@ -6,6 +6,7 @@ import { apiUserTransformers } from "helpers/apiUserTransformers";
 import { apiChatTransformers } from "helpers/apiChatTransformers";
 import { apiError } from "helpers/apiError";
 import { getAvatar } from "./userData";
+import { avatarDefault } from "../constants/avatarDefault";
 
 export type LoginPayload = {
   login: string;
@@ -24,10 +25,7 @@ export type SignupPayload = {
 const api = new AuthAPI();
 const chatsApi = new ChatsAPI();
 
-export const signin: DispatchStateHandler<LoginPayload> = async (
-  store,
-  action
-) => {
+export const signin: DispatchStateHandler<LoginPayload> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -83,18 +81,13 @@ export const signout = async (store: Store<AppState>) => {
       loginFormError: "",
       user: null,
       chats: [],
-      selectedChat: null,
-      isPopupShown: false,
     });
 
     window.router.go("/");
   }
 };
 
-export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
-  store,
-  action
-) => {
+export const signup: DispatchStateHandler<Partial<UserDTO>> = async (store, action) => {
   store.setState({ isLoading: true });
 
   try {
@@ -108,7 +101,7 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
       ...action,
       ...response,
       display_name: "",
-      avatar: "",
+      avatar: avatarDefault,
     } as UserDTO;
     const chats = (await chatsApi.getChats()) as ChatDTO[];
 
@@ -132,10 +125,11 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (
 export const getUserInfo = async () => {
   try {
     const user = await api.getUserInfo();
+    console.log(user);
 
     if (apiError(user)) {
       if (user.reason === "Cookie is not valid") {
-        alert("You are not logged in");
+        throw new Error("You are not logged in");
       }
       throw new Error(user.reason);
     }
@@ -143,5 +137,6 @@ export const getUserInfo = async () => {
     return user;
   } catch (error) {
     window.store.setState({ loginFormError: (error as Error).message });
+    return null;
   }
 };

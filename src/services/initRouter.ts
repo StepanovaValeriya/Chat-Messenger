@@ -1,22 +1,29 @@
-import { ROUTS } from "../constants/routes";
 import renderDOM from "core/renderDom";
 import Router from "core/router";
 import { Store } from "core/store";
-import { MainPage } from "pages/main/main";
+import { ROUTS } from "../constants/routes";
 
 export const initRouter = (router: Router, store: Store<AppState>) => {
   ROUTS.forEach((route) => {
     router.use(route, () => {
       const isAuthorized = store.getState().user;
 
-      if (isAuthorized || !route.isPrivate) {
-        store.setState({ view: route.view });
+      if (isAuthorized) {
+        if (route.isPrivate) {
+          store.setState({ view: route.view, currentPath: route.pathname });
+        } else {
+          router.go("/chat");
+        }
+
         return;
       }
 
-      if (!store.getState().view) {
-        store.setState({ view: MainPage });
+      if ((!route.isPrivate && route.pathname === "/") || route.isPrivate) {
+        router.go("/login");
+        return;
       }
+
+      store.setState({ view: route.view, currentPath: route.pathname });
     });
   });
 
@@ -30,8 +37,6 @@ export const initRouter = (router: Router, store: Store<AppState>) => {
       const newPage = new Page({});
 
       renderDOM(newPage);
-
-      return;
     }
   });
 };

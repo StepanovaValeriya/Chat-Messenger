@@ -1,16 +1,16 @@
 import EventBus from "core/EventBus";
-import { defaultState } from "../store";
 import { deepEqual } from "utils/deepEqual";
+import { defaultState } from "../store";
 
-export type Action<State> = (state: State, payload: any) => void;
+export type Action<State> = (state: State, payload: unknown) => void;
 
-export class Store<State extends Record<string, any>> extends EventBus {
+export class Store<State extends Record<string, unknown>> extends EventBus {
   private state = {} as State;
 
-  constructor(defaultState: State) {
+  constructor(currentState: State) {
     super();
 
-    this.state = defaultState;
+    this.state = currentState;
   }
 
   public getState() {

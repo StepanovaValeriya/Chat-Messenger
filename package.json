@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "---",
   "scripts": {
-    "dev": "parcel src/index.html --no-cache",
-    "build": "parcel build src/index.html --no-cache ",
+    "dev": "webpack serve --stats-error-details",
+    "build": "webpack --mode=production --stats-error-details ",
     "start": "npm run build && node ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "format": "prettier --write \"src/**/*.{js,jsx,ts}\"",
-    "stylelint": "stylelint \"src/**/*.{css,.scss}\"",
-    "stylelint:fix": "stylelint \"src/**/*.{css,.scss}\" --fix"
+    "stylelint": "stylelint \"src/**/*.{css,scss}\" --fix",
+    "eslint": "eslint . --ext .ts,.js",
+    "lint": "npm run eslint && npm run stylelint",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -24,40 +26,82 @@
     "helpers": "./src/helpers",
     "services": "./src/services"
   },
-  "author": "",
+  "author": "Valeriya Stepanova",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/StepanovaValeriya/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "^1.0.9",
-    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
     "@babel/core": "7.19.3",
-    "@parcel/transformer-sass": "^2.7.0",
-    "@types/chai": "4.3.3",
-    "@types/mocha": "10.0.0",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-typescript": "7.18.6",
+    "@testing-library/dom": "8.19.0",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/user-event": "14.4.3",
+    "@types/jest": "29.2.2",
     "@types/node": "^18.7.23",
+    "@types/regenerator-runtime": "0.13.1",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.39.0",
-    "chai": "4.3.7",
-    "cssnano": "4.1.11",
+    "babel-eslint": "10.1.0",
+    "clean-webpack-plugin": "4.0.0",
+    "copy-webpack-plugin": "11.0.0",
+    "css-loader": "6.7.1",
     "eslint": "8.24.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-webpack": "0.13.2",
     "eslint-plugin-prettier": "4.2.1",
-    "mocha": "10.1.0",
-    "parcel": "^2.7.0",
-    "parcel-plugin-handlebars-precompile": "^1.0.2",
-    "parcel-reporter-static-files-copy": "^1.4.0",
+    "html-webpack-plugin": "5.5.0",
+    "husky": "8.0.2",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "27.5.1",
+    "mini-css-extract-plugin": "2.6.1",
+    "msw": "0.48.1",
+    "postcss-loader": "7.0.1",
     "postcss-preset-env": "6.7.0",
+    "prettier": "2.7.1",
+    "sass": "1.56.1",
+    "sass-loader": "13.1.0",
     "stylelint": "14.13.0",
+    "stylelint-config-recommended-scss": "8.0.0",
+    "stylelint-config-standard": "28.0.0",
     "stylelint-scss": "4.3.0",
-    "typescript": "^4.8.3"
+    "ts-loader": "9.4.1",
+    "tsconfig-paths-webpack-plugin": "4.0.0",
+    "typescript": "^4.8.3",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.11.1"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "dotenv": "16.0.3",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
-    "nanoid": "^4.0.0"
+    "nanoid": "3.3.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "^core(.*)$": "<rootDir>/src/core$1",
+      "^components(.*)$": "<rootDir>/src/components$1",
+      "^utils(.*)$": "<rootDir>/src/utils$1",
+      "^services(.*)$": "<rootDir>/src/services$1",
+      "^api(.*)$": "<rootDir>/src/api$1",
+      "^store(.*)$": "<rootDir>/src/store$1",
+      "^pages(.*)$": "<rootDir>/src/pages$1",
+      "^helpers(.*)$": "<rootDir>/src/helpers$1"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup.ts"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

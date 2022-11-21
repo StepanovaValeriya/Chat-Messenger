@@ -1,5 +1,5 @@
 import Block from "../../core/Block";
-import "./controlledInput";
+import "./controlledInput.scss";
 
 type ControlledInputProps = {
   onInput?: () => void;

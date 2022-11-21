@@ -1,22 +1,29 @@
 import Block from "core/Block";
-import "./button";
+import "./button.scss";
 
 type ButtonProps = {
-  text: string;
-  className: string;
+  text?: string;
+  className?: string;
   id?: string;
   type?: "submit" | "button" | "reset";
-  onClick: () => void;
+  dataTestid?: string;
+  events?: {
+    click?: () => void;
+  };
+  onClick?: () => void;
 };
-export class Button extends Block {
+
+export class Button extends Block<ButtonProps> {
   static componentName = "Button";
-  constructor({ text, className, onClick }: ButtonProps) {
-    super({ text, className, events: { click: onClick } });
+
+  constructor({ type, dataTestid = "button_test", text, className, onClick }: ButtonProps) {
+    super({ text, type, dataTestid, className, events: { click: onClick } });
   }
+
   protected render(): string {
     // language=hbs
     return `
-        <button id="{{id}}" class="{{className}}" type="{{type}}">{{text}}</button>
+        <button id="{{id}}" data-testid="{{dataTestid}}" class="{{className}}" type="{{type}}" onClick={{onClick}}>{{text}}</button>
     `;
   }
 }

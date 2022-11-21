@@ -1,11 +1,12 @@
 import { Sockets } from "api/types";
+import { displayDate } from "./displayDate";
 
 export enum MessageType {
   Outgoing = "outgoing",
   Incoming = "incoming",
 }
 export const createMessageElement = (
-  message: { time: string; content: string },
+  message: { displayTime: string; content: string },
   type: MessageType
 ): HTMLDivElement => {
   const elementClassType =
@@ -30,28 +31,39 @@ export const createMessageElement = (
     messageReaded.classList.add("message__readed");
   }
 
-  // const timeMessage = document.createElement("time");
-  // timeMessage.classList.add("message__time");
-  // timeMessage.textContent = message.time;
+  const timeMessage = document.createElement("time");
+  timeMessage.classList.add("message__time");
+
+  timeMessage.textContent = message.displayTime;
 
   messageInfo.append(messageDelivered, messageReaded);
-  messageElement.append(messageElementText, messageInfo);
+  messageElement.append(messageElementText, messageInfo, timeMessage);
 
   return messageElement;
 };
 
-export const addDOMMessageElement = (
-  webSocketMessage: Sockets,
-  userId: number
-) => {
+export const addDOMMessageElement = (webSocketMessage: Sockets, userId: number) => {
   const { content, type, time, user_id } = webSocketMessage;
-  const messageStatus =
-    String(userId) === user_id ? MessageType.Outgoing : MessageType.Incoming;
+
+  const messageStatus = String(userId) === user_id ? MessageType.Incoming : MessageType.Outgoing;
 
   if (type !== "user connected") {
-    const messageData = { content, time };
+    const displayTime = displayDate(time);
+    const messageData = { content, displayTime };
     const messageElement = createMessageElement(messageData, messageStatus);
 
     document.querySelector(".chat__talk")?.append(messageElement);
   }
+};
+
+export const updateMessages = (SocketsMessagesArray: Sockets[], userId: number) => {
+  const container = document.querySelector(".chat__talk");
+
+  if (container) {
+    container.innerHTML = "";
+  }
+
+  SocketsMessagesArray.forEach((message) => {
+    addDOMMessageElement(message, userId);
+  });
 };

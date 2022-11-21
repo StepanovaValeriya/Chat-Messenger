@@ -1,7 +1,9 @@
 import Block from "core/Block";
-import "./emptyChat";
+import "./emptyChat.scss";
 
-export default class EmptyChat extends Block {
+type EmptyChatProps = {};
+
+export class EmptyChat extends Block<EmptyChatProps> {
   static componentName = "EmptyChat";
 
   protected render(): string {

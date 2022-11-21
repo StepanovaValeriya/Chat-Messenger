@@ -1,4 +1,4 @@
-export type Listener<T extends unknown[] = any[]> = (...args: T) => void;
+export type Listener<T extends unknown[]> = (...args: T) => void;
 
 export default class EventBus<
   E extends string = string,
@@ -19,9 +19,7 @@ export default class EventBus<
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event] = this.listeners[event]!.filter(
-      (listener) => listener !== callback
-    );
+    this.listeners[event] = this.listeners[event]!.filter((listener) => listener !== callback);
   }
 
   emit(event: E, ...args: M[E]) {
@@ -30,11 +28,8 @@ export default class EventBus<
       // throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event]!.forEach(function (listener) {
+    this.listeners[event]!.forEach(function eventHandler(listener) {
       listener(...args);
     });
-  }
-  destroy() {
-    this.listeners = {};
   }
 }

@@ -2,8 +2,7 @@ import Block from "core/Block";
 import Validate from "core/Validation";
 import { signup } from "services/auth";
 import { WithRouter, WithStore } from "helpers";
-import { Router } from "core";
-import { Store } from "core";
+import { Router, Store } from "core";
 
 type SignUpPageProps = {
   router: Router;
@@ -38,10 +37,7 @@ class SignUpPage extends Block<SignUpPageProps> {
       onLoginPage: () => {
         this.props.router.go("/login");
       },
-      handleErrors: (
-        values: { [key: string]: number },
-        errors: { [key: string]: number }
-      ) => {
+      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
         const nextState = {
           errors,
           values,
@@ -50,7 +46,6 @@ class SignUpPage extends Block<SignUpPageProps> {
       },
       onBlur: (e: FocusEvent) => {
         if (e.target) {
-          console.log("blur");
           const element = e.target as HTMLInputElement;
           const message = Validate(element.value, element.id);
           const newValues = { ...this.state.values };
@@ -92,9 +87,7 @@ class SignUpPage extends Block<SignUpPageProps> {
         const newValues = { ...this.state.values };
         const newErrors = { ...this.state.errors };
         Object.keys(this.state.values).forEach((key) => {
-          let input = this.element?.querySelector(
-            `input[name='${key}']`
-          ) as HTMLInputElement;
+          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
           newValues[key] = input.value;
           const message = Validate(newValues[key], key);
           if (message) {
@@ -113,14 +106,14 @@ class SignUpPage extends Block<SignUpPageProps> {
       },
       onSubmit: () => {
         if (this.state.formValid()) {
-          console.log("submit", this.state.values);
           signup(this.props.store, { ...this.state.values });
         }
       },
     };
   }
+
   render() {
-    const isLoading = this.props.store.getState().isLoading;
+    const { isLoading } = this.props.store.getState();
     const { errors, values } = this.state;
     // language=hbs
     return `
@@ -131,7 +124,7 @@ class SignUpPage extends Block<SignUpPageProps> {
         <div class="page__login _page">
           <div class="auth">
             <h1 class="auth__title">Sign Up</h1>
-            <form class="auth__form">
+            <form class="auth__form" >
               {{{ControlledInput
                 className="input__field"
                 onBlur=onBlur
@@ -225,6 +218,7 @@ class SignUpPage extends Block<SignUpPageProps> {
               }}}
             </form>
             {{{Button
+              type='submit'
               text="Sign Up"
               onClick=onSubmit
               className="button__main"

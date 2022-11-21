@@ -2,9 +2,9 @@ import Block from "core/Block";
 import { toggleOptionsWindow, createModalToggler } from "utils/dom";
 import { MODAL_ADD_USER_ID, MODAL_DELETE_USER_ID } from "utils/const";
 import Router from "core/router";
-import { WithStore } from "helpers";
 import { Store } from "core";
-import "./chatHeader";
+import { WithStore } from "helpers";
+import "./chatHeader.scss";
 
 const toggleAddUserModal = createModalToggler(MODAL_ADD_USER_ID);
 const toggleDeleteUserModal = createModalToggler(MODAL_DELETE_USER_ID);
@@ -19,10 +19,14 @@ type ChatHeaderProps = {
   user: UserType | null;
   chats: Nullable<Array<ChatType>>;
   onClick: () => void;
+  toggleOptionsWindow: () => void;
+  toggleAddUserModal: (event: PointerEvent) => void;
+  toggleDeleteUserModal: (event: PointerEvent) => void;
 };
 
 class ChatHeader extends Block<ChatHeaderProps> {
   static componentName = "ChatHeader";
+
   constructor(props: ChatHeaderProps) {
     super({
       ...props,
@@ -34,12 +38,10 @@ class ChatHeader extends Block<ChatHeaderProps> {
 
   render() {
     const title = this.props.store.getState().selectedChat?.title;
-    const chatUsers = this.props.store
-      .getState()
-      .selectedChat?.chatUsers?.reduce((acc, user) => {
-        acc += `${user.login}, `;
-        return acc;
-      }, "");
+    const chatUsers = this.props.store.getState().selectedChat?.chatUsers?.reduce((acc, user) => {
+      acc += `${user.login}, `;
+      return acc;
+    }, "");
     // language=hbs
     return `
       <div class="chat__header">

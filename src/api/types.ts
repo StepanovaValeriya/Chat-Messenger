@@ -50,10 +50,10 @@ export type SignupRequestData = {
 export type ChatDTO = {
   id: number;
   title: string;
-  avatar: Record<string, any>;
+  avatar: string;
   created_by: number;
   unread_count: number;
-  last_message: Record<string, any>;
+  last_message: Record<string, unknown>;
 };
 
 export type CreateChatRequestData = {
