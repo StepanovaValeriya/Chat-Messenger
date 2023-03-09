@@ -1,7 +1,6 @@
 import "./styles/style.scss";
 import Router from "core/router";
 import store, { Store } from "core/store";
-
 import { initRouter } from "services/initRouter";
 import { Socket } from "core/WebSocket";
 import * as components from "components";

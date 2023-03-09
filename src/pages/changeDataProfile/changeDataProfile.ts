@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import Validate from "core/Validation";
+import { Validator } from "core/Validation";
 import { createModalToggler } from "utils/dom";
 import { MODAL_СHANGE_USER_AVATAR_ID } from "utils/const";
 import Router from "core/router";
@@ -42,66 +42,16 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
         phone: "",
         display_name: "",
       },
-
-      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
-        const nextState = {
-          errors,
-          values,
-        };
-        this.setState(nextState);
-      },
-      onSubmit: (e: SubmitEvent) => {
-        // eslint-disable-next-line no-unused-expressions
-        e.preventDefault;
-        if (this.formValid()) {
-          const profileData = this.state.values;
-          changeUserProfile(this.props.store, profileData);
-        }
-      },
-      onBlur: this.onBlur.bind(this),
-      onInput: this.onInput.bind(this),
-      onAvatarChange: this.onAvatarChange.bind(this),
+      onSubmit: this.onSubmit.bind(this),
     };
   }
 
-  onBlur(e: Event) {
-    if (e.target) {
-      const element = e.target as HTMLInputElement;
-      const message = Validate(element.value, element.id);
-      const newValues = { ...this.state.values };
-      const newErrors = { ...this.state.errors };
-      newValues[element.id] = element.value;
-      if (message) {
-        newErrors[element.id] = message;
-      }
-      this.state.handleErrors(newValues, newErrors);
-    }
-  }
-
-  onInput(e: Event) {
-    const element = e.target as HTMLInputElement;
-    const message = Validate(element.value, element.id);
-    if (element.id === "email") {
-      this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
-    }
-    if (element.id === "login") {
-      this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
-    }
-    if (element.id === "display_name") {
-      this.refs.displayNameInputRef.refs.errorRef.setProps({
-        text: message,
-      });
-    }
-    if (element.id === "first_name") {
-      this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
-    }
-    if (element.id === "second_name") {
-      this.refs.SecondNameInputRef.refs.errorRef.setProps({
-        text: message,
-      });
-    }
-    if (element.id === "phone") {
-      this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
+  onSubmit(e: SubmitEvent) {
+    // eslint-disable-next-line no-unused-expressions
+    e.preventDefault;
+    if (this.formValid()) {
+      const profileData = this.state.values;
+      changeUserProfile(this.props.store, profileData);
     }
   }
 
@@ -112,16 +62,18 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
     Object.keys(this.state.values).forEach((key) => {
       const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
       newValues[key] = input.value;
-      const message = Validate(newValues[key], key);
+      const message = Validator(key, newValues[key]);
       if (message) {
         isValid = false;
         newErrors[key] = message;
       }
     });
-    if (!isValid) {
-      this.state.handleErrors(newValues, newErrors);
-    }
-    return isValid;
+    const newState = {
+      values: newValues,
+      errors: newErrors,
+    };
+    this.setState(newState);
+    return { newState, isValid };
   }
 
   onAvatarChange() {
@@ -143,13 +95,13 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
           {{{ProfileNav}}}
           <div class="profile__main">
           {{{ProfileAvatar avatarPath = "${avatarImg}" userName="${values.first_name}"}}}
-              <form class='profile__info'>
+          {{#Form className="profile__info" onSubmit=onSubmit}}
               {{{ControlledInput
                 className="input__profile"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
-                ref="emailInputRef"
+                ref="email"
                 value="${values.email}"
                 error="${errors.email}"
                 id="email"
@@ -164,7 +116,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onInput=onInput
                 value="${values.login}"
                 error="${errors.login}"
-                ref="loginInputRef"
+                ref="login"
                 id="login"
                 type="text"
                 label="Login"
@@ -177,7 +129,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onInput=onInput
                 value="${values.display_name}"
                 error="${errors.display_name}"
-                ref="displayNameInputRef"
+                ref="display_name"
                 id="display_name"
                 type="text"
                 label="Display Name"
@@ -190,7 +142,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onInput=onInput
                 value="${values.first_name}"
                 error="${errors.first_name}"
-                ref="FirstNameInputRef"
+                ref="first_name"
                 id="first_name"
                 type="text"
                 label="First Name"
@@ -203,7 +155,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onInput=onInput
                 value="${values.second_name}"
                 error="${errors.second_name}"
-                ref="SecondNameInputRef"
+                ref="second_name"
                 id="second_name"
                 type="text"
                 label="Second Name"
@@ -216,19 +168,18 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
                 onInput=onInput
                 value="${values.phone}"
                 error="${errors.phone}"
-                ref="phoneInputRef"
+                ref="phone"
                 id="phone"
                 type="tel"
                 label="Phone"
                 name="phone"
               }}}
-              </form>
               {{{Button
                 type="submit"
                 className="button__main"
                 text="Save"
-                onClick=onSubmit
               }}}
+              {{/Form}}
           </div>
           {{{ChangeAvatarModal toggler=toggleChangeAvatarModal  formId="user_form_avatar" title="Upload file" buttonText="Change" inputName="avatar" classError="error__addAvatar" onSubmit=onAvatarChange}}}
         </div>

@@ -125,7 +125,6 @@ export const signup: DispatchStateHandler<Partial<UserDTO>> = async (store, acti
 export const getUserInfo = async () => {
   try {
     const user = await api.getUserInfo();
-    console.log(user);
 
     if (apiError(user)) {
       if (user.reason === "Cookie is not valid") {

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import LoginPage from "pages/login/login";
 import SignUpPage from "pages/signup/signup";
 import MainPage from "pages/main/main";

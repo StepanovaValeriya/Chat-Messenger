@@ -185,8 +185,6 @@ export const getChatInfo: DispatchStateHandler<ChatType> = async (store, action)
       chatUsers: users.map((user) => apiUserTransformers(user)),
       chatToken: token as string,
     };
-    console.log(selectedChat);
-
     store.setState({ selectedChat });
   } catch (error) {
     store.setState({ loginFormError: (error as Error).message });

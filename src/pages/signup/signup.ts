@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import Validate from "core/Validation";
+import { Validator } from "core/Validation";
 import { signup } from "services/auth";
 import { WithRouter, WithStore } from "helpers";
 import { Router, Store } from "core";
@@ -34,82 +34,41 @@ class SignUpPage extends Block<SignUpPageProps> {
         password: "",
         passwordSecond: "",
       },
+      onSubmit: this.onSubmit.bind(this),
       onLoginPage: () => {
         this.props.router.go("/login");
       },
-      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
-        const nextState = {
-          errors,
-          values,
-        };
-        this.setState(nextState);
-      },
-      onBlur: (e: FocusEvent) => {
-        if (e.target) {
-          const element = e.target as HTMLInputElement;
-          const message = Validate(element.value, element.id);
-          const newValues = { ...this.state.values };
-          const newErrors = { ...this.state.errors };
-          newValues[element.id] = element.value;
-          if (message) {
-            newErrors[element.id] = message;
-          }
-          this.state.handleErrors(newValues, newErrors);
-        }
-      },
-
-      onInput: (e: Event) => {
-        const element = e.target as HTMLInputElement;
-        const message = Validate(element.value, element.id);
-        if (element.id === "email") {
-          this.refs.emailInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "login") {
-          this.refs.loginInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "first_name") {
-          this.refs.FirstNameInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "second_name") {
-          this.refs.SecondNameInputRef.refs.errorRef.setProps({
-            text: message,
-          });
-        }
-        if (element.id === "phone") {
-          this.refs.phoneInputRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "password") {
-          this.refs.passwordInputRef.refs.errorRef.setProps({ text: message });
-        }
-      },
-      formValid: () => {
-        let isValid = true;
-        const newValues = { ...this.state.values };
-        const newErrors = { ...this.state.errors };
-        Object.keys(this.state.values).forEach((key) => {
-          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
-          newValues[key] = input.value;
-          const message = Validate(newValues[key], key);
-          if (message) {
-            isValid = false;
-            newErrors[key] = message;
-          }
-        });
-        if (this.state.values.password !== this.state.values.passwordSecond) {
-          newErrors.passwordSecond = "Passwords are not equal";
-        }
-
-        if (!isValid) {
-          this.state.handleErrors(newValues, newErrors);
-        }
-        return isValid;
-      },
-      onSubmit: () => {
-        if (this.state.formValid()) {
-          signup(this.props.store, { ...this.state.values });
-        }
-      },
     };
+  }
+
+  formValid() {
+    let isValid = true;
+    const newValues = { ...this.state.values };
+    const newErrors = { ...this.state.errors };
+    Object.keys(this.state.values).forEach((key) => {
+      const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
+      newValues[key] = input.value;
+      const message = Validator(key, newValues[key]);
+      if (message) {
+        isValid = false;
+        newErrors[key] = message;
+      }
+    });
+    if (this.state.values.password !== this.state.values.passwordSecond) {
+      newErrors.passwordSecond = "Passwords are not equal";
+    }
+    const newState = {
+      values: newValues,
+      errors: newErrors,
+    };
+    this.setState(newState);
+    return { newState, isValid };
+  }
+
+  onSubmit() {
+    if (this.formValid()) {
+      signup(this.props.store, { ...this.state.values });
+    }
   }
 
   render() {
@@ -124,13 +83,13 @@ class SignUpPage extends Block<SignUpPageProps> {
         <div class="page__login _page">
           <div class="auth">
             <h1 class="auth__title">Sign Up</h1>
-            <form class="auth__form" >
+            {{#Form className="auth__form" onSubmit=onSubmit}}
               {{{ControlledInput
                 className="input__field"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
-                ref="emailInputRef"
+                ref="email"
                 value="${values.email}"
                 error="${errors.email}"
                 id="email"
@@ -145,7 +104,7 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.login}"
                 error="${errors.login}"
-                ref="loginInputRef"
+                ref="login"
                 id="login"
                 type="login"
                 label="Login"
@@ -158,7 +117,7 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.first_name}"
                 error="${errors.first_name}"
-                ref="FirstNameInputRef"
+                ref="first_name"
                 id="first_name"
                 type="text"
                 label="First Name"
@@ -171,7 +130,7 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.second_name}"
                 error="${errors.second_name}"
-                ref="SecondNameInputRef"
+                ref="second_name"
                 id="second_name"
                 type="text"
                 label="Second Name"
@@ -184,7 +143,7 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.phone}"
                 error="${errors.phone}"
-                ref="phoneInputRef"
+                ref="phone"
                 id="phone"
                 type="tel"
                 label="Phone"
@@ -197,7 +156,7 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.password}"
                 error="${errors.password}"
-                ref="passwordInputRef"
+                ref="password"
                 id="password"
                 type="password"
                 label="Password"
@@ -210,17 +169,15 @@ class SignUpPage extends Block<SignUpPageProps> {
                 onInput=onInput
                 value="${values.passwordSecond}"
                 error="${errors.passwordSecond}"
-                ref="passwordSecondInputRef"
+                ref="passwordSecond"
                 id="passwordSecond"
                 type="password"
                 label="Repeat password"
                 name="passwordSecond"
               }}}
-            </form>
             {{{Button
               type='submit'
               text="Sign Up"
-              onClick=onSubmit
               className="button__main"
             }}}
             {{{Button
@@ -228,6 +185,7 @@ class SignUpPage extends Block<SignUpPageProps> {
               text="Enter"
               onClick=onLoginPage
             }}}
+            {{/Form}}
          </div>
         </div>
       {{/Layout}}

@@ -19,8 +19,6 @@ class ProfilePage extends Block<ProfilePageProps> {
   constructor(props: ProfilePageProps) {
     super({ ...props });
     const data = props.user ? userDataArray(props.user) : [];
-    console.log(data);
-
     this.setProps({
       ...this.props,
       userData: data,

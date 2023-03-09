@@ -13,7 +13,7 @@ export interface BlockClass<P extends Record<string, any>> extends Function {
   componentName?: string;
 }
 
-export default class Block<P extends Indexed<any>> {
+export default class Block<P extends Indexed<any>, _refs = {}> {
   static componentName: string;
 
   static EVENTS = {

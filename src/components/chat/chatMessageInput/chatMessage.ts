@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import Validate from "core/Validation";
+import { Validator } from "core/Validation";
 import { toggleAttachWindow } from "utils/dom";
 import { sendMessage } from "services/chats";
 import { Store } from "core/store";
@@ -30,46 +30,43 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       errors: {
         message: "",
       },
-      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
-        const nextState = {
-          errors,
-          values,
-        };
-        this.setState(nextState);
-      },
       onFocus: () => {
         this.refs.errorRef.setProps({ text: "" });
       },
-      formValid: () => {
-        let isValid = true;
-        const newValues = { ...this.state.values };
-        const newErrors = { ...this.state.errors };
-        Object.keys(this.state.values).forEach((key) => {
-          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
-          newValues[key] = input.value;
-          const messages = Validate(newValues[key], key);
-          if (messages) {
-            isValid = false;
-            newErrors[key] = messages;
-          }
-        });
-
-        this.state.handleErrors(newValues, newErrors);
-
-        return isValid;
-      },
-      onSubmit: (e: Event) => {
-        e.preventDefault();
-        if (this.state.formValid()) {
-          let { message } = this.state.values;
-          const chat = this.props.store.getState().selectedChat;
-          if (chat) {
-            sendMessage(message, chat);
-          }
-          message = "";
-        }
-      },
     };
+  }
+
+  formValid() {
+    let isValid = true;
+    const newValues = { ...this.state.values };
+    const newErrors = { ...this.state.errors };
+    Object.keys(this.state.values).forEach((key) => {
+      const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
+      newValues[key] = input.value;
+      const messages = Validator(newValues[key], key);
+      if (messages) {
+        isValid = false;
+        newErrors[key] = messages;
+      }
+    });
+    const newState = {
+      values: newValues,
+      errors: newErrors,
+    };
+    this.setState(newState);
+    return { newState, isValid };
+  }
+
+  onSubmit(e: Event) {
+    e.preventDefault();
+    if (this.formValid()) {
+      let { message } = this.state.values;
+      const chat = this.props.store.getState().selectedChat;
+      if (chat) {
+        sendMessage(message, chat);
+      }
+      message = "";
+    }
   }
 
   protected render(): string {
@@ -93,6 +90,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
             <img src="/img/location.png" alt="action">
           </li>
       </ul>
+      {{#Form onSubmit=onSubmit}}
         {{{Input
           className="chat__message__input"
           ref="message"
@@ -105,11 +103,12 @@ class ChatMessageInput extends Block<ChatMessageProps> {
           onFocus=onFocus
         }}}
         {{{Button
-          onClick=onSubmit
+          type="sumbit"
           text=">"
           className="chat__message__send"
         }}}
         {{{InputError ref="errorRef" text="${errors.message}"}}}
+      {{/Form}}
       </div>
     `;
   }

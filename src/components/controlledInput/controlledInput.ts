@@ -1,10 +1,10 @@
+import { InputError } from "components/inputError/inputError";
+import { Input } from "components/input/input";
+import { Validator } from "core/Validation";
 import Block from "../../core/Block";
 import "./controlledInput.scss";
 
-type ControlledInputProps = {
-  onInput?: () => void;
-  onBlur?: () => void;
-  onFocus?: () => void;
+type IncomingControlledInputProps = {
   type?: "text" | "password" | "email" | "tel" | "search" | "file";
   value?: string;
   error?: string;
@@ -14,13 +14,46 @@ type ControlledInputProps = {
   name?: string;
   className?: string;
 };
-export class ControlledInput extends Block<ControlledInputProps> {
+
+type ControlledInputProps = IncomingControlledInputProps & {
+  onInput?: (e: FocusEvent) => void;
+  onFocus?: (e: FocusEvent) => void;
+  onBlur?: (e: FocusEvent) => void;
+};
+
+type ControlledInputRefs = {
+  inputRef: Input;
+  errorRef: InputError;
+};
+
+export class ControlledInput extends Block<ControlledInputProps, ControlledInputRefs> {
   static componentName = "ControlledInput";
+
+  constructor(props: ControlledInputProps) {
+    const formValidate = (e: FocusEvent) => {
+      const inputEl = e.target as HTMLInputElement;
+      const errorText = Validator(inputEl.name, inputEl.value);
+      this.refs.errorRef.setProps({
+        text: errorText,
+      });
+    };
+
+    super({
+      error: "",
+      ...props,
+      onBlur: (e: FocusEvent) => {
+        formValidate(e);
+      },
+      onInput: (e: FocusEvent) => {
+        formValidate(e);
+      },
+    });
+  }
 
   protected render(): string {
     // language=hbs
     return `
-      <div class="auth__inputs input">
+      <div class="controlled__inputs input">
         <label class="input__label" for={{name}}>{{label}}</label>
         {{{Input
           className="{{className}}"
@@ -32,7 +65,7 @@ export class ControlledInput extends Block<ControlledInputProps> {
           onInput=onInput
           onBlur=onBlur
         }}}
-        {{{InputError ref="errorRef" text=error}}}
+        {{{InputError isValid=true ref="errorRef" text=error}}}
       </div>
     `;
   }

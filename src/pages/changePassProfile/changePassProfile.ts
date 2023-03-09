@@ -1,5 +1,5 @@
 import Block from "core/Block";
-import Validate from "core/Validation";
+import { Validator } from "core/Validation";
 import Router from "core/router";
 import { WithRouter, WithStore, WithUser } from "helpers";
 import { Store } from "core";
@@ -26,74 +26,40 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
         password: "",
         passwordRepeat: "",
       },
-
-      handleErrors: (values: { [key: string]: number }, errors: { [key: string]: number }) => {
-        const nextState = {
-          errors,
-          values,
-        };
-        this.setState(nextState);
-      },
-      onBlur: (e: FocusEvent) => {
-        if (e.target) {
-          const element = e.target as HTMLInputElement;
-          const message = Validate(element.value, element.id);
-          const newValues = { ...this.state.values };
-          const newErrors = { ...this.state.errors };
-          newValues[element.id] = element.value;
-          if (message) {
-            newErrors[element.id] = message;
-          }
-          this.state.handleErrors(newValues, newErrors);
-        }
-      },
-
-      onInput: (e: Event) => {
-        const element = e.target as HTMLInputElement;
-        const message = Validate(element.value, element.id);
-        if (element.id === "passwordOld") {
-          this.refs.passwordOldRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "password") {
-          this.refs.passwordNewRef.refs.errorRef.setProps({ text: message });
-        }
-        if (element.id === "passwordRepeat") {
-          this.refs.passwordRepeatRef.refs.errorRef.setProps({ text: message });
-        }
-      },
-      formValid: () => {
-        let isValid = true;
-        const newValues = { ...this.state.values };
-        const newErrors = { ...this.state.errors };
-        Object.keys(this.state.values).forEach((key) => {
-          const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
-          newValues[key] = input.value;
-          const message = Validate(newValues[key], key);
-          if (message) {
-            isValid = false;
-            newErrors[key] = message;
-          }
-        });
-        if (this.state.values.password !== this.state.values.passwordRepeat) {
-          newErrors.passwordRepeat = "Passwords are not equal";
-        }
-
-        if (isValid) {
-          this.state.handleErrors(newValues, newErrors);
-          newErrors.passwordRepeat = "";
-        }
-        return isValid;
-      },
-      onSubmit: () => {
-        if (this.state.formValid()) {
-          const profileData = {
-            oldPassword: this.state.values.passwordOld,
-            newPassword: this.state.values.password,
-          };
-          changeUserPassword(this.props.store, { ...profileData });
-        }
-      },
+      onSubmit: this.onSubmit.bind(this),
     };
+  }
+
+  formValid() {
+    let isValid = true;
+    const newValues = { ...this.state.values };
+    const newErrors = { ...this.state.errors };
+    Object.keys(this.state.values).forEach((key) => {
+      const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
+      newValues[key] = input.value;
+      const message = Validator(key, newValues[key]);
+      if (message) {
+        isValid = false;
+        newErrors[key] = message;
+      }
+    });
+    const newState = {
+      values: newValues,
+      errors: newErrors,
+    };
+    this.setState(newState);
+    return { newState, isValid };
+  }
+
+  onSubmit(e: Event) {
+    e.preventDefault();
+    if (this.formValid()) {
+      const profileData = {
+        oldPassword: this.state.values.passwordOld,
+        newPassword: this.state.values.password,
+      };
+      changeUserPassword(this.props.store, { ...profileData });
+    }
   }
 
   render() {
@@ -108,7 +74,7 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
         <div class="content profile">
           {{{ProfileNav}}}
           <div class="profile__main">
-              <div class='profile__info'>
+            {{#Form className="profile__info" onSubmit=onSubmit}}
               {{{ControlledInput
                 className="input__profile"
                 label="Old password"
@@ -116,7 +82,7 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
                 type="password"
                 id="passwordOld"
                 name="passwordOld"
-                ref="passwordOldRef"
+                ref="passwordOld"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
@@ -128,7 +94,7 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
                 error="${errors.password}"
                 type="password"
                 id="password"
-                ref="passwordNewRef"
+                ref="password"
                 name="password"
                 onBlur=onBlur
                 onFocus=onFocus
@@ -141,18 +107,18 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
                 error="${errors.passwordRepeat}"
                 type="password"
                 id="passwordRepeat"
-                ref="passwordRepeatRef"
+                ref="passwordRepeat"
                 name="passwordRepeat"
                 onBlur=onBlur
                 onFocus=onFocus
                 onInput=onInput
               }}}
-              </div>
               {{{Button
                 className="button__main"
                 text="Save"
                 onClick=onSubmit
               }}}
+              {{/Form}}
           </div>
         </div>
       {{/Layout}}

@@ -69,14 +69,12 @@ export const changeAvatar: DispatchStateHandler<any> = async (store, action) => 
     }
 
     const avatar = await getAvatar(newUser);
-    console.log(avatar);
 
     if (apiError(avatar)) {
       throw new Error(avatar.reason);
     }
 
     newUser = { ...newUser, avatar };
-    console.log(newUser);
 
     store.setState({ user: apiUserTransformers(newUser) });
   } catch (error) {
