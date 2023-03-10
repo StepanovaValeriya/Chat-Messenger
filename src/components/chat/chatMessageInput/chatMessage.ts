@@ -30,6 +30,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       errors: {
         message: "",
       },
+      onSubmit: this.onSubmit.bind(this),
       onFocus: () => {
         this.refs.errorRef.setProps({ text: "" });
       },
@@ -43,7 +44,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
     Object.keys(this.state.values).forEach((key) => {
       const input = this.element?.querySelector(`input[name='${key}']`) as HTMLInputElement;
       newValues[key] = input.value;
-      const messages = Validator(newValues[key], key);
+      const messages = Validator(key, newValues[key]);
       if (messages) {
         isValid = false;
         newErrors[key] = messages;
@@ -54,15 +55,17 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       errors: newErrors,
     };
     this.setState(newState);
-    return { newState, isValid };
+    console.log(isValid);
+    return { isValid };
   }
 
   onSubmit(e: Event) {
     e.preventDefault();
     if (this.formValid()) {
       let { message } = this.state.values;
+      console.log(message);
       const chat = this.props.store.getState().selectedChat;
-      if (chat) {
+      if (chat && message) {
         sendMessage(message, chat);
       }
       message = "";
@@ -75,7 +78,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
     return `
       <div class="chat__message">
       {{{Button className="chat__message__actions" onClick=toggleAttachWindow}}}
-          <img src="/img/clipChat.png" alt="clip" />
+        <img src="/img/clipChat.png" alt="clip" />
         <ul class="chat__message__options options hidden">
           <li class="options__item">
             {{{Button className="options__button" type="button" text="Photo or Video"}}}
@@ -90,7 +93,7 @@ class ChatMessageInput extends Block<ChatMessageProps> {
             <img src="/img/location.png" alt="action">
           </li>
       </ul>
-      {{#Form onSubmit=onSubmit}}
+      {{#Form className="chat__message__form" onSubmit=onSubmit}}
         {{{Input
           className="chat__message__input"
           ref="message"

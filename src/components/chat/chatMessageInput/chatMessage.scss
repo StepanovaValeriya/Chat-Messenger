@@ -15,11 +15,22 @@
     justify-content: center;
   }
 
+  form {
+    flex: 0 0 95%;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
   &__input {
     background-color: $backgroundInput;
-    flex: 0 0 85%;
     border-radius: 30px;
     padding: 13px;
+    flex: 0 0 95%;
 
     @include breakpoint(xl) {
       flex: 0 0 75%;
