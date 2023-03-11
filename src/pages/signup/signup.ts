@@ -62,7 +62,7 @@ class SignUpPage extends Block<SignUpPageProps> {
       errors: newErrors,
     };
     this.setState(newState);
-    return { newState, isValid };
+    return isValid;
   }
 
   onSubmit() {

@@ -64,6 +64,10 @@
   font-size: 12px;
   line-height: 14px;
 
+  @include breakpoint(xl) {
+    left: 65%;
+  }
+
   &__item {
     cursor: pointer;
     display: flex;

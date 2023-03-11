@@ -7,13 +7,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   padding-top: 10px;
   gap: 10px;
-
-  @include breakpoint(xl) {
-    justify-content: center;
-  }
 
   form {
     flex: 0 0 95%;
@@ -31,6 +26,9 @@
     border-radius: 30px;
     padding: 13px;
     flex: 0 0 95%;
+    @include breakpoint(xxl) {
+      flex: 0 0 85%;
+    }
 
     @include breakpoint(xl) {
       flex: 0 0 75%;
@@ -39,7 +37,7 @@
 
   &__actions {
     padding: 20px;
-    position: absolute;
+    position: fixed;
     background: transparent;
     cursor: pointer;
 
