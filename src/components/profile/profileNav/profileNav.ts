@@ -18,7 +18,7 @@ class ProfileNav extends Block<ProfileNavProps> {
     this.setProps({
       ...props,
       onChatPage: () => {
-        this.props.router.go("/chat");
+        this.props.router.back();
       },
     });
   }

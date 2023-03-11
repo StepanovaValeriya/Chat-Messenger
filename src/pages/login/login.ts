@@ -50,7 +50,7 @@ class LoginPage extends Block<LoginPageProps> {
       errors: newErrors,
     };
     this.setState(newState);
-    return { newState, isValid };
+    return isValid;
   }
 
   onSubmit(e: Event) {

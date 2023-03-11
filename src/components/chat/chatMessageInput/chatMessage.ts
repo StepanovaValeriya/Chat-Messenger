@@ -55,7 +55,6 @@ class ChatMessageInput extends Block<ChatMessageProps> {
       errors: newErrors,
     };
     this.setState(newState);
-    console.log(isValid);
     return { isValid };
   }
 
@@ -63,7 +62,6 @@ class ChatMessageInput extends Block<ChatMessageProps> {
     e.preventDefault();
     if (this.formValid()) {
       let { message } = this.state.values;
-      console.log(message);
       const chat = this.props.store.getState().selectedChat;
       if (chat && message) {
         sendMessage(message, chat);

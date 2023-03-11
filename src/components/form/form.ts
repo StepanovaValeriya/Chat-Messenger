@@ -2,6 +2,7 @@ import Block from "core/Block";
 
 interface FormProps {
   className?: string[];
+  dataTestid?: string;
   onSubmit?: () => void;
 }
 
@@ -15,7 +16,7 @@ export class Form extends Block<{}> {
   protected render(): string {
     // language=hbs
     return `
-    <form>
+    <form data-testid="{{dataTestid}}" >
       <div class="{{className}}" data-layout="1"></div>
     </form>
     `;

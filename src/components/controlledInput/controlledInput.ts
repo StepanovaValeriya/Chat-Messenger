@@ -33,9 +33,15 @@ export class ControlledInput extends Block<ControlledInputProps, ControlledInput
     const formValidate = (e: FocusEvent) => {
       const inputEl = e.target as HTMLInputElement;
       const errorText = Validator(inputEl.name, inputEl.value);
-      this.refs.errorRef.setProps({
-        text: errorText,
-      });
+      if (errorText) {
+        this.refs.errorRef.setProps({
+          text: errorText,
+        });
+      } else {
+        this.refs.errorRef.setProps({
+          text: "",
+        });
+      }
     };
 
     super({
@@ -60,6 +66,7 @@ export class ControlledInput extends Block<ControlledInputProps, ControlledInput
           type="{{type}}"
           id="{{id}}"
           name="{{name}}"
+          attrs=attrs
           value=value
           onFocus=onFocus
           onInput=onInput

@@ -30,6 +30,7 @@ type InputProps = {
   value?: string;
   className?: string;
   placeholder?: string;
+  attrs?: string;
 };
 
 export class Input extends Block<InputProps> {
@@ -56,6 +57,7 @@ export class Input extends Block<InputProps> {
           type={{type}}
           id={{id}}
           name={{name}}
+          {{attrs}}
           {{#if value}}value={{ value }}{{/if}}
           {{#if placeholder}}placeholder={{ placeholder }}{{/if}}
         >

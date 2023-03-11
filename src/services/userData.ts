@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangePasswordRequestData, UserDTO, DispatchStateHandler } from "api/types";
 import UserAPI from "api/userAPI";
 import { apiError } from "helpers/apiError";
@@ -12,10 +13,6 @@ export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
   try {
     const response = await api.changeProfile(action);
 
-    if (apiError(response)) {
-      alert(response.reason);
-    }
-
     const avatar = store.getState()?.user?.avatar || avatarDefault;
 
     const updatedUser = {
@@ -23,7 +20,7 @@ export const changeUserProfile: DispatchStateHandler<Partial<UserDTO>> = async (
       avatar,
     };
 
-    alert("Your data has been successfully changed");
+    // alert("Your data has been successfully changed");
 
     store.setState({
       user: updatedUser,
@@ -47,7 +44,7 @@ export const changeUserPassword: DispatchStateHandler<ChangePasswordRequestData>
     const response = await api.changePassword(action);
 
     if (apiError(response)) {
-      alert(response.reason);
+      console.log(response.reason);
     }
 
     window.router.back();

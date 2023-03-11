@@ -43,12 +43,17 @@ class ChangePassProfilePage extends Block<ChangePassProfilePageProps> {
         newErrors[key] = message;
       }
     });
+    if (this.state.values.password !== this.state.values.passwordRepeat) {
+      newErrors.passwordRepeat = "Passwords are not equal";
+    }
     const newState = {
       values: newValues,
       errors: newErrors,
     };
+
     this.setState(newState);
-    return { newState, isValid };
+
+    return isValid;
   }
 
   onSubmit(e: Event) {

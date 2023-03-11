@@ -13,6 +13,5 @@ export { Loader } from "components/loader/loader";
 export { Modal } from "components/modal/modal";
 export { default as ProfileNav } from "components/profile/profileNav/profileNav";
 export { ProfileAvatar } from "components/profile/profileAvatar/profileAvatar";
-export { ProfileItem } from "components/profile/profileItem/profileItem";
 export { ChangeAvatarModal } from "components/profile/changeAvatarModal/changeAvatarModal";
 export { Form } from "components/form/form";

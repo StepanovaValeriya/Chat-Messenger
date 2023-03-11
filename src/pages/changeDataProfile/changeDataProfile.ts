@@ -47,11 +47,13 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
   }
 
   onSubmit(e: SubmitEvent) {
-    // eslint-disable-next-line no-unused-expressions
-    e.preventDefault;
+    e.preventDefault();
     if (this.formValid()) {
       const profileData = this.state.values;
+      let { error } = this.state.errors;
       changeUserProfile(this.props.store, profileData);
+      error = "";
+      console.log(error);
     }
   }
 
@@ -73,7 +75,7 @@ class ChangeDataProfilePage extends Block<ChangeDataProfilePageProps> {
       errors: newErrors,
     };
     this.setState(newState);
-    return { newState, isValid };
+    return isValid;
   }
 
   onAvatarChange() {
